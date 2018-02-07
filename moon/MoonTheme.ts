@@ -128,6 +128,23 @@ module moon
 			return btn;
 		}
 	}
+	/**
+	 * ...
+	 * 简单的布局
+	 * @author vinson
+	 */
+	export class SimpleLayout{
+		/**参数：数组,X轴个数,X轴距离,Y轴距离,X轴位置,Y轴位置,正排/反排 */
+		public static displayRank(array:any[],xNum:number=1,xDis:number=0,yDis:number=0,x:number=0,y:number=0,sign:number=1):void
+		{
+			var display:egret.DisplayObject;
+			for(var i:number=0;i<array.length;i++){
+				display=array[i];
+				display.x=x+Math.floor(i%xNum)*(display.width+xDis)*sign;
+				display.y=y+Math.floor(i/xNum)*(display.height+yDis)*sign;
+			}
+		}
+	}
     /**
 	 * ...
 	 * 默认参数x轴,y轴,w宽,h高,r半径,c颜色,ew圆角宽,eh圆家高
@@ -245,6 +262,7 @@ module moon
 			var s:Sprite = new Sprite;
 			s.addChild(this.getRoundRect(w,h,c));
 			var text:TextField=new TextField;
+			text.name="text";
 			text.text=str;
 			text.x=(s.width-text.width)>>1;
 			text.y=(s.height-text.height)>>1;
@@ -463,6 +481,7 @@ module moon
 		set data(value:Object){this._data=value;this.draw();}
 		protected draw():void
 		{
+			this._color=this._data.c;
 			this.display.graphics.clear();
 			this.display=this.getDisplay(this._data);
 			this.addChild(this.display);
@@ -630,9 +649,9 @@ module moon
 			s.graphics.drawRect(x,y,w,h);
 			s.graphics.endFill();
 		}
-		protected createBackground(c:number=0):Sprite
+		protected createBackground(c:number=0,x:number=0,y:number=0):Sprite
 		{
-			return this.createRect(this.stageWidth,this.stageHeight,c)
+			return this.createRect(this.stageWidth,this.stageHeight,c,x,y)
 		}
 	}
 	export class GameView extends BasicView

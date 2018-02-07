@@ -4,10 +4,14 @@ class MainMoon extends moon.BasicView
     protected render():void
     {
         super.render();
+        var isMobile:boolean=egret.Capabilities.isMobile;
+        if(isMobile){//运行在移动端时模式设置下面这个
+            this.stage.scaleMode=egret.StageScaleMode.FIXED_WIDTH;
+        }
         moon.TipsManager.getIns().init(this.stage);
         moon.showLog.getIns().init(this.stage);
         this.createBackground(0XFFCC00);
-        var names:string[]=["基础组件","组件Progress","组件ScrollBar"]
+        var names:string[]=["基础组件","组件Progress","组件ScrollBar","游戏2048界面","画画"]
         var btns:any[]=[];
         for(var i:number=0;i<names.length;i++){
             var btn:moon.BasicButton=new moon.BasicButton();
@@ -19,16 +23,20 @@ class MainMoon extends moon.BasicView
             this.addChild(btn);
         }
         this.father=this.parent;
+
     }
     protected click(e:egret.TouchEvent):void
     {
+       
         var btn:moon.BasicButton=e.currentTarget;
         this.removeFromParent();
-        var view:BView;
+        var view:moon.MoonContainer;
         switch(parseInt(btn.name)){
             case 0:view=new MoonTest;           break;
             case 1:view=new TestProgress;       break;
             case 2:view=new TestScrollBar;      break;
+            case 3:view=new G2048;              break;
+            case 4:view=new Draw;              break;
         }
         this.father.addChild(view);
         view.addEvent(moon.MoonEvent.CLOSE,this.onClose,this)

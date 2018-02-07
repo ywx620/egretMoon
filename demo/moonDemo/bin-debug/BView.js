@@ -11,7 +11,7 @@ r.prototype = e.prototype, t.prototype = new r();
 var BView = (function (_super) {
     __extends(BView, _super);
     function BView() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        return _super.call(this, 0, 0) || this;
     }
     BView.prototype.createCloseBtn = function () {
         var btn = new moon.BasicButton();
@@ -24,6 +24,6 @@ var BView = (function (_super) {
         this.removeFromParent(true);
     };
     return BView;
-}(moon.BasicView));
+}(moon.PanelBar));
 __reflect(BView.prototype, "BView");
 //# sourceMappingURL=BView.js.map

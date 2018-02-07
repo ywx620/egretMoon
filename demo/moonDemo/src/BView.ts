@@ -1,5 +1,9 @@
-class BView extends moon.BasicView
+class BView extends moon.PanelBar
 {
+    public constructor()
+    {
+        super(0,0);
+    }
     protected createCloseBtn():void
     {
         var btn:moon.BasicButton=new moon.BasicButton();

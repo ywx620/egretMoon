@@ -366,6 +366,33 @@ var moon;
     __reflect(Skin.prototype, "moon.Skin");
     /**
      * ...
+     * 简单的布局
+     * @author vinson
+     */
+    var SimpleLayout = (function () {
+        function SimpleLayout() {
+        }
+        /**参数：数组,X轴个数,X轴距离,Y轴距离,X轴位置,Y轴位置,正排/反排 */
+        SimpleLayout.displayRank = function (array, xNum, xDis, yDis, x, y, sign) {
+            if (xNum === void 0) { xNum = 1; }
+            if (xDis === void 0) { xDis = 0; }
+            if (yDis === void 0) { yDis = 0; }
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            if (sign === void 0) { sign = 1; }
+            var display;
+            for (var i = 0; i < array.length; i++) {
+                display = array[i];
+                display.x = x + Math.floor(i % xNum) * (display.width + xDis) * sign;
+                display.y = y + Math.floor(i / xNum) * (display.height + yDis) * sign;
+            }
+        };
+        return SimpleLayout;
+    }());
+    moon.SimpleLayout = SimpleLayout;
+    __reflect(SimpleLayout.prototype, "moon.SimpleLayout");
+    /**
+     * ...
      * 默认参数x轴,y轴,w宽,h高,r半径,c颜色,ew圆角宽,eh圆家高
      * @author vinson
      */
@@ -499,6 +526,7 @@ var moon;
             var s = new Sprite;
             s.addChild(this.getRoundRect(w, h, c));
             var text = new TextField;
+            text.name = "text";
             text.text = str;
             text.x = (s.width - text.width) >> 1;
             text.y = (s.height - text.height) >> 1;
@@ -729,6 +757,7 @@ var moon;
             configurable: true
         });
         MoonDisplayObject.prototype.draw = function () {
+            this._color = this._data.c;
             this.display.graphics.clear();
             this.display = this.getDisplay(this._data);
             this.addChild(this.display);
@@ -913,9 +942,11 @@ var moon;
             s.graphics.drawRect(x, y, w, h);
             s.graphics.endFill();
         };
-        BasicView.prototype.createBackground = function (c) {
+        BasicView.prototype.createBackground = function (c, x, y) {
             if (c === void 0) { c = 0; }
-            return this.createRect(this.stageWidth, this.stageHeight, c);
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            return this.createRect(this.stageWidth, this.stageHeight, c, x, y);
         };
         return BasicView;
     }(MoonContainer));

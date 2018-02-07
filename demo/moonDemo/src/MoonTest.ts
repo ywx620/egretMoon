@@ -1,4 +1,4 @@
-class MoonTest extends BView
+class MoonTest extends moon.MoonContainer
 {
     protected panelMore:moon.PanelMoreManager;
     protected panelBar:moon.PanelBar;
@@ -28,6 +28,18 @@ class MoonTest extends BView
         //this.panelMore.once(egret.Event.ADDED_TO_STAGE,this.addToStageMore,this);
 
         this.createCloseBtn();
+    }
+    protected createCloseBtn():void
+    {
+        var btn:moon.BasicButton=new moon.BasicButton();
+        btn.label="关闭";
+        this.addChild(btn);
+        btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.close,this)
+    }
+    protected close(e:egret.TouchEvent):void
+    {
+        this.dispEvent(moon.MoonEvent.CLOSE)
+        this.removeFromParent(true);
     }
     protected addToStageMore(e:egret.Event):void
     {
@@ -181,14 +193,15 @@ class MoonTest extends BView
     {
         var panel:moon.PanelBar=this.panelMore.getItem(index) as moon.PanelBar;
         var xNum:number=2;
-        var dis:number=500;
+        var disX:number=400;
+        var disY:number=500;
         panel.addItem(new moon.Label("单击按钮显示TIPS，TIPS显示始终都在屏幕内",0),10,100);
         for(var i:number=0;i<6;i++){
             var btn:moon.BasicButton=new moon.BasicButton();
             btn.addEventListener(egret.TouchEvent.TOUCH_BEGIN,onTouch,this)
             btn.label="单击显示TIPS"+i;
-            var x:number=Math.floor(i%xNum)*dis;
-            var y:number=Math.floor(i/xNum)*dis;
+            var x:number=Math.floor(i%xNum)*disX;
+            var y:number=Math.floor(i/xNum)*disY;
             panel.addItem(btn,x,y);
         }
         function onTouch(e:egret.TouchEvent):void

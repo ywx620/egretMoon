@@ -15,10 +15,14 @@ var MainMoon = (function (_super) {
     }
     MainMoon.prototype.render = function () {
         _super.prototype.render.call(this);
+        var isMobile = egret.Capabilities.isMobile;
+        if (isMobile) {
+            this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
+        }
         moon.TipsManager.getIns().init(this.stage);
         moon.showLog.getIns().init(this.stage);
         this.createBackground(0XFFCC00);
-        var names = ["基础组件", "组件Progress", "组件ScrollBar"];
+        var names = ["基础组件", "组件Progress", "组件ScrollBar", "游戏2048界面", "画画"];
         var btns = [];
         for (var i = 0; i < names.length; i++) {
             var btn = new moon.BasicButton();
@@ -44,6 +48,12 @@ var MainMoon = (function (_super) {
                 break;
             case 2:
                 view = new TestScrollBar;
+                break;
+            case 3:
+                view = new G2048;
+                break;
+            case 4:
+                view = new Draw;
                 break;
         }
         this.father.addChild(view);

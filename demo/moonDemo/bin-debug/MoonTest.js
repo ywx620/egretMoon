@@ -37,6 +37,16 @@ var MoonTest = (function (_super) {
         //this.panelMore.once(egret.Event.ADDED_TO_STAGE,this.addToStageMore,this);
         this.createCloseBtn();
     };
+    MoonTest.prototype.createCloseBtn = function () {
+        var btn = new moon.BasicButton();
+        btn.label = "关闭";
+        this.addChild(btn);
+        btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.close, this);
+    };
+    MoonTest.prototype.close = function (e) {
+        this.dispEvent(moon.MoonEvent.CLOSE);
+        this.removeFromParent(true);
+    };
     MoonTest.prototype.addToStageMore = function (e) {
         this.panelMore.close();
     };
@@ -175,14 +185,15 @@ var MoonTest = (function (_super) {
     MoonTest.prototype.showTipsBar = function (index) {
         var panel = this.panelMore.getItem(index);
         var xNum = 2;
-        var dis = 500;
+        var disX = 400;
+        var disY = 500;
         panel.addItem(new moon.Label("单击按钮显示TIPS，TIPS显示始终都在屏幕内", 0), 10, 100);
         for (var i = 0; i < 6; i++) {
             var btn = new moon.BasicButton();
             btn.addEventListener(egret.TouchEvent.TOUCH_BEGIN, onTouch, this);
             btn.label = "单击显示TIPS" + i;
-            var x = Math.floor(i % xNum) * dis;
-            var y = Math.floor(i / xNum) * dis;
+            var x = Math.floor(i % xNum) * disX;
+            var y = Math.floor(i / xNum) * disY;
             panel.addItem(btn, x, y);
         }
         function onTouch(e) {
@@ -234,6 +245,6 @@ var MoonTest = (function (_super) {
         //rect.color=0XFF0000;
     };
     return MoonTest;
-}(BView));
+}(moon.MoonContainer));
 __reflect(MoonTest.prototype, "MoonTest");
 //# sourceMappingURL=MoonTest.js.map
