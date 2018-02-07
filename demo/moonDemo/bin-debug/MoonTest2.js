@@ -78,9 +78,10 @@ var G2048 = (function (_super) {
         this.createCloseBtn();
         var w = this.stageWidth - 20;
         var dis = (this.stageWidth - w) >> 1;
+        var bgy = (this.stageHeight - w) - dis;
         var node = this.createRoundRect(0XBDAB9D, w, w);
         node.x = dis;
-        node.y = (this.stageHeight - w) - dis;
+        node.y = bgy;
         w = 200;
         node = this.createRoundRect(0XECC400, w, w);
         node.x = dis;
@@ -107,7 +108,7 @@ var G2048 = (function (_super) {
             nodes.push(node);
             this.createTextBySprite(values[index], node);
         }
-        moon.SimpleLayout.displayRank(nodes, 4, 5, 5, 20, 520);
+        moon.SimpleLayout.displayRank(nodes, 4, 5, 5, 20, bgy + 10);
     };
     G2048.prototype.createRoundRect = function (c, w, h) {
         var node = moon.MoonUI.getRoundRect(w, h, c, 10, 10);
@@ -148,24 +149,34 @@ var Draw = (function (_super) {
         this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
     };
     Draw.prototype.createButtons = function () {
-        var names = ["铅笔", "橡皮"];
-        var rects = [];
+        var names = ["铅笔", "橡皮", "清空"];
+        var tabbar = new moon.TabbarBar;
+        this.addChild(tabbar);
+        tabbar.x = 380;
+        tabbar.y = 220;
         for (var i = 0; i < names.length; i++) {
-            var btn = new moon.BasicButton();
+            var skins = [moon.Skin.buttonNormal, moon.Skin.buttonDown, moon.Skin.buttonDown, moon.Skin.buttonDown];
+            var btn = new moon.MoreSkinButton(skins);
             btn.label = names[i];
-            this.addChild(btn);
-            btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.change, this);
-            rects.push(btn);
+            tabbar.addItem(btn);
         }
-        moon.SimpleLayout.displayRank(rects, 2, 5, 5, 400, 200);
+        tabbar.layout(moon.Const.HORIZONTAL, 90);
+        tabbar.selectIndex = 0;
+        tabbar.addEvent(moon.MoonEvent.CHANGE, this.change, this);
     };
     Draw.prototype.change = function (e) {
-        var btn = e.currentTarget;
-        if (btn.label == "铅笔") {
-            this.color = this.prevColor;
-        }
-        else {
-            this.color = moon.Color.white;
+        var tabbar = e.currentTarget;
+        switch (tabbar.selectIndex) {
+            case 0:
+                this.color = this.prevColor;
+                break;
+            case 1:
+                this.color = moon.Color.white;
+                break;
+            case 2:
+                this.canvas.graphics.clear();
+                this.color = this.prevColor;
+                break;
         }
     };
     Draw.prototype.createSliderBar = function () {
@@ -183,10 +194,11 @@ var Draw = (function (_super) {
     Draw.prototype.createColors = function () {
         var total = 20;
         var rects = [];
+        var w = 40;
         for (var i = 0; i < total; i++) {
             var rect = new moon.MoonDisplayObject;
             rect.type = moon.Const.SHAPE_RECT_ROUND;
-            rect.data = { w: 40, h: 40, c: moon.Color.random, ew: 10, eh: 10 };
+            rect.data = { w: w, h: w, c: moon.Color.random, ew: 10, eh: 10 };
             rect.setBackground(0, 5);
             this.addChild(rect);
             rect.touchEnabled = true;
@@ -194,16 +206,26 @@ var Draw = (function (_super) {
             rects.push(rect);
         }
         moon.SimpleLayout.displayRank(rects, 10, 5, 5, 20, 80);
+        this.select = this.createCircle(5, moon.Color.white);
+        this.addChild(this.select);
+        this.selectColor(rects[0]);
     };
     Draw.prototype.onColor = function (e) {
         var rect = e.currentTarget;
+        this.selectColor(rect);
+    };
+    Draw.prototype.selectColor = function (rect) {
         this.color = rect.color;
         this.prevColor = rect.color;
+        this.select.x = rect.x + 10;
+        this.select.y = rect.y + 10;
     };
     Draw.prototype.createCanvas = function () {
+        var canvasBg = this.createRect(this.stage.stageWidth, this.stage.stageHeight - this.canvasY, moon.Color.white);
+        canvasBg.y = this.canvasY;
+        this.addChild(canvasBg);
         var maskRect = this.createRect(this.stage.stageWidth, this.stage.stageHeight - this.canvasY, moon.Color.white);
         maskRect.y = this.canvasY;
-        this.addChild(maskRect);
         this.canvas = this.createRect(this.stage.stageWidth, this.stage.stageHeight, moon.Color.white);
         this.addChild(this.canvas);
         this.canvas.mask = maskRect;
@@ -229,6 +251,7 @@ var Draw = (function (_super) {
         this.stage.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
         this.canvas.graphics.lineStyle(this.size, this.color);
         this.canvas.graphics.moveTo(this.posStart.x, this.posStart.y);
+        this.canvas.graphics.lineTo(this.posStart.x, this.posStart.y);
     };
     /** 手指移动*/
     Draw.prototype.controlMove = function () {

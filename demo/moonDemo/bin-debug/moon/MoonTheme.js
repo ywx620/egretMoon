@@ -1097,10 +1097,20 @@ var moon;
             _this.updateSkin(_this.statusNormal);
             _this.text = (new Label).textField;
             _this.addChild(_this.text);
-            _this.touchEnabled = true;
-            _this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.onTouch, _this);
+            _this.open();
             return _this;
         }
+        BasicButton.prototype.open = function () {
+            this.close();
+            this.touchEnabled = true;
+            this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
+        };
+        BasicButton.prototype.close = function () {
+            this.touchEnabled = false;
+            this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
+            if (this.stage)
+                this.stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
+        };
         BasicButton.prototype.setLabelPoint = function (x, y) {
             this.text.anchorOffsetX = 0;
             this.text.anchorOffsetY = 0;
@@ -1221,15 +1231,13 @@ var moon;
             this.skinContainer.addChild(skin);
         };
         BasicButton.prototype.dispose = function () {
-            this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
-            if (this.stage)
-                this.stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
+            this.close();
             _super.prototype.dispose.call(this);
         };
         return BasicButton;
     }(MoonContainer));
     moon.BasicButton = BasicButton;
-    __reflect(BasicButton.prototype, "moon.BasicButton");
+    __reflect(BasicButton.prototype, "moon.BasicButton", ["moon.IOnoff"]);
     /**类似多个皮肤按钮,构造函数的参数必须大于2个且必须是2的次方
      * 使用四个皮肤就可以模拟ToggleSwitch了
     */
@@ -1292,7 +1300,7 @@ var moon;
                 this.items.splice(index, 1);
         };
         BasicBar.prototype.hasItem = function (index) {
-            return this.items.length > 0 && (index >= 0 || index < this.items.length);
+            return this.items.length > 0 && (index >= 0 && index < this.items.length);
         };
         BasicBar.prototype.getItem = function (index) {
             return this.items[index];
@@ -1630,6 +1638,42 @@ var moon;
     }(BasicBar));
     moon.CheckBoxBar = CheckBoxBar;
     __reflect(CheckBoxBar.prototype, "moon.CheckBoxBar", ["moon.ILayout"]);
+    /**复选框按钮 */
+    var TabbarBar = (function (_super) {
+        __extends(TabbarBar, _super);
+        function TabbarBar() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this._selectIndex = 0;
+            return _this;
+        }
+        TabbarBar.prototype.onClick = function (e) {
+            var curr = e.currentTarget;
+            this.selectItem(curr);
+        };
+        TabbarBar.prototype.selectItem = function (curr) {
+            this.reset();
+            while (this.hasItem(this.index)) {
+                var item = this.getNextItem();
+                item.currentPage = 0;
+                item.setSkinNormal();
+                item.open();
+            }
+            curr.close();
+            curr.currentPage = 1;
+            curr.setSkinNormal();
+            this._selectIndex = this.items.indexOf(curr);
+            this.dispEvent(moon.MoonEvent.CHANGE, this._selectIndex);
+        };
+        Object.defineProperty(TabbarBar.prototype, "selectIndex", {
+            get: function () { return this._selectIndex; },
+            set: function (value) { this._selectIndex = value, this.selectItem(this.getItem(value)); },
+            enumerable: true,
+            configurable: true
+        });
+        return TabbarBar;
+    }(CheckBoxBar));
+    moon.TabbarBar = TabbarBar;
+    __reflect(TabbarBar.prototype, "moon.TabbarBar");
     /**单选框按钮 */
     var RadioButtonBar = (function (_super) {
         __extends(RadioButtonBar, _super);

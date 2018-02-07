@@ -72,9 +72,10 @@ class G2048 extends BView
         
         var w:number=this.stageWidth-20;
         var dis:number=(this.stageWidth-w)>>1;
+        var bgy:number=(this.stageHeight-w)-dis;
         var node:Sprite=this.createRoundRect(0XBDAB9D,w,w);
         node.x=dis;
-        node.y=(this.stageHeight-w)-dis;
+        node.y=bgy;
 
         w=200;
         node=this.createRoundRect(0XECC400,w,w);
@@ -105,7 +106,7 @@ class G2048 extends BView
             nodes.push(node);
             this.createTextBySprite(values[index],node);
         }
-        moon.SimpleLayout.displayRank(nodes,4,5,5,20,520);
+        moon.SimpleLayout.displayRank(nodes,4,5,5,20,bgy+10);
     }
     protected createRoundRect(c:number,w:number,h:number):Sprite
     {
@@ -133,6 +134,7 @@ class Draw extends BView
     protected prevColor:number=0;
     protected color:number=0;
     protected size:number=1;
+    protected select:Sprite;
     protected render():void
     {
         
@@ -153,24 +155,29 @@ class Draw extends BView
     }
     protected createButtons():void
     {
-        var names:any[]=["铅笔","橡皮"];
-        var rects:any[]=[];
+        var names:any[]=["铅笔","橡皮","清空"];
+        var tabbar:moon.TabbarBar=new moon.TabbarBar;
+        this.addChild(tabbar);tabbar.x=380;tabbar.y=220;
         for(var i:number=0;i<names.length;i++){
-            var btn:moon.BasicButton=new moon.BasicButton();
+            var skins:any[]=[moon.Skin.buttonNormal,moon.Skin.buttonDown,moon.Skin.buttonDown,moon.Skin.buttonDown]
+            var btn:moon.MoreSkinButton=new moon.MoreSkinButton(skins);
             btn.label=names[i];
-            this.addChild(btn);
-            btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.change,this);
-            rects.push(btn);
+            tabbar.addItem(btn);
         }
-        moon.SimpleLayout.displayRank(rects,2,5,5,400,200);
+        tabbar.layout(moon.Const.HORIZONTAL,90);
+        tabbar.selectIndex=0;
+        tabbar.addEvent(moon.MoonEvent.CHANGE,this.change,this)
     }
     protected change(e:moon.MoonEvent):void
     {
-        var btn:moon.BasicButton=e.currentTarget as moon.BasicButton;
-        if(btn.label=="铅笔"){
-            this.color=this.prevColor;
-        }else{
-            this.color=moon.Color.white;
+        var tabbar:moon.TabbarBar=e.currentTarget as moon.TabbarBar;
+        switch(tabbar.selectIndex){
+            case 0: this.color=this.prevColor;     break;
+            case 1: this.color=moon.Color.white;   break;
+            case 2: 
+                this.canvas.graphics.clear();
+                this.color=this.prevColor;
+                break;
         }
     }
     protected createSliderBar():void
@@ -189,10 +196,11 @@ class Draw extends BView
     {
         var total:number=20;
         var rects:any[]=[];
+        var w:number=40;
         for(var i:number=0;i<total;i++){
             var rect=new moon.MoonDisplayObject;
             rect.type=moon.Const.SHAPE_RECT_ROUND;
-            rect.data={w:40,h:40,c:moon.Color.random,ew:10,eh:10};
+            rect.data={w:w,h:w,c:moon.Color.random,ew:10,eh:10};
             rect.setBackground(0,5);
             this.addChild(rect);
             rect.touchEnabled=true;
@@ -200,22 +208,36 @@ class Draw extends BView
             rects.push(rect);
         }
         moon.SimpleLayout.displayRank(rects,10,5,5,20,80);
+
+        this.select=this.createCircle(5,moon.Color.white)
+        this.addChild(this.select);
+        this.selectColor(rects[0]);
     }
     private onColor(e:egret.TouchEvent):void
     {
-        var rect=e.currentTarget;
+        var rect:moon.MoonDisplayObject=e.currentTarget as moon.MoonDisplayObject;
+        this.selectColor(rect);
+    }
+    private selectColor(rect:moon.MoonDisplayObject):void
+    {
         this.color=rect.color;
         this.prevColor=rect.color;
+        this.select.x=rect.x+10;
+        this.select.y=rect.y+10;
     }
     private createCanvas():void
     {
+        var canvasBg:Sprite=this.createRect(this.stage.stageWidth,this.stage.stageHeight-this.canvasY,moon.Color.white);
+        canvasBg.y=this.canvasY;
+        this.addChild(canvasBg);
+
         var maskRect:Sprite=this.createRect(this.stage.stageWidth,this.stage.stageHeight-this.canvasY,moon.Color.white);
         maskRect.y=this.canvasY;
-        this.addChild(maskRect);
-
         this.canvas=this.createRect(this.stage.stageWidth,this.stage.stageHeight,moon.Color.white);
         this.addChild(this.canvas);
         this.canvas.mask=maskRect;
+
+        
     }
     protected onTouch(e: egret.TouchEvent){
         switch (e.type) {
@@ -239,6 +261,7 @@ class Draw extends BView
 
         this.canvas.graphics.lineStyle(this.size,this.color);
         this.canvas.graphics.moveTo(this.posStart.x,this.posStart.y);
+        this.canvas.graphics.lineTo(this.posStart.x,this.posStart.y);
     }
     /** 手指移动*/
     protected controlMove(): void {

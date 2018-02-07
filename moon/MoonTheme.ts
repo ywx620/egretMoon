@@ -774,7 +774,7 @@ module moon
 			return this.text;
 		}
 	}
-	export class BasicButton extends MoonContainer
+	export class BasicButton extends MoonContainer implements IOnoff
 	{
 		protected statusNormal:DisplayObject;
 		protected statusDown:DisplayObject;
@@ -793,8 +793,19 @@ module moon
 			this.text=(new Label).textField;
 			this.addChild(this.text);
 
+			this.open();
+		}
+		public open():void
+		{
+			this.close();
 			this.touchEnabled=true;
 			this.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
+		}
+		public close():void
+		{
+			this.touchEnabled=false;
+			this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
+			if(this.stage) this.stage.removeEventListener(egret.TouchEvent.TOUCH_END,this.onTouch,this);
 		}
 		public setLabelPoint(x:number,y:number):void
 		{
@@ -900,8 +911,7 @@ module moon
 		}
 		public dispose():void
 		{
-			this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
-			if(this.stage) this.stage.removeEventListener(egret.TouchEvent.TOUCH_END,this.onTouch,this);
+			this.close();
 			super.dispose();
 		}
 	}
@@ -960,7 +970,7 @@ module moon
 		}
 		public hasItem(index:number):boolean
 		{
-			return this.items.length>0&&(index>=0||index<this.items.length);
+			return this.items.length>0&&(index>=0&&index<this.items.length);
 		}
 		public getItem(index:number):DisplayObject
 		{
@@ -1271,6 +1281,33 @@ module moon
 			}
 			return nums;
 		}
+	}
+	/**复选框按钮 */
+	export class TabbarBar extends CheckBoxBar
+	{
+		protected _selectIndex:number=0;
+		protected onClick(e:egret.TouchEvent):void
+		{
+			var curr:MoreSkinButton=e.currentTarget as MoreSkinButton;
+			this.selectItem(curr)
+		}
+		protected selectItem(curr:MoreSkinButton):void
+		{
+			this.reset();
+			while(this.hasItem(this.index)){
+				var item:MoreSkinButton=this.getNextItem() as MoreSkinButton;
+				item.currentPage=0;
+				item.setSkinNormal();
+				item.open();
+			}
+			curr.close();
+			curr.currentPage=1;
+			curr.setSkinNormal();
+			this._selectIndex=this.items.indexOf(curr);
+			this.dispEvent(moon.MoonEvent.CHANGE,this._selectIndex);
+		}
+		set selectIndex(value:number){this._selectIndex=value,this.selectItem(this.getItem(value) as MoreSkinButton)}
+		get selectIndex():number{return this._selectIndex}
 	}
 	/**单选框按钮 */
 	export class RadioButtonBar extends CheckBoxBar
