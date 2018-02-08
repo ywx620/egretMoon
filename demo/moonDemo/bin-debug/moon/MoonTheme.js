@@ -224,6 +224,25 @@ var moon;
             configurable: true
         });
         ;
+        /** 可改变颜色的亮暗,value值是-255到255*/
+        Color.lightenDarkenColor = function (color, value) {
+            var r = (color >> 16) + value;
+            if (r > 255)
+                r = 255;
+            else if (r < 0)
+                r = 0;
+            var b = ((color >> 8) & 0x00FF) + value;
+            if (b > 255)
+                b = 255;
+            else if (b < 0)
+                b = 0;
+            var g = (color & 0x0000FF) + value;
+            if (g > 255)
+                g = 255;
+            else if (g < 0)
+                g = 0;
+            return (g | (b << 8) | (r << 16));
+        };
         return Color;
     }());
     moon.Color = Color;
@@ -407,6 +426,43 @@ var moon;
             enumerable: true,
             configurable: true
         });
+        /**得到矩形框*/
+        MoonUI.getLineRect = function (w, h, c, s, x, y) {
+            if (c === void 0) { c = 0; }
+            if (s === void 0) { s = 1; }
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            var node = new Sprite();
+            node.graphics.lineStyle(s, c);
+            node.graphics.drawRect(x, y, w, h);
+            node.graphics.endFill();
+            return node;
+        };
+        /**得到圆形框*/
+        MoonUI.getLineCircle = function (r, c, s, x, y) {
+            if (c === void 0) { c = 0; }
+            if (s === void 0) { s = 1; }
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            var node = new Sprite();
+            node.graphics.lineStyle(s, c);
+            node.graphics.drawCircle(x, y, r);
+            node.graphics.endFill();
+            return node;
+        };
+        /**得到渐变矩形 a为角度偏移率0,0.5,1,2分别为四个正方向*/
+        MoonUI.getMatrixRect = function (w, h, c1, c2, a) {
+            if (c1 === void 0) { c1 = 0; }
+            if (c2 === void 0) { c2 = 0; }
+            if (a === void 0) { a = 0; }
+            var node = new Sprite();
+            var matrix = new egret.Matrix();
+            matrix.createGradientBox(w, h, Math.PI * a, 0, 0);
+            node.graphics.beginGradientFill(egret.GradientType.LINEAR, [c1, c2], [1, 1], [0, 255], matrix);
+            node.graphics.drawRect(0, 0, w, h);
+            node.graphics.endFill();
+            return node;
+        };
         /**得到矩形*/
         MoonUI.getRect = function (w, h, c, x, y) {
             if (c === void 0) { c = 0; }

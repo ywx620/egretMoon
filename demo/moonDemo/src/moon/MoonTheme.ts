@@ -76,6 +76,19 @@ module moon
 		public static get skinNormal():number{return 0X15191C};
 		public static get skinDown():number{return 0X999999};
 		public static get titleBackground():number{return 0X20262B};
+		/** 可改变颜色的亮暗,value值是-255到255*/
+		public static lightenDarkenColor(color:number, value:number):number {  
+			var r = (color >> 16) + value;
+			if (r > 255) r = 255;
+			else if (r < 0) r = 0;
+			var b = ((color >> 8) & 0x00FF) + value;
+			if (b > 255) b = 255;
+			else if (b < 0) b = 0;
+			var g = (color & 0x0000FF) + value;
+			if (g > 255) g = 255;
+			else if (g < 0) g = 0;
+			return (g | (b << 8) | (r << 16));
+		}
 	}
 	/**皮肤 */
 	export class Skin
@@ -155,6 +168,35 @@ module moon
         /**得到随机色*/
 		public static get randomColor():number{
 			return Math.random()*0XFFFFFF;
+		}
+		/**得到矩形框*/
+		public static getLineRect(w:number,h:number,c:number=0,s:number=1,x:number=0,y:number=0):Sprite
+		{
+			var node:Sprite=new Sprite()
+			node.graphics.lineStyle(s,c)
+			node.graphics.drawRect(x,y,w,h);
+			node.graphics.endFill();
+			return node;
+		}
+		/**得到圆形框*/
+		public static getLineCircle(r:number,c:number=0,s:number=1,x:number=0,y:number=0):Sprite
+		{
+			var node:Sprite=new Sprite();
+			node.graphics.lineStyle(s,c)
+			node.graphics.drawCircle(x,y,r);
+			node.graphics.endFill();
+			return node;
+		}
+		/**得到渐变矩形 a为角度偏移率0,0.5,1,2分别为四个正方向*/
+		public static getMatrixRect(w:number,h:number,c1:number=0,c2:number=0,a:number=0):Sprite
+		{
+			var node = new Sprite();
+			var matrix = new egret.Matrix();
+			matrix.createGradientBox(w, h, Math.PI * a, 0, 0); 
+			node.graphics.beginGradientFill(egret.GradientType.LINEAR, [c1, c2], [1, 1], [0, 255], matrix);
+			node.graphics.drawRect(0, 0, w, h);
+			node.graphics.endFill();
+			return node;
 		}
 		/**得到矩形*/
 		public static getRect(w:number,h:number,c:number=0,x:number=0,y:number=0):Sprite

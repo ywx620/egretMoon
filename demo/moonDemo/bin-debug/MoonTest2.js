@@ -86,7 +86,7 @@ var G2048 = (function (_super) {
         node = this.createRoundRect(0XECC400, w, w);
         node.x = dis;
         node.y = (this.stageHeight - w) - w * 3.3;
-        this.createTextBySprite("2048", node, 100);
+        this.createTextBySprite("2048", node, 90);
         w = 150;
         var y = node.y;
         node = this.createRoundRect(0XBCAC9F, w + 40, w);
@@ -176,6 +176,7 @@ var Draw = (function (_super) {
             case 2:
                 this.canvas.graphics.clear();
                 this.color = this.prevColor;
+                tabbar.selectIndex = 0;
                 break;
         }
     };
@@ -269,4 +270,67 @@ var Draw = (function (_super) {
     return Draw;
 }(BView));
 __reflect(Draw.prototype, "Draw");
+var GameSelectColor = (function (_super) {
+    __extends(GameSelectColor, _super);
+    function GameSelectColor() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.select = 0;
+        _this.total = 4;
+        _this.level = 2;
+        _this.value = 100;
+        return _this;
+    }
+    GameSelectColor.prototype.render = function () {
+        this.label = "选色游戏";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0X333333;
+        this.createCloseBtn();
+        this.nextLevel();
+    };
+    GameSelectColor.prototype.createColors = function () {
+        var total = this.total;
+        var rects = [];
+        var half = Math.sqrt(total);
+        var w = (this.stageWidth - 100) / half;
+        var c = moon.Color.random;
+        var j = Math.floor(Math.random() * total);
+        var c2 = moon.Color.lightenDarkenColor(c, this.value);
+        for (var i = 0; i < total; i++) {
+            var rect = new moon.MoonDisplayObject;
+            rect.type = moon.Const.SHAPE_RECT_ROUND;
+            rect.data = { w: w, h: w, c: i == j ? c2 : c, ew: 10, eh: 10 };
+            rect.setBackground(0, 1);
+            this.addItem(rect);
+            rect.touchEnabled = true;
+            rect.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onColor, this);
+            rect.name = "" + i;
+            rects.push(rect);
+        }
+        var x = (this.stageWidth - ((w + 5) * half)) >> 1;
+        moon.SimpleLayout.displayRank(rects, half, 5, 5, x, 200);
+        this.select = j;
+    };
+    GameSelectColor.prototype.onColor = function (e) {
+        var rect = e.currentTarget;
+        if (rect.name == this.select.toString()) {
+            this.nextLevel();
+        }
+    };
+    GameSelectColor.prototype.nextLevel = function () {
+        this.total = this.level * this.level;
+        this.value -= 2;
+        this.reset();
+        while (this.hasItem(this.index)) {
+            var rect = this.getItem(this.index);
+            rect.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onColor, this);
+            this.removeItem(rect);
+        }
+        this.createColors();
+        this.level++;
+        if (this.level > 7)
+            this.level = 7;
+    };
+    return GameSelectColor;
+}(BView));
+__reflect(GameSelectColor.prototype, "GameSelectColor");
 //# sourceMappingURL=MoonTest2.js.map

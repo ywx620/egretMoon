@@ -81,7 +81,7 @@ class G2048 extends BView
         node=this.createRoundRect(0XECC400,w,w);
         node.x=dis
         node.y=(this.stageHeight-w)-w*3.3;
-        this.createTextBySprite("2048",node,100);
+        this.createTextBySprite("2048",node,90);
 
         w=150;
         var y:number=node.y;
@@ -141,7 +141,6 @@ class Draw extends BView
         this.label="测试画图";
         super.render();
         this.colorBottom=0X333333;
-
         this.createCloseBtn();
 
         this.createColors();
@@ -150,7 +149,6 @@ class Draw extends BView
         this.createSliderBar();
        
         this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
-
         
     }
     protected createButtons():void
@@ -177,6 +175,7 @@ class Draw extends BView
             case 2: 
                 this.canvas.graphics.clear();
                 this.color=this.prevColor;
+                tabbar.selectIndex=0;
                 break;
         }
     }
@@ -276,5 +275,67 @@ class Draw extends BView
     {
         this.stage.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
         super.dispose();
+    }
+}
+class GameSelectColor extends BView
+{
+    protected select:number=0;
+    protected total:number=4;
+    protected level:number=2;
+    protected value:number=100;
+    protected render():void
+    {
+        this.label="选色游戏";
+        super.render();
+        this.colorBottom=0X333333;
+        this.createCloseBtn();
+        this.nextLevel();
+    }
+    protected createColors():void
+    {
+        var total:number=this.total;
+        var rects:any[]=[];
+        var half:number=Math.sqrt(total);
+        var w:number=(this.stageWidth-100)/half;
+        var c:number=moon.Color.random;
+        var j:number=Math.floor(Math.random()*total);
+        var c2:number=moon.Color.lightenDarkenColor(c,this.value)
+        for(var i:number=0;i<total;i++){
+            var rect=new moon.MoonDisplayObject;
+            rect.type=moon.Const.SHAPE_RECT_ROUND;
+            rect.data={w:w,h:w,c:i==j?c2:c,ew:10,eh:10};
+            rect.setBackground(0,1);
+            this.addItem(rect);
+            rect.touchEnabled=true;
+            rect.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onColor,this);
+            rect.name=""+i;
+            rects.push(rect);
+
+        }
+        
+        var x=(this.stageWidth-((w+5)*half))>>1;
+        moon.SimpleLayout.displayRank(rects,half,5,5,x,200);
+        this.select=j;
+    }
+    private onColor(e:egret.TouchEvent):void
+    {
+        var rect:moon.MoonDisplayObject=e.currentTarget as moon.MoonDisplayObject;
+        if(rect.name==this.select.toString()){
+            this.nextLevel()
+        }
+    }
+    private nextLevel():void
+    {
+        this.total=this.level*this.level;
+        this.value-=2;
+        this.reset();
+        while(this.hasItem(this.index)){
+            var rect:DisplayObject=this.getItem(this.index)
+            rect.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onColor,this);
+            this.removeItem(rect);
+        }
+        this.createColors();
+        this.level++;
+        if(this.level>7) this.level=7;
     }
 }
