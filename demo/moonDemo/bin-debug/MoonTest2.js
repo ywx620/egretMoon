@@ -131,7 +131,6 @@ var Draw = (function (_super) {
     __extends(Draw, _super);
     function Draw() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.canvasY = 300;
         _this.prevColor = 0;
         _this.color = 0;
         _this.size = 1;
@@ -142,6 +141,7 @@ var Draw = (function (_super) {
         _super.prototype.render.call(this);
         this.colorBottom = 0X333333;
         this.createCloseBtn();
+        this.canvasY = 300;
         this.createColors();
         this.createCanvas();
         this.createButtons();
@@ -160,7 +160,7 @@ var Draw = (function (_super) {
             btn.label = names[i];
             tabbar.addItem(btn);
         }
-        tabbar.layout(moon.Const.HORIZONTAL, 90);
+        tabbar.layout(moon.Const.HORIZONTAL);
         tabbar.selectIndex = 0;
         tabbar.addEvent(moon.MoonEvent.CHANGE, this.change, this);
     };
@@ -220,16 +220,6 @@ var Draw = (function (_super) {
         this.prevColor = rect.color;
         this.select.x = rect.x + 10;
         this.select.y = rect.y + 10;
-    };
-    Draw.prototype.createCanvas = function () {
-        var canvasBg = this.createRect(this.stage.stageWidth, this.stage.stageHeight - this.canvasY, moon.Color.white);
-        canvasBg.y = this.canvasY;
-        this.addChild(canvasBg);
-        var maskRect = this.createRect(this.stage.stageWidth, this.stage.stageHeight - this.canvasY, moon.Color.white);
-        maskRect.y = this.canvasY;
-        this.canvas = this.createRect(this.stage.stageWidth, this.stage.stageHeight, moon.Color.white);
-        this.addChild(this.canvas);
-        this.canvas.mask = maskRect;
     };
     Draw.prototype.onTouch = function (e) {
         switch (e.type) {
@@ -333,4 +323,104 @@ var GameSelectColor = (function (_super) {
     return GameSelectColor;
 }(BView));
 __reflect(GameSelectColor.prototype, "GameSelectColor");
+var DonotTouchWhiteRect = (function (_super) {
+    __extends(DonotTouchWhiteRect, _super);
+    function DonotTouchWhiteRect() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.select = 0;
+        _this.level = 2;
+        _this.value = 100;
+        _this.rects = [];
+        return _this;
+    }
+    DonotTouchWhiteRect.prototype.render = function () {
+        this.label = "别踩白块";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0X333333;
+        this.createCloseBtn();
+        this.createCanvas();
+        this.createLevel();
+    };
+    DonotTouchWhiteRect.prototype.play = function () {
+        egret.startTick(this.loop, this);
+    };
+    DonotTouchWhiteRect.prototype.stop = function () {
+        egret.stopTick(this.loop, this);
+    };
+    DonotTouchWhiteRect.prototype.createLevel = function () {
+        var total = 6;
+        for (var i = 0; i < total; i++) {
+            var node = this.createSprite();
+            this.canvas.addChild(node);
+            this.rects.push(node);
+        }
+        var y = this.stageHeight - total * this.rectHeight;
+        moon.SimpleLayout.displayRank(this.rects, 1, 0, 0, 0, y);
+    };
+    DonotTouchWhiteRect.prototype.createSprite = function () {
+        var total = 4;
+        var node = new Sprite;
+        var w = this.stageWidth / total;
+        var h = w * 1.5;
+        var j = Math.floor(Math.random() * total);
+        var c1 = moon.Color.white;
+        var c2 = moon.Color.black;
+        this.rectHeight = h;
+        for (var i = 0; i < total; i++) {
+            var rect = new moon.MoonDisplayObject;
+            rect.type = moon.Const.SHAPE_RECT;
+            rect.data = { w: w, h: h, c: i == j ? c2 : c1 };
+            rect.setBackground(moon.Color.gray, 1);
+            rect.name = i == j ? "1" : "0";
+            rect.touchEnabled = true;
+            rect.x = i * w;
+            rect.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onClick, this);
+            node.addChild(rect);
+        }
+        return node;
+    };
+    DonotTouchWhiteRect.prototype.onClick = function (e) {
+        var r = e.currentTarget;
+        if (r.name == "1") {
+            this.play();
+            var total = this.rects.length;
+            for (var i = 0; i < total; i++) {
+                var rect = this.rects[i];
+                var h = rect.y + this.rectHeight;
+            }
+        }
+        else {
+        }
+    };
+    DonotTouchWhiteRect.prototype.loop = function (n) {
+        var total = this.rects.length;
+        for (var i = 0; i < total; i++) {
+            var rect = this.rects[i];
+            rect.y += 20;
+            if (rect.y >= this.stageHeight) {
+                this.stop();
+                this.randomSeat(rect);
+                var h = this.rects[0].y - this.rectHeight;
+                rect.y = h;
+                this.rects.pop();
+                this.rects.unshift(rect);
+            }
+        }
+        return true;
+    };
+    DonotTouchWhiteRect.prototype.randomSeat = function (rect) {
+        var rects = [];
+        for (var i = 0; i < 4; i++) {
+            rects.push(rect.getChildAt(i));
+        }
+        rects = this.getRandomArray(rects);
+        moon.SimpleLayout.displayRank(rects, 4);
+    };
+    DonotTouchWhiteRect.prototype.dispose = function () {
+        _super.prototype.dispose.call(this);
+        this.stop();
+    };
+    return DonotTouchWhiteRect;
+}(BView));
+__reflect(DonotTouchWhiteRect.prototype, "DonotTouchWhiteRect");
 //# sourceMappingURL=MoonTest2.js.map

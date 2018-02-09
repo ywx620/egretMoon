@@ -6,10 +6,11 @@ class MoonTest extends moon.MoonContainer
     {
         this.panelMore=new moon.PanelMoreManager();
         var names:string[]=[];
-        names.push("moon纯代码组件一，基本按钮展示");
-        names.push("moon纯代码组件二，进度条与滑动器展示");
-        names.push("moon纯代码组件三，TIPS展示");
-        names.push("moon纯代码组件四， MoonDisplay展示");
+        names.push("moon组件一，基本按钮展示");
+        names.push("moon组件二，进度条与滑动器展示");
+        names.push("moon组件三，TIPS展示");
+        names.push("moon组件四， MoonDisplay展示");
+        names.push("moon组件五， Tabbar展示");
         for(var i=0;i<names.length;i++){
             var panel:moon.PanelBar=new moon.PanelBar();
             panel.label=names[i];
@@ -25,6 +26,7 @@ class MoonTest extends moon.MoonContainer
         this.showProgresBar(1);
         this.showTipsBar(2);
         this.showMoonDisplay(3);
+        this.showTabbar(4);
         //this.panelMore.once(egret.Event.ADDED_TO_STAGE,this.addToStageMore,this);
 
         this.createCloseBtn();
@@ -122,7 +124,7 @@ class MoonTest extends moon.MoonContainer
         for(var i:number=0;i<items.length;i++){
             radioButton_1.addItemLabel(items[i]);
         }
-        radioButton_1.layout(moon.Const.HORIZONTAL,100);
+        radioButton_1.layout(moon.Const.HORIZONTAL,10);
         panel.addItem(new moon.Label("单选框按钮横排版",0),10,800);
         panel.addItem(radioButton_1,10,840);
         //-----------
@@ -260,5 +262,32 @@ class MoonTest extends moon.MoonContainer
 		// panel.addItem(rect,300,100);
 		//rect.setBackground(moon.Color.random,10);
 		//rect.color=0XFF0000;
+    }
+    //------屏幕5-----
+    private showTabbar(index:number):void
+    {
+        var panel:moon.PanelBar=this.panelMore.getItem(index) as moon.PanelBar;
+
+        var names:any[]=["标题1","标题2","标题3","标题4","标题5"];
+        var tabbar:moon.TabbarBar=new moon.TabbarBar;
+        panel.addItem(tabbar,100,100);
+        for(var i:number=0;i<names.length;i++){
+            var skins:any[]=[moon.Skin.buttonNormal,moon.Skin.buttonDown,moon.Skin.buttonDown,moon.Skin.buttonDown]
+            var btn:moon.MoreSkinButton=new moon.MoreSkinButton(skins);
+            btn.label=names[i];
+            tabbar.addItem(btn);
+        }
+        tabbar.layout(moon.Const.HORIZONTAL,10);
+
+        var names:any[]=["标题一","标题二","标题三","标题四","标题五"];
+        var tabbar:moon.TabbarBar=new moon.TabbarBar;
+        panel.addItem(tabbar,100,300);
+        for(var i:number=0;i<names.length;i++){
+            var skins:any[]=[moon.Skin.buttonNormal,moon.Skin.buttonDown,moon.Skin.buttonDown,moon.Skin.buttonDown]
+            var btn:moon.MoreSkinButton=new moon.MoreSkinButton(skins);
+            btn.label=names[i];
+            tabbar.addItem(btn);
+        }
+        tabbar.layout(moon.Const.VERTICAL,10);
     }
 }

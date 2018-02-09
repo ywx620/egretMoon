@@ -107,6 +107,15 @@ var Tween = (function (_super) {
 }(egret.Tween));
 __reflect(Tween.prototype, "Tween");
 ;
+var Ease = (function (_super) {
+    __extends(Ease, _super);
+    function Ease() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return Ease;
+}(egret.Ease));
+__reflect(Ease.prototype, "Ease");
+;
 //----------------------------------------------
 var trace = function () {
     var arg = [];
@@ -1556,21 +1565,59 @@ var moon;
                 case egret.TouchEvent.TOUCH_END:
                     this.stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
                     this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouch, this);
-                    this.hideShow(0);
+                    this.hideShow(0, 100);
                     this.timeMove(e.stageX, e.stageY);
                     break;
             }
         };
+        //缓动动画
         ScrollBar.prototype.timeMove = function (x, y) {
-            //缓动动画
+            var time = egret.getTimer() - this.startTime;
+            if (time < 500) {
+                var target = this._target;
+                var maskRect = this.maskRect;
+                Tween.removeTweens(target);
+                var dx = x - this.stPos.x;
+                var dy = y - this.stPos.y;
+                var distance = Math.sqrt(dx * dx + dy * dy);
+                var value = (distance / time) * 100;
+                var tw = Tween.get(target);
+                if (this.type == Const.VERTICAL) {
+                    var sign = dy > 0 ? 1 : -1;
+                    value *= sign;
+                    var h = target.y + value;
+                    if (h > 0 && target.y + value > 0)
+                        h = 0;
+                    if (h < 0 && target.y + value < (maskRect.height - target.height))
+                        h = maskRect.height - target.height;
+                    tw.to({ y: h }, 400, Ease.sineOut).call(this.setBarPos, this);
+                }
+                else {
+                    var sign = dx > 0 ? 1 : -1;
+                    value *= sign;
+                    var w = target.x + value;
+                    if (w > 0 && target.x + value > 0)
+                        w = 0;
+                    if (w < 0 && target.x + value < (maskRect.width - target.width))
+                        w = maskRect.width - target.width;
+                    tw.to({ x: w }, 400, Ease.sineOut).call(this.setBarPos, this);
+                }
+            }
         };
-        ScrollBar.prototype.hideShow = function (alpha) {
+        ScrollBar.prototype.setBarPos = function () {
+            if (this.type == Const.VERTICAL)
+                this.skinBar.y = -this._target.y / (this._target.height - this.maskRect.height) * (this.maskRect.height - this.skinBar.height);
+            else
+                this.skinBar.x = -this._target.x / (this._target.width - this.maskRect.width) * (this.maskRect.width - this.skinBar.width);
+        };
+        ScrollBar.prototype.hideShow = function (alpha, time) {
+            if (time === void 0) { time = 1000; }
             Tween.removeTweens(this.skinBar);
             if (alpha == 1) {
                 this.skinBar.alpha = 1;
             }
             var tw = Tween.get(this.skinBar);
-            tw.to({ alpha: alpha }, 1500);
+            tw.to({ alpha: alpha }, time);
         };
         ScrollBar.prototype.moveDo = function (x, y) {
             if (this.type == Const.VERTICAL) {
@@ -1668,13 +1715,13 @@ var moon;
         /**布局 type类型为横或竖，interval为对象间的间隔*/
         CheckBoxBar.prototype.layout = function (type, interval) {
             if (type === void 0) { type = Const.VERTICAL; }
-            if (interval === void 0) { interval = 50; }
+            if (interval === void 0) { interval = 10; }
             for (var i = 0; i < this.items.length; i++) {
                 var item = this.items[i];
                 if (type == Const.VERTICAL)
-                    item.y = interval * i;
+                    item.y = (item.height + interval) * i;
                 else
-                    item.x = interval * i;
+                    item.x = (item.width + interval) * i;
             }
         };
         Object.defineProperty(CheckBoxBar.prototype, "selectIndexs", {
@@ -1783,6 +1830,60 @@ var moon;
     }(CheckBoxBar));
     moon.RadioButtonBar = RadioButtonBar;
     __reflect(RadioButtonBar.prototype, "moon.RadioButtonBar");
+    /**提示警告框 */
+    var AlertBar = (function (_super) {
+        __extends(AlertBar, _super);
+        function AlertBar(title) {
+            if (title === void 0) { title = "提示或警告"; }
+            var _this = _super.call(this) || this;
+            _this.bgColor = Color.gray;
+            _this.text = (new Label).textField;
+            _this.text.text = title;
+            return _this;
+        }
+        /**加载到舞台之后调用 */
+        AlertBar.prototype.render = function () {
+            _super.prototype.render.call(this);
+            var node = this.createBackground(0);
+            node.alpha = 0.3;
+            node.touchEnabled = true;
+            var w = this.stageWidth - 100;
+            var x = (this.stageWidth - w) >> 1;
+            var y = (this.stageHeight - w) >> 1;
+            this.bg = new MoonDisplayObject;
+            this.bg.type = Const.SHAPE_RECT_ROUND;
+            this.bg.data = { w: w, h: w, c: this.bgColor, ew: 10, eh: 10 };
+            this.bg.setBackground(0, 2);
+            this.bg.x = x;
+            this.bg.y = y;
+            this.addChild(this.bg);
+            var btn = new BasicButton;
+            btn.label = "确定";
+            this.addChild(btn);
+            btn.x = (this.stageWidth - btn.width) >> 1;
+            btn.y = this.bg.y + this.bg.height - 100;
+            btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+            this.text.x = (this.stageWidth - this.text.width) >> 1;
+            this.text.y = this.bg.y + (this.bg.height >> 1) - this.text.height;
+            this.addChild(this.text);
+        };
+        AlertBar.prototype.onClick = function (e) {
+            this.removeFromParent(true);
+        };
+        Object.defineProperty(AlertBar.prototype, "color", {
+            set: function (value) {
+                this.bgColor = value;
+                if (this.bg)
+                    this.bg.color = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        return AlertBar;
+    }(BasicBar));
+    moon.AlertBar = AlertBar;
+    __reflect(AlertBar.prototype, "moon.AlertBar");
     /**面板 */
     var PanelBar = (function (_super) {
         __extends(PanelBar, _super);
@@ -1821,6 +1922,7 @@ var moon;
             this.addChild(this.container);
             this.containerMask = this.createRect(this.stageWidth, this.stageHeight - this.titleHeight, moon.Color.white, 0, this.titleHeight);
             this.container.mask = this.containerMask;
+            this.touchEnabled = true; //为了阻挡面板下所有事件
             this.dispEvent(MoonEvent.RENDER_COMPLETE);
         };
         PanelBar.prototype.addItem = function (item, x, y) {
@@ -1868,6 +1970,13 @@ var moon;
             get: function () {
                 var rect = new Rectangle(0, 0, this.stageWidth, this.stageHeight);
                 return rect;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PanelBar.prototype, "topHeight", {
+            get: function () {
+                return this.titleHeight;
             },
             enumerable: true,
             configurable: true

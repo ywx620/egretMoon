@@ -22,7 +22,7 @@ var MainMoon = (function (_super) {
         moon.TipsManager.getIns().init(this.stage);
         moon.showLog.getIns().init(this.stage);
         this.createBackground(0XFFCC00);
-        var names = ["基础组件", "组件Progress", "组件ScrollBar", "游戏2048界面", "画画", "选色游戏"];
+        var names = ["基础组件", "组件Progress", "组件ScrollBar", "游戏2048界面", "画画", "选色游戏", "别踩白块"];
         var btns = [];
         for (var i = 0; i < names.length; i++) {
             var btn = new moon.BasicButton(moon.MoonUI.getRoundRect(300, 60, moon.Color.black), moon.MoonUI.getRoundRect(300, 60, moon.Color.gray));
@@ -37,6 +37,11 @@ var MainMoon = (function (_super) {
         this.father = this.parent;
         // var c2:number=moon.Color.lightenDarkenColor(moon.Color.bule,255)
         // this.addChild(moon.MoonUI.getMatrixRect(400,400,moon.Color.bule,c2,0.5))
+        // var n:Sprite=moon.MoonUI.getRect(100,100);
+        // this.addChild(n);
+        // var tw:Tween=Tween.get(n);
+        // tw.to({y:500},2000,Ease.sineOut);
+        //this.addChild(new moon.AlertBar("-请点确定按钮-\n然后再点其它按钮"))
     };
     MainMoon.prototype.click = function (e) {
         var btn = e.currentTarget;
@@ -60,6 +65,9 @@ var MainMoon = (function (_super) {
                 break;
             case 5:
                 view = new GameSelectColor;
+                break;
+            case 6:
+                view = new DonotTouchWhiteRect;
                 break;
         }
         this.father.addChild(view);

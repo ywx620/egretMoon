@@ -13,6 +13,10 @@ var BView = (function (_super) {
     function BView() {
         return _super.call(this, 0, 0) || this;
     }
+    BView.prototype.render = function () {
+        _super.prototype.render.call(this);
+        this.canvasY = this.topHeight;
+    };
     BView.prototype.createCloseBtn = function () {
         var btn = new moon.BasicButton();
         btn.label = "关闭";
@@ -22,6 +26,25 @@ var BView = (function (_super) {
     BView.prototype.close = function (e) {
         this.dispEvent(moon.MoonEvent.CLOSE);
         this.removeFromParent(true);
+    };
+    BView.prototype.createCanvas = function () {
+        var canvasBg = this.createRect(this.stage.stageWidth, this.stage.stageHeight - this.canvasY, moon.Color.white);
+        canvasBg.y = this.canvasY;
+        this.addChild(canvasBg);
+        var maskRect = this.createRect(this.stage.stageWidth, this.stage.stageHeight - this.canvasY, moon.Color.white);
+        maskRect.y = this.canvasY;
+        this.canvas = this.createRect(this.stage.stageWidth, this.stage.stageHeight, moon.Color.white);
+        this.addChild(this.canvas);
+        this.canvas.mask = maskRect;
+    };
+    BView.prototype.getRandomArray = function (array) {
+        var value = [];
+        var copy = array.concat();
+        while (copy.length > 0) {
+            var index = Math.floor(Math.random() * copy.length);
+            value.push(copy.splice(index, 1)[0]);
+        }
+        return value;
     };
     return BView;
 }(moon.PanelBar));

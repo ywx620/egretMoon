@@ -9,6 +9,7 @@ class Bitmap extends egret.Bitmap{};
 class BitmapData extends egret.BitmapData{};
 class Stage extends egret.Stage{};
 class Tween extends egret.Tween{};
+class Ease extends egret.Ease{};
 //----------------------------------------------
 var trace=function(...arg):void
 {
@@ -376,10 +377,10 @@ module moon
 		private txtSimple:TextField;
 		private txtMessage:TextField;
 		public static getIns():showLog{
-				if(this.instance == null){
-						this.instance = new showLog();
-				}
-				return this.instance;
+			if(this.instance == null){
+					this.instance = new showLog();
+			}
+			return this.instance;
 		}
 		public init(stage:Stage):void
 		{
@@ -1201,23 +1202,57 @@ module moon
                 case egret.TouchEvent.TOUCH_END:
 					this.stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
 					this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, this.onTouch, this);
-					this.hideShow(0);
+					this.hideShow(0,100);
 					this.timeMove(e.stageX,e.stageY);
                     break;
             }
         }
+		//缓动动画
 		protected timeMove(x:number,y:number):void
 		{
-			//缓动动画
+			var time:number=egret.getTimer()-this.startTime;
+			if(time<500){
+				var target:DisplayObject=this._target;
+				var maskRect:DisplayObject=this.maskRect;
+				Tween.removeTweens(target);
+				var dx:number=x-this.stPos.x;
+				var dy:number=y-this.stPos.y;
+				var distance:number=Math.sqrt(dx*dx+dy*dy);
+				var value:number=(distance/time)*100;
+				var tw:Tween=Tween.get(target);
+				if(this.type==Const.VERTICAL){
+					var sign:number=dy>0?1:-1;
+					value*=sign;
+					var h:number=target.y+value;
+					if(h>0&&target.y+value>0) h=0;
+					if(h<0&&target.y+value<(maskRect.height-target.height)) h=maskRect.height-target.height;
+					tw.to({y:h},400,Ease.sineOut).call(this.setBarPos,this);
+				}else{
+					var sign:number=dx>0?1:-1;
+					value*=sign;
+					var w:number=target.x+value;
+					if(w>0&&target.x+value>0) w=0;
+					if(w<0&&target.x+value<(maskRect.width-target.width)) w=maskRect.width-target.width;
+					tw.to({x:w},400,Ease.sineOut).call(this.setBarPos,this);
+				}
+				
+			}
 		}
-		protected hideShow(alpha:number):void
+		protected setBarPos():void
+		{
+			if(this.type==Const.VERTICAL)
+				this.skinBar.y=-this._target.y/(this._target.height-this.maskRect.height)*(this.maskRect.height-this.skinBar.height);
+			else
+				this.skinBar.x=-this._target.x/(this._target.width-this.maskRect.width)*(this.maskRect.width-this.skinBar.width);
+		}
+		protected hideShow(alpha:number,time:number=1000):void
 		{
 			Tween.removeTweens(this.skinBar);
 			if(alpha==1){
 				this.skinBar.alpha=1;
 			}
 			var tw:Tween=Tween.get(this.skinBar);
-			tw.to({alpha:alpha},1500);
+			tw.to({alpha:alpha},time);
 		}
 		protected moveDo(x:number,y:number):void
 		{
@@ -1306,12 +1341,12 @@ module moon
 			this.dispEvent(moon.MoonEvent.CHANGE);
 		}
 		/**布局 type类型为横或竖，interval为对象间的间隔*/
-		public layout(type:string=Const.VERTICAL,interval:number=50):void
+		public layout(type:string=Const.VERTICAL,interval:number=10):void
 		{
 			for(var i:number=0;i<this.items.length;i++){
 				var item:DisplayObject=this.items[i];
-				if(type==Const.VERTICAL) item.y=interval*i;
-				else					 item.x=interval*i;
+				if(type==Const.VERTICAL) item.y=(item.height+interval)*i;
+				else					 item.x=(item.width+interval)*i;
 			}
 		}
 		public get selectIndexs():number[]
@@ -1395,6 +1430,57 @@ module moon
 			return this._selectIndex;
 		}
 	}
+	/**提示警告框 */
+	export class AlertBar extends BasicBar
+	{
+		private bg:MoonDisplayObject;
+		private bgColor:number;
+		private text:TextField;
+		public constructor(title:string="提示或警告")
+        {
+			super();
+			this.bgColor=Color.gray;
+			this.text=(new Label).textField;
+			this.text.text=title;
+		}
+		/**加载到舞台之后调用 */
+        protected render():void
+        {
+			super.render();
+			var node:Sprite=this.createBackground(0);
+			node.alpha=0.3;
+			node.touchEnabled=true
+			
+			var w:number=this.stageWidth-100;
+			var x:number=(this.stageWidth-w)>>1;
+			var y:number=(this.stageHeight-w)>>1;
+			this.bg=new MoonDisplayObject;
+			this.bg.type=Const.SHAPE_RECT_ROUND;
+            this.bg.data={w:w,h:w,c:this.bgColor,ew:10,eh:10};
+            this.bg.setBackground(0,2);
+			this.bg.x=x;this.bg.y=y;
+			this.addChild(this.bg);
+
+			var btn:BasicButton=new BasicButton;
+			btn.label="确定";
+			this.addChild(btn);
+			btn.x=(this.stageWidth-btn.width)>>1;
+			btn.y=this.bg.y+this.bg.height-100;
+			btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
+
+			this.text.x=(this.stageWidth-this.text.width)>>1;
+			this.text.y=this.bg.y+(this.bg.height>>1)-this.text.height;
+			this.addChild(this.text);
+		}
+		private onClick(e:egret.TouchEvent):void
+		{
+			this.removeFromParent(true);
+		}
+		set color(value:number){
+			this.bgColor=value;
+			if(this.bg)this.bg.color=value;
+		};
+	}
 	/**面板 */
 	export class PanelBar extends BasicBar
 	{
@@ -1439,6 +1525,7 @@ module moon
 			this.addChild(this.container);
 			this.containerMask=this.createRect(this.stageWidth,this.stageHeight-this.titleHeight,moon.Color.white,0,this.titleHeight);
 			this.container.mask=this.containerMask;
+			this.touchEnabled=true;//为了阻挡面板下所有事件
 			this.dispEvent(MoonEvent.RENDER_COMPLETE);
         }
 		public addItem(item:DisplayObject,x:number=0,y:number=0):void
@@ -1470,6 +1557,9 @@ module moon
 		{
 			var rect:Rectangle=new Rectangle(0,0,this.stageWidth,this.stageHeight);
 			return rect;
+		}
+		get topHeight():number{
+			return this.titleHeight;
 		}
 		public removeAll():void
 		{
