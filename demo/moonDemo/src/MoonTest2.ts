@@ -272,7 +272,7 @@ class GameSelectColor extends BView
         super.render();
         this.colorBottom=0X333333;
         this.createCloseBtn();
-        this.nextLevel();
+        this.createLevel();
     }
     protected createColors():void
     {
@@ -293,7 +293,6 @@ class GameSelectColor extends BView
             rect.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onColor,this);
             rect.name=""+i;
             rects.push(rect);
-
         }
         
         var x=(this.stageWidth-((w+5)*half))>>1;
@@ -304,10 +303,10 @@ class GameSelectColor extends BView
     {
         var rect:moon.MoonDisplayObject=e.currentTarget as moon.MoonDisplayObject;
         if(rect.name==this.select.toString()){
-            this.nextLevel()
+            this.createLevel()
         }
     }
-    private nextLevel():void
+    private createLevel():void
     {
         this.total=this.level*this.level;
         this.value-=2;
@@ -392,7 +391,7 @@ class DonotTouchWhiteRect extends BView
                 var h:number=rect.y+this.rectHeight;
             }
         }else{//游戏结束
-
+            this.createAlert("   游戏结束\n点击确定可继续");
         }
     }
     protected loop(n:number):boolean
@@ -425,5 +424,170 @@ class DonotTouchWhiteRect extends BView
     {
         super.dispose();
         this.stop();
+    }
+}
+class DestoryStar extends BView
+{
+    protected select:number=0;
+    protected value:number=100;
+    protected render():void
+    {
+        this.label="消灭星星界面";
+        super.render();
+        this.colorBottom=0X333333;
+        this.createCloseBtn();
+        this.createLevel();
+    }
+    private createLevel():void
+    {
+        var total:number=104;
+        var rects:any[]=[];
+        var half:number=8;
+        var w:number=(this.stageWidth-16)/half;
+        var c:number;
+        var colors:number[]=moon.Color.getRandomArray(3);
+        for(var i:number=0;i<total;i++){
+            c=colors[Math.floor(Math.random()*colors.length)];
+            var rect=new moon.MoonDisplayObject;
+            rect.type=moon.Const.SHAPE_RECT;
+            rect.data={w:w,h:w,c:c,ew:10,eh:10};
+            rect.setBackground(0,1);
+            this.addItem(rect);
+            rects.push(rect);
+        }
+        moon.SimpleLayout.displayRank(rects,half,0,0);
+    }
+}
+class GameBackpack extends BView
+{
+    protected render():void
+    {
+        this.label="游戏背包";
+        super.render();
+        this.colorBottom=0X333333;
+        this.createCloseBtn();
+        this.createBackpack();
+    }
+    protected createBackpack():void
+    {
+        var names:any[]=["装备","材料","消耗品","时装"];
+        var tabbar:moon.TabbarBar=new moon.TabbarBar;
+        this.addItem(tabbar,60,100);
+        for(var i:number=0;i<names.length;i++){
+            var skins:any[]=this.getSkins()
+            var btn:moon.MoreSkinButton=new moon.MoreSkinButton(skins);
+            btn.labelColor=0X502200;
+            btn.skinAutoScale=false;
+            btn.label=names[i];
+            tabbar.addItem(btn);
+        }
+        tabbar.selectIndex=0;
+        tabbar.layout(moon.Const.HORIZONTAL,1);
+
+        var w:number=this.stageWidth-100;
+        var h:number=this.stageHeight-300;
+        var c:number=0XE4C0A4;
+        var bc:number=0XC99769;
+        var rect=new moon.MoonDisplayObject;
+        rect.type=moon.Const.SHAPE_RECT_ROUND;
+        rect.data={w:w,h:h,c:c,ew:20,eh:20};
+        rect.setBackground(bc,3);
+        this.addItem(rect,50,150);
+
+        var rects:any[]=[];
+        w=90
+        for(i=0;i<35;i++){
+            var c:number=0XCC9D79;
+            var bc:number=0XC99769;    
+            var rect=new moon.MoonDisplayObject;
+            rect.type=moon.Const.SHAPE_RECT_ROUND;
+            rect.data={w:w,h:w,c:c,ew:15,eh:15};
+            rect.setBackground(bc,5);
+            this.addItem(rect);
+            rects.push(rect);
+        }
+        moon.SimpleLayout.displayRank(rects,5,5,5,63,170);
+
+        var names:any[]=["1","2","3","4"];
+        var tabbar:moon.TabbarBar=new moon.TabbarBar;
+        this.addItem(tabbar,80,920);
+        for(var i:number=0;i<names.length;i++){
+            var skins:any[]=this.getCircleSkins();
+            var btn:moon.MoreSkinButton=new moon.MoreSkinButton(skins);
+            btn.labelColor=0X502200;
+            btn.skinAutoScale=false;
+            btn.label=names[i];
+            tabbar.addItem(btn);
+        }
+        tabbar.selectIndex=0;
+        tabbar.layout(moon.Const.HORIZONTAL,1);
+    }
+    protected getSkins():any[]
+    {
+        var values:any[]=[];
+        var c1:number=0XD79565;
+        var c2:number=0XFFC64E;
+        var bc:number=0X502200;
+        for(var i:number=0;i<4;i++){
+            var rect=new moon.MoonDisplayObject;
+            rect.type=moon.Const.SHAPE_RECT_ROUND;
+            rect.data={w:120,h:60,c:i==0?c1:c2,ew:10,eh:10};
+            rect.setBackground(bc,3);
+            values.push(rect);
+        }
+        return values;
+    }
+    protected getCircleSkins():any[]
+    {
+        var values:any[]=[];
+        var c1:number=0XD79565;
+        var c2:number=0XFFC64E;
+        var bc:number=0X502200;
+        for(var i:number=0;i<4;i++){
+            var rect=new moon.MoonDisplayObject;
+            rect.type=moon.Const.SHAPE_CIRCLE;
+            rect.data={r:20,c:i==0?c1:c2};
+            rect.anchorOffsetX=rect.anchorOffsetY=-25;
+            rect.setBackground(bc,3);
+            values.push(rect);
+        }
+        return values;
+    }
+}
+class TextInput extends BView
+{
+    protected render():void
+    {
+        this.label="输入框测试";
+        super.render();
+        this.colorBottom=0X999999;
+        this.createCloseBtn();
+        this.createView();
+    }
+    protected createView():void
+    {
+        this.createTitle("单行自由输入",5);
+        var input:moon.InputBar=new moon.InputBar(this.stageWidth,50);
+        this.addChild(input);
+        input.y=100;
+
+        this.createTitle("单行只能输入十个字",105);
+        input=new moon.InputBar(this.stageWidth,50);
+        this.addChild(input);
+        input.maxChars=10;
+        input.y=200;
+
+        this.createTitle("单行只能输入数字与字母",205);
+        input=new moon.InputBar(this.stageWidth,50);
+        this.addChild(input);
+        input.y=300;
+        input.color=0X333333;
+        input.restrict="a-zA-Z0-9";
+
+        this.createTitle("多行自由输入",305);
+        var input:moon.InputBar=new moon.InputBar(this.stageWidth,300);
+        this.addChild(input);
+        input.setMultiline();
+        input.y=400;
     }
 }

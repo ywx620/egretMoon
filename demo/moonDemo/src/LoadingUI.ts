@@ -31,7 +31,8 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
 
     public constructor() {
         super();
-        this.createView();
+        //this.createView();
+        this.once(egret.Event.ADDED_TO_STAGE,this.createView,this)
     }
 
     private textField: egret.TextField;
@@ -39,9 +40,10 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
     private createView(): void {
         this.textField = new egret.TextField();
         this.addChild(this.textField);
-        this.textField.y = 300;
         this.textField.width = 480;
         this.textField.height = 100;
+        this.textField.x = (this.stage.stageWidth-this.textField.width)>>1;
+        this.textField.y = (this.stage.stageHeight-this.textField.height)>>1;
         this.textField.textAlign = "center";
     }
 

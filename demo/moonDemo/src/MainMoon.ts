@@ -11,7 +11,8 @@ class MainMoon extends moon.BasicView
         moon.TipsManager.getIns().init(this.stage);
         moon.showLog.getIns().init(this.stage);
         this.createBackground(0XFFCC00);
-        var names:string[]=["基础组件","组件Progress","组件ScrollBar","游戏2048界面","画画","选色游戏","别踩白块"]
+        var names:string[]=["基础组件","组件Progress","组件ScrollBar","游戏2048界面","画画","选色游戏","别踩白块","消灭星星界面","游戏背包"];
+        names.push("组件输入框")
         var btns:any[]=[];
         for(var i:number=0;i<names.length;i++){
             var btn:moon.BasicButton=new moon.BasicButton(moon.MoonUI.getRoundRect(300,60,moon.Color.black),moon.MoonUI.getRoundRect(300,60,moon.Color.gray));
@@ -34,6 +35,7 @@ class MainMoon extends moon.BasicView
 		// tw.to({y:500},2000,Ease.sineOut);
 
         //this.addChild(new moon.AlertBar("-请点确定按钮-\n然后再点其它按钮"))
+
     }
     protected click(e:egret.TouchEvent):void
     {
@@ -48,6 +50,9 @@ class MainMoon extends moon.BasicView
             case 4:view=new Draw;               break;
             case 5:view=new GameSelectColor;    break;
             case 6:view=new DonotTouchWhiteRect;    break;
+            case 7:view=new DestoryStar;        break;
+            case 8:view=new GameBackpack;       break;
+            case 9:view=new TextInput;       break;
          }
         this.father.addChild(view);
         view.addEvent(moon.MoonEvent.CLOSE,this.onClose,this);

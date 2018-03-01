@@ -275,7 +275,7 @@ var GameSelectColor = (function (_super) {
         _super.prototype.render.call(this);
         this.colorBottom = 0X333333;
         this.createCloseBtn();
-        this.nextLevel();
+        this.createLevel();
     };
     GameSelectColor.prototype.createColors = function () {
         var total = this.total;
@@ -303,10 +303,10 @@ var GameSelectColor = (function (_super) {
     GameSelectColor.prototype.onColor = function (e) {
         var rect = e.currentTarget;
         if (rect.name == this.select.toString()) {
-            this.nextLevel();
+            this.createLevel();
         }
     };
-    GameSelectColor.prototype.nextLevel = function () {
+    GameSelectColor.prototype.createLevel = function () {
         this.total = this.level * this.level;
         this.value -= 2;
         this.reset();
@@ -390,6 +390,7 @@ var DonotTouchWhiteRect = (function (_super) {
             }
         }
         else {
+            this.createAlert("   游戏结束\n点击确定可继续");
         }
     };
     DonotTouchWhiteRect.prototype.loop = function (n) {
@@ -423,4 +424,171 @@ var DonotTouchWhiteRect = (function (_super) {
     return DonotTouchWhiteRect;
 }(BView));
 __reflect(DonotTouchWhiteRect.prototype, "DonotTouchWhiteRect");
+var DestoryStar = (function (_super) {
+    __extends(DestoryStar, _super);
+    function DestoryStar() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.select = 0;
+        _this.value = 100;
+        return _this;
+    }
+    DestoryStar.prototype.render = function () {
+        this.label = "消灭星星界面";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0X333333;
+        this.createCloseBtn();
+        this.createLevel();
+    };
+    DestoryStar.prototype.createLevel = function () {
+        var total = 104;
+        var rects = [];
+        var half = 8;
+        var w = (this.stageWidth - 16) / half;
+        var c;
+        var colors = moon.Color.getRandomArray(3);
+        for (var i = 0; i < total; i++) {
+            c = colors[Math.floor(Math.random() * colors.length)];
+            var rect = new moon.MoonDisplayObject;
+            rect.type = moon.Const.SHAPE_RECT;
+            rect.data = { w: w, h: w, c: c, ew: 10, eh: 10 };
+            rect.setBackground(0, 1);
+            this.addItem(rect);
+            rects.push(rect);
+        }
+        moon.SimpleLayout.displayRank(rects, half, 0, 0);
+    };
+    return DestoryStar;
+}(BView));
+__reflect(DestoryStar.prototype, "DestoryStar");
+var GameBackpack = (function (_super) {
+    __extends(GameBackpack, _super);
+    function GameBackpack() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    GameBackpack.prototype.render = function () {
+        this.label = "游戏背包";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0X333333;
+        this.createCloseBtn();
+        this.createBackpack();
+    };
+    GameBackpack.prototype.createBackpack = function () {
+        var names = ["装备", "材料", "消耗品", "时装"];
+        var tabbar = new moon.TabbarBar;
+        this.addItem(tabbar, 60, 100);
+        for (var i = 0; i < names.length; i++) {
+            var skins = this.getSkins();
+            var btn = new moon.MoreSkinButton(skins);
+            btn.labelColor = 0X502200;
+            btn.skinAutoScale = false;
+            btn.label = names[i];
+            tabbar.addItem(btn);
+        }
+        tabbar.selectIndex = 0;
+        tabbar.layout(moon.Const.HORIZONTAL, 1);
+        var w = this.stageWidth - 100;
+        var h = this.stageHeight - 300;
+        var c = 0XE4C0A4;
+        var bc = 0XC99769;
+        var rect = new moon.MoonDisplayObject;
+        rect.type = moon.Const.SHAPE_RECT_ROUND;
+        rect.data = { w: w, h: h, c: c, ew: 20, eh: 20 };
+        rect.setBackground(bc, 3);
+        this.addItem(rect, 50, 150);
+        var rects = [];
+        w = 90;
+        for (i = 0; i < 35; i++) {
+            var c = 0XCC9D79;
+            var bc = 0XC99769;
+            var rect = new moon.MoonDisplayObject;
+            rect.type = moon.Const.SHAPE_RECT_ROUND;
+            rect.data = { w: w, h: w, c: c, ew: 15, eh: 15 };
+            rect.setBackground(bc, 5);
+            this.addItem(rect);
+            rects.push(rect);
+        }
+        moon.SimpleLayout.displayRank(rects, 5, 5, 5, 63, 170);
+        var names = ["1", "2", "3", "4"];
+        var tabbar = new moon.TabbarBar;
+        this.addItem(tabbar, 80, 920);
+        for (var i = 0; i < names.length; i++) {
+            var skins = this.getCircleSkins();
+            var btn = new moon.MoreSkinButton(skins);
+            btn.labelColor = 0X502200;
+            btn.skinAutoScale = false;
+            btn.label = names[i];
+            tabbar.addItem(btn);
+        }
+        tabbar.selectIndex = 0;
+        tabbar.layout(moon.Const.HORIZONTAL, 1);
+    };
+    GameBackpack.prototype.getSkins = function () {
+        var values = [];
+        var c1 = 0XD79565;
+        var c2 = 0XFFC64E;
+        var bc = 0X502200;
+        for (var i = 0; i < 4; i++) {
+            var rect = new moon.MoonDisplayObject;
+            rect.type = moon.Const.SHAPE_RECT_ROUND;
+            rect.data = { w: 120, h: 60, c: i == 0 ? c1 : c2, ew: 10, eh: 10 };
+            rect.setBackground(bc, 3);
+            values.push(rect);
+        }
+        return values;
+    };
+    GameBackpack.prototype.getCircleSkins = function () {
+        var values = [];
+        var c1 = 0XD79565;
+        var c2 = 0XFFC64E;
+        var bc = 0X502200;
+        for (var i = 0; i < 4; i++) {
+            var rect = new moon.MoonDisplayObject;
+            rect.type = moon.Const.SHAPE_CIRCLE;
+            rect.data = { r: 20, c: i == 0 ? c1 : c2 };
+            rect.anchorOffsetX = rect.anchorOffsetY = -25;
+            rect.setBackground(bc, 3);
+            values.push(rect);
+        }
+        return values;
+    };
+    return GameBackpack;
+}(BView));
+__reflect(GameBackpack.prototype, "GameBackpack");
+var TextInput = (function (_super) {
+    __extends(TextInput, _super);
+    function TextInput() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TextInput.prototype.render = function () {
+        this.label = "输入框测试";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0X999999;
+        this.createCloseBtn();
+        this.createView();
+    };
+    TextInput.prototype.createView = function () {
+        this.createTitle("单行自由输入", 5);
+        var input = new moon.InputBar(this.stageWidth, 50);
+        this.addChild(input);
+        input.y = 100;
+        this.createTitle("单行只能输入十个字", 105);
+        input = new moon.InputBar(this.stageWidth, 50);
+        this.addChild(input);
+        input.maxChars = 10;
+        input.y = 200;
+        this.createTitle("单行只能输入数字与字母", 205);
+        input = new moon.InputBar(this.stageWidth, 50);
+        this.addChild(input);
+        input.y = 300;
+        input.color = 0X333333;
+        input.restrict = "a-zA-Z0-9";
+        this.createTitle("多行自由输入", 305);
+        var input = new moon.InputBar(this.stageWidth, 300);
+        this.addChild(input);
+        input.setMultiline();
+        input.y = 400;
+    };
+    return TextInput;
+}(BView));
+__reflect(TextInput.prototype, "TextInput");
 //# sourceMappingURL=MoonTest2.js.map

@@ -37,6 +37,18 @@ var BView = (function (_super) {
         this.addChild(this.canvas);
         this.canvas.mask = maskRect;
     };
+    BView.prototype.createAlert = function (value) {
+        var alert = new moon.AlertBar(value);
+        alert.addEvent(moon.MoonEvent.CLOSE, this.closeAlert, this);
+        this.addChild(alert);
+    };
+    BView.prototype.closeAlert = function (e) {
+    };
+    BView.prototype.createTitle = function (title, y, x) {
+        if (y === void 0) { y = 0; }
+        if (x === void 0) { x = 0; }
+        this.addItem(new moon.Label(title, 0), x, y);
+    };
     BView.prototype.getRandomArray = function (array) {
         var value = [];
         var copy = array.concat();

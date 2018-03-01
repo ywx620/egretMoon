@@ -233,6 +233,13 @@ var moon;
             configurable: true
         });
         ;
+        Color.getRandomArray = function (count) {
+            var colors = [];
+            for (var i = 0; i < count; i++)
+                colors.push(Math.random() * 0XFFFFFF);
+            return colors;
+        };
+        ;
         /** 可改变颜色的亮暗,value值是-255到255*/
         Color.lightenDarkenColor = function (color, value) {
             var r = (color >> 16) + value;
@@ -1869,8 +1876,10 @@ var moon;
         };
         AlertBar.prototype.onClick = function (e) {
             this.removeFromParent(true);
+            this.dispEvent(MoonEvent.CLOSE);
         };
         Object.defineProperty(AlertBar.prototype, "color", {
+            /**设置背景色 */
             set: function (value) {
                 this.bgColor = value;
                 if (this.bg)
@@ -1884,6 +1893,69 @@ var moon;
     }(BasicBar));
     moon.AlertBar = AlertBar;
     __reflect(AlertBar.prototype, "moon.AlertBar");
+    /**输入框 */
+    var InputBar = (function (_super) {
+        __extends(InputBar, _super);
+        function InputBar(width, height) {
+            if (width === void 0) { width = 100; }
+            if (height === void 0) { height = 50; }
+            var _this = _super.call(this) || this;
+            _this.text = (new Label).textField;
+            _this.inputW = width;
+            _this.inputH = height;
+            return _this;
+        }
+        /**加载到舞台之后调用 */
+        InputBar.prototype.render = function () {
+            _super.prototype.render.call(this);
+            var w = this.inputW;
+            var h = this.inputH;
+            this.bg = new MoonDisplayObject;
+            this.bg.type = Const.SHAPE_RECT_ROUND;
+            this.bg.data = { w: w, h: h, c: this.bgColor, ew: 10, eh: 10 };
+            this.bg.setBackground(0, 2);
+            this.addChild(this.bg);
+            var side = 5;
+            this.text.x = side;
+            this.text.y = side;
+            this.text.width = w - side * 2;
+            this.text.height = h - side * 2;
+            this.text.type = egret.TextFieldType.INPUT;
+            this.addChild(this.text);
+        };
+        /**设置为多行 */
+        InputBar.prototype.setMultiline = function () {
+            this.text.wordWrap = true;
+            this.text.multiline = true;
+            this.text.verticalAlign = egret.VerticalAlign.TOP;
+        };
+        Object.defineProperty(InputBar.prototype, "color", {
+            /**设置背景色 */
+            set: function (value) {
+                this.bgColor = value;
+                if (this.bg)
+                    this.bg.color = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        Object.defineProperty(InputBar.prototype, "maxChars", {
+            /**设置最大数量 */
+            set: function (value) { this.text.maxChars = value; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputBar.prototype, "restrict", {
+            /**设置输入内容限制（如只输入字母数字 a-zA-Z0-9） */
+            set: function (value) { this.text.restrict = value; },
+            enumerable: true,
+            configurable: true
+        });
+        return InputBar;
+    }(BasicBar));
+    moon.InputBar = InputBar;
+    __reflect(InputBar.prototype, "moon.InputBar");
     /**面板 */
     var PanelBar = (function (_super) {
         __extends(PanelBar, _super);

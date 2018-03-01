@@ -35,6 +35,20 @@ class BView extends moon.PanelBar
         this.addChild(this.canvas);
         this.canvas.mask=maskRect;
     }
+    protected createAlert(value:string):void
+    {
+        var alert:moon.AlertBar=new moon.AlertBar(value);
+        alert.addEvent(moon.MoonEvent.CLOSE,this.closeAlert,this)
+        this.addChild(alert);
+    }
+    protected closeAlert(e:moon.MoonEvent):void
+    {
+
+    }
+    protected createTitle(title:string,y:number=0,x:number=0):void
+    {
+        this.addItem(new moon.Label(title,0),x,y);
+    }
     public getRandomArray(array:any[]):any[]
     {
         let value:any[]=[];

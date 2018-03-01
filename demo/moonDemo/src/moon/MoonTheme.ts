@@ -77,6 +77,11 @@ module moon
 		public static get skinNormal():number{return 0X15191C};
 		public static get skinDown():number{return 0X999999};
 		public static get titleBackground():number{return 0X20262B};
+		public static getRandomArray(count:number):number[]{
+			var colors:number[]=[];
+			for(var i:number=0;i<count;i++) colors.push(Math.random()*0XFFFFFF);
+			return colors;
+		};
 		/** 可改变颜色的亮暗,value值是-255到255*/
 		public static lightenDarkenColor(color:number, value:number):number {  
 			var r = (color >> 16) + value;
@@ -1475,11 +1480,65 @@ module moon
 		private onClick(e:egret.TouchEvent):void
 		{
 			this.removeFromParent(true);
+			this.dispEvent(MoonEvent.CLOSE);
 		}
+		/**设置背景色 */
 		set color(value:number){
 			this.bgColor=value;
 			if(this.bg)this.bg.color=value;
 		};
+	}
+	/**输入框 */
+	export class InputBar extends BasicBar
+	{
+		private bg:MoonDisplayObject;
+		private bgColor:number;
+		private text:TextField;
+		private inputW:number;
+		private inputH:number;
+		public constructor(width:number=100,height:number=50)
+        {
+			super();
+			this.text=(new Label).textField;
+			this.inputW=width;
+			this.inputH=height;
+		}
+		/**加载到舞台之后调用 */
+        protected render():void
+        {
+			super.render();
+			var w:number=this.inputW;
+			var h:number=this.inputH;
+			this.bg=new MoonDisplayObject;
+			this.bg.type=Const.SHAPE_RECT_ROUND;
+            this.bg.data={w:w,h:h,c:this.bgColor,ew:10,eh:10};
+            this.bg.setBackground(0,2);
+			this.addChild(this.bg);
+
+			var side:number=5;
+			this.text.x=side;
+			this.text.y=side;
+			this.text.width=w-side*2;
+			this.text.height=h-side*2;
+			this.text.type=egret.TextFieldType.INPUT;
+			this.addChild(this.text);
+		}
+		/**设置为多行 */
+		public setMultiline():void
+		{
+			this.text.wordWrap=true;
+			this.text.multiline=true;
+			this.text.verticalAlign = egret.VerticalAlign.TOP;
+		}
+		/**设置背景色 */
+		set color(value:number){
+			this.bgColor=value;
+			if(this.bg)this.bg.color=value;
+		};
+		/**设置最大数量 */
+		set maxChars(value:number){this.text.maxChars=value;}
+		/**设置输入内容限制（如只输入字母数字 a-zA-Z0-9） */
+		set restrict(value:string){this.text.restrict=value}
 	}
 	/**面板 */
 	export class PanelBar extends BasicBar

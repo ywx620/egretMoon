@@ -19,6 +19,7 @@
 * moon.TipsManager			TIPS显示管理，如单击按钮可在按钮上方显示一条TIPS说明
 * moon.MoonEvent				事件管理,提供事件广播dispEvent,事件帧听addEvent,删除事件removeEvent
 * moon.Label						统一文本类型字体等
+* moon.MoonDisplayObject可示对象
 
 # 接口
 * ILayout 所有设置排版的方法都继承了接口ILayout，接受两个参数type类型与interval间隔
