@@ -591,3 +591,61 @@ class TextInput extends BView
         input.y=400;
     }
 }
+/**城市背景地图 */
+class HouseMapTest extends BView
+{
+    protected render()
+    {
+        this.label="城市背景地图";
+        super.render();
+        this.colorBottom=0X999999;
+        this.createCloseBtn();
+        this.createView();
+    }
+    protected createView():void
+    {
+        var rect:egret.Rectangle=new egret.Rectangle(0,0,this.stageWidth,this.stageHeight);
+        var home:egret.Rectangle=new egret.Rectangle(10,200,20,200);
+        var map:MapHorizontalHouse=new MapHorizontalHouse(rect,home,0);
+        this.addChild(map);
+
+        var rect:egret.Rectangle=new egret.Rectangle(0,0,this.stageWidth,this.stageHeight);
+        var home:egret.Rectangle=new egret.Rectangle(10,100,40,100);
+        var map:MapHorizontalHouse=new MapHorizontalHouse(rect,home);
+        this.addChild(map);
+    }
+}
+/**城市背景地图 */
+class MapHorizontalHouse extends moon.MoonContainer
+{
+    private rect:Rectangle;
+    private house:Rectangle;
+    private color:number
+    public constructor(rect:Rectangle,house:Rectangle,color:number=-1)
+    {
+        super();
+        this.rect=rect;
+        this.house=house;
+        this.color=color;
+    }
+    protected render():void
+    {
+        var house:Rectangle=this.house;
+        var bg:Sprite=moon.MoonUI.getRect(this.rect.width,this.rect.height);
+        bg.alpha=0.1;
+        this.addChild(bg);
+
+        var count:number=this.rect.width/house.width;
+        var prevx:number=0;
+        for(var i:number=0;i<count;i++){
+            var color=this.color==-1?Math.random()*0XFFFFFF:this.color;
+            var width:number=house.width+Math.random()*house.x;
+            var height:number=house.height+Math.random()*house.y;
+            var rect=moon.MoonUI.getRect(width,height,color);
+            this.addChild(rect);
+            rect.y=this.rect.height-rect.height;
+            rect.x=prevx;
+            prevx=rect.x+rect.width;
+        }
+    }
+}

@@ -10,6 +10,7 @@
 	"game": [
 		"bin-debug/moon/MoonTheme.js",
 		"bin-debug/BView.js",
+		"bin-debug/GameTest.js",
 		"bin-debug/LoadingUI.js",
 		"bin-debug/Main.js",
 		"bin-debug/MainMoon.js",

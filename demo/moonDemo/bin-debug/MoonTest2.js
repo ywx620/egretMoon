@@ -591,4 +591,62 @@ var TextInput = (function (_super) {
     return TextInput;
 }(BView));
 __reflect(TextInput.prototype, "TextInput");
+/**城市背景地图 */
+var HouseMapTest = (function (_super) {
+    __extends(HouseMapTest, _super);
+    function HouseMapTest() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    HouseMapTest.prototype.render = function () {
+        this.label = "城市背景地图";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0X999999;
+        this.createCloseBtn();
+        this.createView();
+    };
+    HouseMapTest.prototype.createView = function () {
+        var rect = new egret.Rectangle(0, 0, this.stageWidth, this.stageHeight);
+        var home = new egret.Rectangle(10, 200, 20, 200);
+        var map = new MapHorizontalHouse(rect, home, 0);
+        this.addChild(map);
+        var rect = new egret.Rectangle(0, 0, this.stageWidth, this.stageHeight);
+        var home = new egret.Rectangle(10, 100, 40, 100);
+        var map = new MapHorizontalHouse(rect, home);
+        this.addChild(map);
+    };
+    return HouseMapTest;
+}(BView));
+__reflect(HouseMapTest.prototype, "HouseMapTest");
+/**城市背景地图 */
+var MapHorizontalHouse = (function (_super) {
+    __extends(MapHorizontalHouse, _super);
+    function MapHorizontalHouse(rect, house, color) {
+        if (color === void 0) { color = -1; }
+        var _this = _super.call(this) || this;
+        _this.rect = rect;
+        _this.house = house;
+        _this.color = color;
+        return _this;
+    }
+    MapHorizontalHouse.prototype.render = function () {
+        var house = this.house;
+        var bg = moon.MoonUI.getRect(this.rect.width, this.rect.height);
+        bg.alpha = 0.1;
+        this.addChild(bg);
+        var count = this.rect.width / house.width;
+        var prevx = 0;
+        for (var i = 0; i < count; i++) {
+            var color = this.color == -1 ? Math.random() * 0XFFFFFF : this.color;
+            var width = house.width + Math.random() * house.x;
+            var height = house.height + Math.random() * house.y;
+            var rect = moon.MoonUI.getRect(width, height, color);
+            this.addChild(rect);
+            rect.y = this.rect.height - rect.height;
+            rect.x = prevx;
+            prevx = rect.x + rect.width;
+        }
+    };
+    return MapHorizontalHouse;
+}(moon.MoonContainer));
+__reflect(MapHorizontalHouse.prototype, "MapHorizontalHouse");
 //# sourceMappingURL=MoonTest2.js.map

@@ -1014,11 +1014,24 @@ var moon;
             s.graphics.drawRect(x, y, w, h);
             s.graphics.endFill();
         };
-        BasicView.prototype.createBackground = function (c, x, y) {
+        /**创建纯色背景 */
+        BasicView.prototype.createBackground = function (c) {
             if (c === void 0) { c = 0; }
-            if (x === void 0) { x = 0; }
-            if (y === void 0) { y = 0; }
-            return this.createRect(this.stageWidth, this.stageHeight, c, x, y);
+            return this.createRect(this.stageWidth, this.stageHeight, c);
+        };
+        /**创建渐变色背景 */
+        BasicView.prototype.createBgGradientFill = function (c1, c2) {
+            if (c1 === void 0) { c1 = 0X017AC3; }
+            if (c2 === void 0) { c2 = 0XDDDDDD; }
+            var w = this.stageWidth;
+            var h = this.stageHeight;
+            var matrix = new egret.Matrix();
+            matrix.createGradientBox(w, h, Math.PI / 2);
+            var sprite = new Sprite;
+            sprite.graphics.beginGradientFill(egret.GradientType.LINEAR, [c1, c2], [1, 1], [0, 255], matrix);
+            sprite.graphics.drawRect(0, 0, w, h);
+            this.addChild(sprite);
+            return sprite;
         };
         return BasicView;
     }(MoonContainer));
@@ -1039,42 +1052,20 @@ var moon;
             traceSimple(n);
             return true;
         };
+        GameView.prototype.createButton = function (name, x, y) {
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            var btn = new moon.BasicButton;
+            btn.label = name;
+            btn.x = x;
+            btn.y = y;
+            this.addChild(btn);
+            return btn;
+        };
         return GameView;
     }(BasicView));
     moon.GameView = GameView;
     __reflect(GameView.prototype, "moon.GameView");
-    var MapHorizontalHouse = (function (_super) {
-        __extends(MapHorizontalHouse, _super);
-        function MapHorizontalHouse(rect, house, color) {
-            if (color === void 0) { color = -1; }
-            var _this = _super.call(this) || this;
-            _this.rect = rect;
-            _this.house = house;
-            _this.color = color;
-            return _this;
-        }
-        MapHorizontalHouse.prototype.render = function () {
-            var house = this.house;
-            var bg = moon.MoonUI.getRect(this.rect.width, this.rect.height);
-            bg.alpha = 0.1;
-            this.addChild(bg);
-            var count = this.rect.width / house.width;
-            var prevx = 0;
-            for (var i = 0; i < count; i++) {
-                var color = this.color == -1 ? Math.random() * 0XFFFFFF : this.color;
-                var width = house.width + Math.random() * house.x;
-                var height = house.height + Math.random() * house.y;
-                var rect = moon.MoonUI.getRect(width, height, color);
-                this.addChild(rect);
-                rect.y = this.rect.height - rect.height;
-                rect.x = prevx;
-                prevx = rect.x + rect.width;
-            }
-        };
-        return MapHorizontalHouse;
-    }(MoonContainer));
-    moon.MapHorizontalHouse = MapHorizontalHouse;
-    __reflect(MapHorizontalHouse.prototype, "moon.MapHorizontalHouse");
     /**九宫格*/
     var Scale9Image = (function (_super) {
         __extends(Scale9Image, _super);

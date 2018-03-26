@@ -697,9 +697,23 @@ module moon
 			s.graphics.drawRect(x,y,w,h);
 			s.graphics.endFill();
 		}
-		protected createBackground(c:number=0,x:number=0,y:number=0):Sprite
+		/**创建纯色背景 */
+		protected createBackground(c:number=0):Sprite
 		{
-			return this.createRect(this.stageWidth,this.stageHeight,c,x,y)
+			return this.createRect(this.stageWidth,this.stageHeight,c)
+		}
+		/**创建渐变色背景 */
+		protected createBgGradientFill(c1:number=0X017AC3,c2:number=0XDDDDDD):Sprite
+		{
+			var w:number=this.stageWidth;
+			var h:number=this.stageHeight;
+			var matrix:egret.Matrix = new egret.Matrix();
+			matrix.createGradientBox(w,h,Math.PI/2);
+			var sprite:Sprite=new Sprite;
+			sprite.graphics.beginGradientFill(egret.GradientType.LINEAR,[c1,c2],[1,1],[0,255],matrix);
+			sprite.graphics.drawRect(0,0,w,h);
+			this.addChild(sprite);
+			return sprite;
 		}
 	}
 	export class GameView extends BasicView
@@ -717,40 +731,14 @@ module moon
 			traceSimple(n);
 			return true;
 		}
+		protected createButton(name:string,x:number=0,y:number=0):moon.BasicButton
+		{
+			var btn:moon.BasicButton=new moon.BasicButton
+			btn.label=name;btn.x=x;btn.y=y;
+			this.addChild(btn);
+			return btn;
+		}
 	}
-    export class MapHorizontalHouse extends MoonContainer
-	{
-        private rect:Rectangle;
-        private house:Rectangle;
-        private color:number
-        public constructor(rect:Rectangle,house:Rectangle,color:number=-1)
-        {
-            super();
-            this.rect=rect;
-            this.house=house;
-            this.color=color;
-        }
-        protected render():void
-        {
-            var house:Rectangle=this.house;
-            var bg:Sprite=moon.MoonUI.getRect(this.rect.width,this.rect.height);
-            bg.alpha=0.1;
-            this.addChild(bg);
-
-            var count:number=this.rect.width/house.width;
-            var prevx:number=0;
-            for(var i:number=0;i<count;i++){
-                var color=this.color==-1?Math.random()*0XFFFFFF:this.color;
-                var width:number=house.width+Math.random()*house.x;
-                var height:number=house.height+Math.random()*house.y;
-                var rect=moon.MoonUI.getRect(width,height,color);
-                this.addChild(rect);
-                rect.y=this.rect.height-rect.height;
-                rect.x=prevx;
-                prevx=rect.x+rect.width;
-            }
-        }
-    }
 	/**九宫格*/
 	export class Scale9Image extends Bitmap
 	{

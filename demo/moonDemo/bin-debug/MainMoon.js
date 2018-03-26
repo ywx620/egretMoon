@@ -23,7 +23,7 @@ var MainMoon = (function (_super) {
         moon.showLog.getIns().init(this.stage);
         this.createBackground(0XFFCC00);
         var names = ["基础组件", "组件Progress", "组件ScrollBar", "游戏2048界面", "画画", "选色游戏", "别踩白块", "消灭星星界面", "游戏背包"];
-        names.push("组件输入框");
+        names.push("组件输入框", "城市背景", "游戏模版");
         var btns = [];
         for (var i = 0; i < names.length; i++) {
             var btn = new moon.BasicButton(moon.MoonUI.getRoundRect(300, 60, moon.Color.black), moon.MoonUI.getRoundRect(300, 60, moon.Color.gray));
@@ -78,6 +78,12 @@ var MainMoon = (function (_super) {
                 break;
             case 9:
                 view = new TextInput;
+                break;
+            case 10:
+                view = new HouseMapTest;
+                break;
+            case 11:
+                view = new GameTest;
                 break;
         }
         this.father.addChild(view);
