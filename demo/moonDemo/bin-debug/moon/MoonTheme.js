@@ -656,10 +656,10 @@ var moon;
          * rect.height是网格高
          * lc网格线颜色
          * */
-        MoonUI.getGridding = function (rect, lc) {
-            if (lc === void 0) { lc = 0; }
+        MoonUI.getGridding = function (rect, c) {
+            if (c === void 0) { c = 0; }
             var s = new Sprite;
-            s.graphics.lineStyle(0.1, lc);
+            s.graphics.lineStyle(0.1, c);
             var disx = rect.width / rect.x;
             var disy = rect.height / rect.y;
             for (var i = 0; i < rect.x; i++) {
@@ -670,6 +670,23 @@ var moon;
                 s.graphics.moveTo(i * disx, 0);
                 s.graphics.lineTo(i * disx, rect.height);
             }
+            return s;
+        };
+        /***得到爱心 */
+        MoonUI.getHeart = function (r, c) {
+            if (r === void 0) { r = 15; }
+            if (c === void 0) { c = 0XFF0000; }
+            var s = new Sprite;
+            s.graphics.beginFill(c);
+            s.graphics.moveTo(0, 0);
+            s.graphics.lineTo(0, -r * 2);
+            s.graphics.cubicCurveTo(r, -r * 2.5, r * 2, -r * 1.5, 0, 0);
+            s.graphics.moveTo(0, 0);
+            s.graphics.lineTo(0, -r * 2);
+            s.graphics.cubicCurveTo(-r, -r * 2.5, -r * 2, -r * 1.5, 0, 0);
+            s.graphics.endFill();
+            s.anchorOffsetX = -s.width / 2;
+            s.anchorOffsetY = -s.height;
             return s;
         };
         return MoonUI;
@@ -2204,5 +2221,147 @@ var moon;
     }(BasicBar));
     moon.PanelMoreManager = PanelMoreManager;
     __reflect(PanelMoreManager.prototype, "moon.PanelMoreManager", ["moon.IOnoff"]);
+    /**游戏加载模版 */
+    var GameLoad = (function (_super) {
+        __extends(GameLoad, _super);
+        function GameLoad() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.color = 0XF9AB03;
+            return _this;
+        }
+        GameLoad.prototype.render = function () {
+            _super.prototype.render.call(this);
+            this.createBgGradientFill();
+            var container = new Sprite;
+            this.addChild(container);
+            var sw = this.stageWidth;
+            var sh = this.stageHeight;
+            var w = 80;
+            var loadbg = MoonUI.getRoundRect(sw - 100, w, 0XFCE59D, 100, 100);
+            loadbg.x = (sw - loadbg.width) >> 1;
+            loadbg.y = (sh - loadbg.height) >> 1;
+            container.addChild(loadbg);
+            //--------
+            var progress = MoonUI.getRect(sw - 120, w - 10, this.color);
+            progress.x = (sw - progress.width) >> 1;
+            progress.y = (sh - progress.height) >> 1;
+            container.addChild(progress);
+            this.proWidth = progress.width;
+            var mask = MoonUI.getRoundRect(sw - 120, w - 10, 0, 100, 100);
+            mask.x = (sw - mask.width) >> 1;
+            mask.y = (sh - mask.height) >> 1;
+            progress.mask = mask;
+            this.progress = progress;
+            //--------
+            var txtbg = new MoonDisplayObject();
+            txtbg.type = moon.Const.SHAPE_CIRCLE;
+            txtbg.data = { r: w / 2, c: 0XE18E0D };
+            txtbg.setBackground(0XFFFFFF, 5);
+            this.addChild(txtbg);
+            txtbg.x = loadbg.x + loadbg.width - w / 2;
+            txtbg.y = loadbg.y + w / 2;
+            this.txtLoadPos = new Point(txtbg.x, txtbg.y);
+            var txtExp = this.createText(0, 0, "");
+            txtExp.size = 40;
+            txtExp.textColor = 0xB07300;
+            this.txtLoad = txtExp;
+            //--------
+            var txtTip = this.createText(0, 0, "游戏加载");
+            txtTip.size = 40;
+            txtTip.x = (sw - txtTip.width) >> 1;
+            txtTip.y = loadbg.y - txtTip.height * 2;
+            var txtName = this.createText(0, 0, "");
+            txtName.size = 40;
+            this.txtName = txtName;
+            this.updateName("敬请期待");
+            //--------
+            this.createAirFan();
+            this.airFan.x = txtbg.x;
+            this.airFan.y = txtbg.y;
+            this.createLogo();
+            this.update(0);
+            this.play();
+        };
+        GameLoad.prototype.loop = function (n) {
+            this.airFan.rotation += 3;
+            return true;
+        };
+        GameLoad.prototype.createAirFan = function () {
+            this.airFan = new Sprite;
+            this.addChild(this.airFan);
+            for (var i = 0; i < 4; i++) {
+                var shape = new Sprite();
+                this.airFan.addChild(shape);
+                shape.graphics.lineStyle(0);
+                shape.graphics.beginFill(0xFFFFFF);
+                shape.graphics.cubicCurveTo(-29, -28, 29, -28, 0, 0);
+                shape.graphics.endFill();
+                shape.rotation = i * 90;
+            }
+        };
+        GameLoad.prototype.createLogo = function () {
+            var sw = this.stageWidth;
+            var sh = this.stageHeight;
+            var logo = new MoonDisplayObject();
+            logo.type = moon.Const.SHAPE_CIRCLE;
+            logo.data = { r: 50, c: 0XE18E0D };
+            logo.setBackground(0XFFFFFF, 2);
+            logo.x = sw >> 1;
+            logo.y = logo.height;
+            this.addChild(logo);
+            var txtName = this.createText(0, 0, "ZL");
+            txtName.size = 40;
+            txtName.x = logo.x - (txtName.width >> 1);
+            txtName.y = logo.y - (txtName.height >> 1) - 15;
+            txtName = this.createText(0, 0, "game");
+            txtName.size = 30;
+            txtName.x = logo.x - (txtName.width >> 1);
+            txtName.y = logo.y - (txtName.height >> 1) + 15;
+            this.addChild(moon.MoonUI.getHeart(15, 0XFFFFFF));
+            txtName = this.createText(0, 0, "子乐游戏");
+            txtName.size = 40;
+            txtName.textColor = 0XE09F21;
+            txtName.x = sw - txtName.width - 10;
+            txtName.y = sh - txtName.height - 10;
+        };
+        /**创建渐变色背景 */
+        GameLoad.prototype.createBgGradientFill = function (c1, c2) {
+            if (c1 === void 0) { c1 = 0XFDD559; }
+            if (c2 === void 0) { c2 = 0XE09F21; }
+            var w = this.stageWidth;
+            var h = this.stageHeight;
+            var matrix = new egret.Matrix();
+            matrix.createGradientBox(w * 2, h * 2, Math.PI / 2);
+            var sprite = new Sprite;
+            sprite.graphics.beginGradientFill(egret.GradientType.RADIAL, [c1, c2], [1, 1], [0, 255], matrix);
+            sprite.graphics.drawRect(0, 0, w, h);
+            this.addChild(sprite);
+            return sprite;
+        };
+        GameLoad.prototype.updateName = function (name) {
+            this.txtName.text = name;
+            this.txtName.x = (this.stageWidth - this.txtName.width) >> 1;
+            this.txtName.y = this.stageHeight / 2 + this.txtName.height * 2;
+        };
+        GameLoad.prototype.update = function (value) {
+            if (value > 1)
+                return;
+            if (value > 0.99)
+                this.stop();
+            this.progress.scaleX = value;
+            var txtExp = this.txtLoad;
+            var pos = this.txtLoadPos;
+            txtExp.text = Math.ceil(value * 100) + "%";
+            txtExp.x = (this.stageWidth - txtExp.width) >> 1;
+            txtExp.y = pos.y - txtExp.height / 2;
+            var exp = MoonUI.getCircle(5 + Math.random() * 5, this.color, pos.x, pos.y);
+            exp.y = 10 - Math.random() * 20;
+            this.addChildAt(exp, 2);
+            Tween.get(exp).to({ x: -this.proWidth, alpha: 0 }, 1000);
+        };
+        return GameLoad;
+    }(moon.GameView));
+    moon.GameLoad = GameLoad;
+    __reflect(GameLoad.prototype, "moon.GameLoad");
 })(moon || (moon = {}));
 //# sourceMappingURL=MoonTheme.js.map

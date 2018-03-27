@@ -150,6 +150,7 @@ var Main = (function (_super) {
      */
     Main.prototype.createGameScene = function () {
         this.addChild(new MainMoon);
+        //this.addChild(new moon.GameLoad);
     };
     return Main;
 }(egret.DisplayObjectContainer));

@@ -87,6 +87,8 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene() {
+        
         this.addChild(new MainMoon)
+        //this.addChild(new moon.GameLoad);
     }
 }

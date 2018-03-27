@@ -1,5 +1,5 @@
 class Button extends moon.BasicButton {};
-/**城市背景地图 */
+/**游戏模版 */
 class GameTest extends BView
 {
     protected render()
@@ -12,11 +12,11 @@ class GameTest extends BView
     }
     protected createView():void
     {
-        this.addItem(new Game)
+        this.addItem(new GameBasic);
     }
 }
 /**游戏模版 */
-class Game extends moon.GameView
+class GameBasic extends moon.GameView
 {
     private panelStart:PanelStart;
     private panelOver:PanelOver;

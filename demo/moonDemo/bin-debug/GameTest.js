@@ -31,19 +31,19 @@ var GameTest = (function (_super) {
         this.createView();
     };
     GameTest.prototype.createView = function () {
-        this.addItem(new Game);
+        this.addItem(new GameBasic);
     };
     return GameTest;
 }(BView));
 __reflect(GameTest.prototype, "GameTest");
 /**游戏模版 */
-var Game = (function (_super) {
-    __extends(Game, _super);
-    function Game() {
+var GameBasic = (function (_super) {
+    __extends(GameBasic, _super);
+    function GameBasic() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     /**加载到舞台之后调用 */
-    Game.prototype.render = function () {
+    GameBasic.prototype.render = function () {
         _super.prototype.render.call(this);
         moon.showLog.getIns().init(this.stage);
         this.createBgGradientFill();
@@ -57,7 +57,7 @@ var Game = (function (_super) {
         this.addChild(this.panelStart);
         this.initGame();
     };
-    Game.prototype.initGame = function () {
+    GameBasic.prototype.initGame = function () {
         this.level = 1;
         this.score = 0;
         this.blood = 300;
@@ -65,45 +65,45 @@ var Game = (function (_super) {
         this.updateLevel();
         this.updateScore();
     };
-    Game.prototype.start = function (e) {
+    GameBasic.prototype.start = function (e) {
         this.initGame();
         this.play();
     };
-    Game.prototype.loop = function (n) {
+    GameBasic.prototype.loop = function (n) {
         this.blood--;
         this.score += 10;
         this.updateScore();
         this.updateBlood();
         return true;
     };
-    Game.prototype.over = function () {
+    GameBasic.prototype.over = function () {
         this.addChild(this.panelOver);
         this.panelOver.update({ score: this.score, level: this.level });
         this.stop();
     };
-    Game.prototype.updateLevel = function () {
+    GameBasic.prototype.updateLevel = function () {
         this.txtLevel.text = "level:" + this.level;
     };
-    Game.prototype.updateScore = function () {
+    GameBasic.prototype.updateScore = function () {
         this.txtScore.text = "score:" + this.score;
         if (this.score > 0 && this.score % 200 == 0) {
             this.level++;
             this.updateLevel();
         }
     };
-    Game.prototype.updateBlood = function () {
+    GameBasic.prototype.updateBlood = function () {
         this.txtBlood.text = "blood:" + this.blood;
         if (this.blood == 0) {
             this.over();
         }
     };
-    Game.prototype.dispose = function () {
+    GameBasic.prototype.dispose = function () {
         this.stop();
         _super.prototype.dispose.call(this);
     };
-    return Game;
+    return GameBasic;
 }(moon.GameView));
-__reflect(Game.prototype, "Game");
+__reflect(GameBasic.prototype, "GameBasic");
 /**游戏开始界面 */
 var PanelStart = (function (_super) {
     __extends(PanelStart, _super);

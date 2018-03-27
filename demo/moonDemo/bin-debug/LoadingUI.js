@@ -40,21 +40,16 @@ var LoadingUI = (function (_super) {
     __extends(LoadingUI, _super);
     function LoadingUI() {
         var _this = _super.call(this) || this;
-        //this.createView();
-        _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
+        _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.addToStage, _this);
         return _this;
     }
-    LoadingUI.prototype.createView = function () {
-        this.textField = new egret.TextField();
-        this.addChild(this.textField);
-        this.textField.width = 480;
-        this.textField.height = 100;
-        this.textField.x = (this.stage.stageWidth - this.textField.width) >> 1;
-        this.textField.y = (this.stage.stageHeight - this.textField.height) >> 1;
-        this.textField.textAlign = "center";
+    LoadingUI.prototype.addToStage = function () {
+        this.removeEventListener(egret.Event.ADDED_TO_STAGE, this.addToStage, this);
+        this.gameLoad = new moon.GameLoad;
+        this.addChild(this.gameLoad);
     };
     LoadingUI.prototype.onProgress = function (current, total) {
-        this.textField.text = "Loading..." + current + "/" + total;
+        this.gameLoad.update(current / total);
     };
     return LoadingUI;
 }(egret.Sprite));
