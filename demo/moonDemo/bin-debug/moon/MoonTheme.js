@@ -985,6 +985,8 @@ var moon;
         MoonContainer.prototype.dispose = function () {
             this.removeChildAll(0, -1, true);
             this.dataEvent = null;
+            this.stageWidth = null;
+            this.stageHeight = null;
         };
         return MoonContainer;
     }(DisplayObjectContainer));
@@ -1060,9 +1062,12 @@ var moon;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         GameView.prototype.play = function () {
+            this.stop();
+            this.isPlay = true;
             egret.startTick(this.loop, this);
         };
         GameView.prototype.stop = function () {
+            this.isPlay = false;
             egret.stopTick(this.loop, this);
         };
         GameView.prototype.loop = function (n) {
@@ -1089,8 +1094,13 @@ var moon;
         function Scale9Image(name, rect) {
             if (rect === void 0) { rect = null; }
             var _this = _super.call(this) || this;
-            _this.texture = RES.getRes(name);
-            _this.scale9Grid = rect || new Rectangle(8, 8, 2, 2);
+            if (RES.hasRes(name)) {
+                _this.texture = RES.getRes(name);
+                _this.scale9Grid = rect || new Rectangle(8, 8, 2, 2);
+            }
+            else {
+                egret.error("找不到资源：" + name);
+            }
             return _this;
         }
         return Scale9Image;

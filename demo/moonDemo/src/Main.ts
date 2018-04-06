@@ -38,6 +38,8 @@ class Main extends egret.DisplayObjectContainer {
 
     private onAddToStage(event: egret.Event) {
 
+        egret.Capabilities.isMobile?this.stage.scaleMode=egret.StageScaleMode.FIXED_WIDTH:this.stage.scaleMode=egret.StageScaleMode.SHOW_ALL;
+
         egret.lifecycle.addLifecycleListener((context) => {
             // custom lifecycle plugin
 

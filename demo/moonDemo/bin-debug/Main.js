@@ -79,6 +79,7 @@ var Main = (function (_super) {
         return _this;
     }
     Main.prototype.onAddToStage = function (event) {
+        egret.Capabilities.isMobile ? this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH : this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
             context.onUpdate = function () {

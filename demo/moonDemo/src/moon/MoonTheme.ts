@@ -683,6 +683,8 @@ module moon
 		{
 			this.removeChildAll(0,-1,true);
 			this.dataEvent=null;
+			this.stageWidth=null;
+			this.stageHeight=null;
 		}
     }
 	export class BasicView extends MoonContainer
@@ -734,12 +736,16 @@ module moon
 	}
 	export class GameView extends BasicView
 	{
+		protected isPlay:boolean;
 		protected play():void
 		{
+			this.stop();
+			this.isPlay=true;
 			egret.startTick(this.loop, this);
 		}
 		protected stop():void
 		{
+			this.isPlay=false;
 			egret.stopTick(this.loop, this);
 		}
 		protected loop(n:number):boolean
@@ -761,8 +767,12 @@ module moon
 		public constructor(name:string,rect:Rectangle=null)
         {
             super();
-        	this.texture = RES.getRes(name);
-			this.scale9Grid=rect||new Rectangle(8,8,2,2);
+			if(RES.hasRes(name)){
+				this.texture = RES.getRes(name);
+				this.scale9Grid=rect||new Rectangle(8,8,2,2);
+			}else{
+				 egret.error("找不到资源："+name);
+			}
 		}
 	}
 	export class BasicTips extends MoonContainer
