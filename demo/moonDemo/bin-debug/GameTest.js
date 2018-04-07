@@ -45,16 +45,27 @@ var GameAnimation = (function (_super) {
     GameAnimation.prototype.render = function () {
         this.label = "动画模版";
         _super.prototype.render.call(this);
-        this.colorBottom = 0X999999;
+        this.colorBottom = 0XCCCCCC;
         this.createCloseBtn();
         this.createView();
     };
     GameAnimation.prototype.createView = function () {
         var animation = new moon.ImageAnimation("body", 1, 13);
         animation.loop = true;
-        //animation.ftp=12;
+        animation.ftp = 6;
         animation.play();
         this.addItem(animation, 100, 100);
+        this.body = animation;
+        this.addItem(new moon.Label("控制速度", 0), 100, 10);
+        var s = new moon.SliderBar;
+        s.value = 0;
+        this.addItem(s, 50, 50);
+        s.addEvent(moon.MoonEvent.OVER, this.onSlider, this);
+    };
+    GameAnimation.prototype.onSlider = function (e) {
+        var s = e.currentTarget;
+        this.body.ftp = 6 + s.value * 54;
+        this.body.play();
     };
     return GameAnimation;
 }(BView));
