@@ -45,7 +45,7 @@ class GameAnimation extends BView
     private onSlider(e:moon.MoonEvent):void
     {
         var s:moon.SliderBar=e.currentTarget as moon.SliderBar;
-        this.body.ftp=6+s.value*54;
+        this.body.ftp=6+s.value*53;
         this.body.play();
     }
 }
