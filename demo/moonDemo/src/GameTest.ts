@@ -29,6 +29,13 @@ class GameAnimation extends BView
     }
     protected createView():void
     {
+        //背景为贴图
+        var chartlet:moon.ImageChartlet=new moon.ImageChartlet("wallMin_jpg",40);
+        //chartlet.layout(moon.Const.VERTICAL);//竖版
+        chartlet.setMultiLine(4);//多行版，一行有4个
+        this.addItem(chartlet);
+
+        //图像动画
         var animation:moon.ImageAnimation=new moon.ImageAnimation("body",1,13);
         animation.loop=true;
         animation.ftp=6;
@@ -36,7 +43,7 @@ class GameAnimation extends BView
         this.addItem(animation,100,100);
         this.body=animation;
 
-        this.addItem(new moon.Label("控制速度",0),100,10);
+        this.addItem(new moon.Label("控制速度",0XFFFFFF),100,10);
         var s:moon.SliderBar=new moon.SliderBar;
         s.value=0;
         this.addItem(s,50,50);
@@ -45,7 +52,7 @@ class GameAnimation extends BView
     private onSlider(e:moon.MoonEvent):void
     {
         var s:moon.SliderBar=e.currentTarget as moon.SliderBar;
-        this.body.ftp=6+s.value*53;
+        this.body.ftp=6+s.value*54;
         this.body.play();
     }
 }

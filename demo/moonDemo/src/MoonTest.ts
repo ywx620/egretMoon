@@ -277,6 +277,7 @@ class MoonTest extends moon.MoonContainer
             btn.label=names[i];
             tabbar.addItem(btn);
         }
+        tabbar.selectIndex=0;
         tabbar.layout(moon.Const.HORIZONTAL,10);
 
         var names:any[]=["标题一","标题二","标题三","标题四","标题五"];

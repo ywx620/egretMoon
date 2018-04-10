@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,tips_png,btn1_png,btn2_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,tips_png,btn1_png,btn2_png,body1_png,body2_png,body3_png,body4_png,body5_png,body6_png,body7_png,body8_png,body9_png,body10_png,body11_png,body12_png,body13_png,wallMin_jpg",
 			"name": "preload"
 		}
 	],
@@ -35,6 +35,76 @@
 			"name": "btn2_png",
 			"type": "image",
 			"url": "assets/btn2.png"
+		},
+		{
+			"name": "body1_png",
+			"type": "image",
+			"url": "assets/body1.png"
+		},
+		{
+			"name": "body2_png",
+			"type": "image",
+			"url": "assets/body2.png"
+		},
+		{
+			"name": "body3_png",
+			"type": "image",
+			"url": "assets/body3.png"
+		},
+		{
+			"name": "body4_png",
+			"type": "image",
+			"url": "assets/body4.png"
+		},
+		{
+			"name": "body5_png",
+			"type": "image",
+			"url": "assets/body5.png"
+		},
+		{
+			"name": "body6_png",
+			"type": "image",
+			"url": "assets/body6.png"
+		},
+		{
+			"name": "body7_png",
+			"type": "image",
+			"url": "assets/body7.png"
+		},
+		{
+			"name": "body8_png",
+			"type": "image",
+			"url": "assets/body8.png"
+		},
+		{
+			"name": "body9_png",
+			"type": "image",
+			"url": "assets/body9.png"
+		},
+		{
+			"name": "body10_png",
+			"type": "image",
+			"url": "assets/body10.png"
+		},
+		{
+			"name": "body11_png",
+			"type": "image",
+			"url": "assets/body11.png"
+		},
+		{
+			"name": "body12_png",
+			"type": "image",
+			"url": "assets/body12.png"
+		},
+		{
+			"name": "body13_png",
+			"type": "image",
+			"url": "assets/body13.png"
+		},
+		{
+			"name": "wallMin_jpg",
+			"type": "image",
+			"url": "assets/wallMin.jpg"
 		}
 	]
 }

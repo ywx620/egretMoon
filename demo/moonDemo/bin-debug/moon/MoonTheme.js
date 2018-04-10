@@ -141,6 +141,11 @@ var traceSimple = function () {
     str = str.substr(0, str.length - 1);
     moon.showLog.getIns().log(str);
 };
+var alertAuto = function (title, closeTime) {
+    if (title === void 0) { title = "提示或警告"; }
+    if (closeTime === void 0) { closeTime = 3; }
+    moon.AlertManager.getIns().alertAuto(title, closeTime);
+};
 //----------------------------------------------
 var moon;
 (function (moon) {
@@ -731,6 +736,32 @@ var moon;
     }());
     moon.showLog = showLog;
     __reflect(showLog.prototype, "moon.showLog");
+    var AlertManager = (function () {
+        function AlertManager() {
+        }
+        AlertManager.getIns = function () {
+            if (this.instance == null) {
+                this.instance = new AlertManager();
+            }
+            return this.instance;
+        };
+        AlertManager.prototype.init = function (stage) {
+            this.stage = stage;
+        };
+        AlertManager.prototype.alertAuto = function (title, closeTime) {
+            if (title === void 0) { title = "提示或警告"; }
+            if (closeTime === void 0) { closeTime = 3; }
+            var a = new AlertAutoBar(title, closeTime);
+            if (this.stage)
+                this.stage.addChild(a);
+            else
+                trace("调用alertAuto时请先执行AlertManager的init初始化函数");
+            return a;
+        };
+        return AlertManager;
+    }());
+    moon.AlertManager = AlertManager;
+    __reflect(AlertManager.prototype, "moon.AlertManager");
     var TipsManager = (function () {
         function TipsManager() {
             this.bgName = "tips_png"; //TIPS的背景图片
@@ -796,23 +827,25 @@ var moon;
             return _this;
         }
         //button event
-        MoonEvent.MOUSE_OVER = "event-over";
-        MoonEvent.MOUSE_OUT = "event-out";
-        MoonEvent.MOUSE_DOWN = "event-down";
-        MoonEvent.MOUSE_MOVE = "event-move";
-        MoonEvent.MOUSE_UP = "event-up";
-        MoonEvent.CLICK = "event-click";
+        MoonEvent.MOUSE_OVER = "event-over"; //移进
+        MoonEvent.MOUSE_OUT = "event-out"; //移出
+        MoonEvent.MOUSE_DOWN = "event-down"; //点下
+        MoonEvent.MOUSE_MOVE = "event-move"; //移动
+        MoonEvent.MOUSE_UP = "event-up"; //弹开
+        MoonEvent.CLICK = "event-click"; //单击
         //tabbar event
-        MoonEvent.CHANGE = "change";
-        MoonEvent.COMPLETE = "complete";
-        MoonEvent.RENDER_COMPLETE = "render complete";
-        MoonEvent.UPDATE = "update";
-        MoonEvent.START = "start";
-        MoonEvent.MOVE = "move";
-        MoonEvent.OVER = "over";
-        MoonEvent.PAUSE = "pause";
-        MoonEvent.OPEN = "open";
-        MoonEvent.CLOSE = "close";
+        MoonEvent.CHANGE = "change"; //更换
+        MoonEvent.COMPLETE = "complete"; //完成
+        MoonEvent.RENDER_COMPLETE = "render complete"; //渲染完成
+        MoonEvent.UPDATE = "update"; //更新
+        MoonEvent.START = "start"; //开始
+        MoonEvent.MOVE = "move"; //移动
+        MoonEvent.OVER = "over"; //结束
+        MoonEvent.PAUSE = "pause"; //暂停
+        MoonEvent.STOP = "stop"; //停止
+        MoonEvent.PLAY = "play"; //播放
+        MoonEvent.OPEN = "open"; //开启
+        MoonEvent.CLOSE = "close"; //关闭
         return MoonEvent;
     }(egret.EventDispatcher));
     moon.MoonEvent = MoonEvent;
@@ -1034,9 +1067,13 @@ var moon;
             s.graphics.endFill();
         };
         /**创建纯色背景 */
-        BasicView.prototype.createBackground = function (c) {
+        BasicView.prototype.createBackground = function (c, a) {
             if (c === void 0) { c = 0; }
-            return this.createRect(this.stageWidth, this.stageHeight, c);
+            if (a === void 0) { a = 1; }
+            var s = this.createRect(this.stageWidth, this.stageHeight, c);
+            s.alpha = a;
+            s.touchEnabled = true; //用于阻止下层点击事件
+            return s;
         };
         /**创建渐变色背景 */
         BasicView.prototype.createBgGradientFill = function (c1, c2) {
@@ -1855,7 +1892,56 @@ var moon;
     }(CheckBoxBar));
     moon.RadioButtonBar = RadioButtonBar;
     __reflect(RadioButtonBar.prototype, "moon.RadioButtonBar");
-    /**提示警告框 */
+    /**提示警告框 自动关闭*/
+    var AlertAutoBar = (function (_super) {
+        __extends(AlertAutoBar, _super);
+        function AlertAutoBar(title, closeTime) {
+            if (title === void 0) { title = "提示或警告"; }
+            if (closeTime === void 0) { closeTime = 3; }
+            var _this = _super.call(this) || this;
+            _this.bgColor = Color.gray;
+            _this.text = (new Label).textField;
+            _this.text.text = title;
+            _this.time = closeTime;
+            return _this;
+        }
+        /**加载到舞台之后调用 */
+        AlertAutoBar.prototype.render = function () {
+            _super.prototype.render.call(this);
+            var tw = this.text.width;
+            var th = this.text.height;
+            var w = tw + 20;
+            var h = th + 20;
+            var x = (this.stageWidth - w) >> 1;
+            var y = (this.stageHeight - w) >> 1;
+            this.bg = new MoonDisplayObject;
+            this.bg.type = Const.SHAPE_RECT_ROUND;
+            this.bg.data = { w: w, h: h, c: this.bgColor, ew: 10, eh: 10 };
+            this.bg.setBackground(0, 2);
+            this.bg.x = x;
+            this.bg.y = y;
+            this.addChild(this.bg);
+            this.text.x = x + ((w - tw) >> 1);
+            this.text.y = y + ((h - th) >> 1);
+            this.addChild(this.text);
+            this.alpha = 0;
+            var ty = this.y - 50;
+            Tween.get(this).to({ alpha: 1 }, 500).wait(this.time * 1000).to({ alpha: 0, y: ty }, 500).call(this.backCall, this);
+        };
+        AlertAutoBar.prototype.backCall = function () {
+            Tween.removeTweens(this);
+            this.removeFromParent(true);
+            this.bg = null;
+            this.bgColor = null;
+            this.text = null;
+            this.time = null;
+            this.dispEvent(MoonEvent.CLOSE);
+        };
+        return AlertAutoBar;
+    }(BasicBar));
+    moon.AlertAutoBar = AlertAutoBar;
+    __reflect(AlertAutoBar.prototype, "moon.AlertAutoBar");
+    /**提示警告框 手动关闭*/
     var AlertBar = (function (_super) {
         __extends(AlertBar, _super);
         function AlertBar(title) {
@@ -1869,9 +1955,7 @@ var moon;
         /**加载到舞台之后调用 */
         AlertBar.prototype.render = function () {
             _super.prototype.render.call(this);
-            var node = this.createBackground(0);
-            node.alpha = 0.3;
-            node.touchEnabled = true;
+            var node = this.createBackground(0, 0.3);
             var w = this.stageWidth - 100;
             var x = (this.stageWidth - w) >> 1;
             var y = (this.stageHeight - w) >> 1;
@@ -1894,6 +1978,9 @@ var moon;
         };
         AlertBar.prototype.onClick = function (e) {
             this.removeFromParent(true);
+            this.bg = null;
+            this.bgColor = null;
+            this.text = null;
             this.dispEvent(MoonEvent.CLOSE);
         };
         Object.defineProperty(AlertBar.prototype, "color", {

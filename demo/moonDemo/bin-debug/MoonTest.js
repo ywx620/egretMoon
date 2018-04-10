@@ -258,6 +258,7 @@ var MoonTest = (function (_super) {
             btn.label = names[i];
             tabbar.addItem(btn);
         }
+        tabbar.selectIndex = 0;
         tabbar.layout(moon.Const.HORIZONTAL, 10);
         var names = ["标题一", "标题二", "标题三", "标题四", "标题五"];
         var tabbar = new moon.TabbarBar;

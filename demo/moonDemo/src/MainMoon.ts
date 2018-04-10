@@ -4,12 +4,11 @@ class MainMoon extends moon.BasicView
     protected render():void
     {
         super.render();
-        var isMobile:boolean=egret.Capabilities.isMobile;
-        if(isMobile){//运行在移动端时模式设置下面这个
-            this.stage.scaleMode=egret.StageScaleMode.FIXED_WIDTH;
-        }
+        
         moon.TipsManager.getIns().init(this.stage);
         moon.showLog.getIns().init(this.stage);
+        moon.AlertManager.getIns().init(this.stage);
+
         this.createBackground(0XFFCC00);
         var names:string[]=["基础组件","组件Progress","组件ScrollBar","游戏2048界面","画画","选色游戏","别踩白块","消灭星星界面","游戏背包"];
         names.push("组件输入框","城市背景","游戏模版","动画模版")
@@ -35,6 +34,9 @@ class MainMoon extends moon.BasicView
 		// tw.to({y:500},2000,Ease.sineOut);
 
         //this.addChild(new moon.AlertBar("-请点确定按钮-\n然后再点其它按钮"))
+
+        //this.addChild(new moon.AlertAutoBar());
+        alertAuto("只显示1秒然后自动关闭",1);
 
     }
     protected click(e:egret.TouchEvent):void

@@ -29,6 +29,11 @@ var traceSimple=function(...arg):void
 	str=str.substr(0,str.length-1);
     moon.showLog.getIns().log(str);
 }
+var alertAuto=function(title:string="提示或警告",closeTime:number=3):void
+{
+	moon.AlertManager.getIns().alertAuto(title,closeTime)
+}
+
 //----------------------------------------------
 module moon
 {
@@ -434,6 +439,28 @@ module moon
 			this.txtMessage.textColor=color;
 		}
 	}
+	export class AlertManager
+	{
+		private static instance:AlertManager;
+		private stage:Stage;
+		public static getIns():AlertManager{
+			if(this.instance == null){
+					this.instance = new AlertManager();
+			}
+			return this.instance;
+		}
+		public init(stage:Stage):void
+		{
+			this.stage=stage;
+		}
+		public alertAuto(title:string="提示或警告",closeTime:number=3):AlertAutoBar
+		{
+			var a:AlertAutoBar=new AlertAutoBar(title,closeTime);
+			if(this.stage) this.stage.addChild(a);
+			else	trace("调用alertAuto时请先执行AlertManager的init初始化函数")
+			return a;
+		}
+	}
 	export class TipsManager
 	{
 		private static instance:TipsManager;
@@ -492,24 +519,26 @@ module moon
 	export class MoonEvent extends egret.EventDispatcher
 	{
 		//button event
-		public static readonly MOUSE_OVER:string="event-over";
-		public static readonly MOUSE_OUT:string="event-out";
-		public static readonly MOUSE_DOWN:string="event-down";
-		public static readonly MOUSE_MOVE:string="event-move";
-		public static readonly MOUSE_UP:string="event-up";
-		public static readonly CLICK:string="event-click";
+		public static readonly MOUSE_OVER:string="event-over";//移进
+		public static readonly MOUSE_OUT:string="event-out";//移出
+		public static readonly MOUSE_DOWN:string="event-down";//点下
+		public static readonly MOUSE_MOVE:string="event-move";//移动
+		public static readonly MOUSE_UP:string="event-up";//弹开
+		public static readonly CLICK:string="event-click";//单击
 		
 		//tabbar event
-		public static readonly CHANGE:string="change";
-		public static readonly COMPLETE:string="complete";
-		public static readonly RENDER_COMPLETE:string="render complete";
-		public static readonly UPDATE:string="update";
-		public static readonly START:string="start";
-		public static readonly MOVE:string="move";
-		public static readonly OVER:string="over";
-		public static readonly PAUSE:string="pause";
-		public static readonly OPEN:string="open";
-		public static readonly CLOSE:string="close";
+		public static readonly CHANGE:string="change";//更换
+		public static readonly COMPLETE:string="complete";//完成
+		public static readonly RENDER_COMPLETE:string="render complete";//渲染完成
+		public static readonly UPDATE:string="update";//更新
+		public static readonly START:string="start";//开始
+		public static readonly MOVE:string="move";//移动
+		public static readonly OVER:string="over";//结束
+		public static readonly PAUSE:string="pause";//暂停
+		public static readonly STOP:string="stop";//停止
+		public static readonly PLAY:string="play";//播放
+		public static readonly OPEN:string="open";//开启
+		public static readonly CLOSE:string="close";//关闭
 		
 		public currentTarget:Object;
 		public type:string;
@@ -716,9 +745,11 @@ module moon
 			s.graphics.endFill();
 		}
 		/**创建纯色背景 */
-		protected createBackground(c:number=0):Sprite
+		protected createBackground(c:number=0,a:number=1):Sprite
 		{
-			return this.createRect(this.stageWidth,this.stageHeight,c)
+			var s:Sprite=this.createRect(this.stageWidth,this.stageHeight,c);
+			s.alpha=a;s.touchEnabled=true;//用于阻止下层点击事件
+			return s;
 		}
 		/**创建渐变色背景 */
 		protected createBgGradientFill(c1:number=0X017AC3,c2:number=0XDDDDDD):Sprite
@@ -1449,7 +1480,58 @@ module moon
 			return this._selectIndex;
 		}
 	}
-	/**提示警告框 */
+	/**提示警告框 自动关闭*/
+	export class AlertAutoBar extends BasicBar
+	{
+		private bg:MoonDisplayObject;
+		private bgColor:number;
+		private text:TextField;
+		private time:number;
+		public constructor(title:string="提示或警告",closeTime:number=3)
+        {
+			super();
+			this.bgColor=Color.gray;
+			this.text=(new Label).textField;
+			this.text.text=title;
+			this.time=closeTime;
+		}
+		/**加载到舞台之后调用 */
+        protected render():void
+        {
+			super.render();
+
+			var tw:number=this.text.width;
+			var th:number=this.text.height;
+			var w:number=tw+20;
+			var h:number=th+20;
+			var x:number=(this.stageWidth-w)>>1;
+			var y:number=(this.stageHeight-w)>>1;
+			this.bg=new MoonDisplayObject;
+			this.bg.type=Const.SHAPE_RECT_ROUND;
+            this.bg.data={w:w,h:h,c:this.bgColor,ew:10,eh:10};
+            this.bg.setBackground(0,2);
+			this.bg.x=x;this.bg.y=y;
+			this.addChild(this.bg);
+
+			this.text.x=x+((w-tw)>>1);
+			this.text.y=y+((h-th)>>1);
+			this.addChild(this.text);
+			this.alpha=0;
+			var ty=this.y-50;
+			Tween.get(this).to({alpha:1},500).wait(this.time*1000).to({alpha:0,y:ty},500).call(this.backCall,this);
+		}
+		private backCall():void
+		{
+			Tween.removeTweens(this);
+			this.removeFromParent(true);
+			this.bg=null;
+			this.bgColor=null;
+			this.text=null;
+			this.time=null;
+			this.dispEvent(MoonEvent.CLOSE);
+		}
+	}
+	/**提示警告框 手动关闭*/
 	export class AlertBar extends BasicBar
 	{
 		private bg:MoonDisplayObject;
@@ -1466,9 +1548,7 @@ module moon
         protected render():void
         {
 			super.render();
-			var node:Sprite=this.createBackground(0);
-			node.alpha=0.3;
-			node.touchEnabled=true
+			var node:Sprite=this.createBackground(0,0.3);
 			
 			var w:number=this.stageWidth-100;
 			var x:number=(this.stageWidth-w)>>1;
@@ -1494,6 +1574,9 @@ module moon
 		private onClick(e:egret.TouchEvent):void
 		{
 			this.removeFromParent(true);
+			this.bg=null;
+			this.bgColor=null;
+			this.text=null;
 			this.dispEvent(MoonEvent.CLOSE);
 		}
 		/**设置背景色 */

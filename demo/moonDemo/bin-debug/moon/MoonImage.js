@@ -11,6 +11,7 @@ r.prototype = e.prototype, t.prototype = new r();
 var MOON_FTP = 24;
 var moon;
 (function (moon) {
+    /**图像类 */
     var Image = (function (_super) {
         __extends(Image, _super);
         function Image(skinName) {
@@ -35,46 +36,100 @@ var moon;
                 //egret.error("找不到key"+this.skinName);
             }
         };
+        /**设置锚点在中心 */
+        Image.prototype.setAnchorCenter = function () {
+            this.anchorOffsetX = this.width >> 1;
+            this.anchorOffsetY = this.height >> 1;
+        };
         return Image;
     }(moon.MoonContainer));
     moon.Image = Image;
     __reflect(Image.prototype, "moon.Image");
-    var BasicAnimation = (function (_super) {
-        __extends(BasicAnimation, _super);
-        function BasicAnimation(skinName, start, end) {
-            if (skinName === void 0) { skinName = ""; }
-            var _this = _super.call(this) || this;
+    /**图像容器类 */
+    var BasicContainer = (function (_super) {
+        __extends(BasicContainer, _super);
+        function BasicContainer() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.items = [];
             _this.index = 0;
+            return _this;
+        }
+        BasicContainer.prototype.addItem = function (item) {
+            this.items.push(item);
+        };
+        BasicContainer.prototype.removeItem = function (index) {
+            if (this.hasItem(index)) {
+                this.items.splice(index, 1);
+            }
+        };
+        BasicContainer.prototype.getItem = function (index) {
+            return this.items[index];
+        };
+        BasicContainer.prototype.hasItem = function (index) {
+            return this.items.length > 0 && (index >= 0 && index < this.items.length);
+        };
+        BasicContainer.prototype.getNextItem = function () {
+            return this.items[this.index++];
+        };
+        BasicContainer.prototype.reset = function () {
+            this.index = 0;
+        };
+        return BasicContainer;
+    }(Image));
+    moon.BasicContainer = BasicContainer;
+    __reflect(BasicContainer.prototype, "moon.BasicContainer");
+    /**图像贴图类 */
+    var ImageChartlet = (function (_super) {
+        __extends(ImageChartlet, _super);
+        function ImageChartlet(skinName, count) {
+            if (count === void 0) { count = 1; }
+            var _this = _super.call(this) || this;
+            _this.skinName = skinName;
+            for (var i = 0; i < count; i++) {
+                _this.items.push(_this.getBitmap());
+            }
+            return _this;
+        }
+        ImageChartlet.prototype.getBitmap = function () {
+            var skin;
+            if (RES.hasRes(this.skinName)) {
+                skin = new moon.Scale9Image(this.skinName);
+                this.addChild(skin);
+            }
+            else {
+                trace("找不到资源：" + this.skinName);
+            }
+            return skin;
+        };
+        /**竖排获横排 */
+        ImageChartlet.prototype.layout = function (type, interval) {
+            if (interval === void 0) { interval = 0; }
+            if (type == moon.Const.VERTICAL)
+                moon.SimpleLayout.displayRank(this.items, 1, interval, interval, 0, 0);
+            else if (type == moon.Const.HORIZONTAL)
+                moon.SimpleLayout.displayRank(this.items, this.items.length, interval, interval, 0, 0);
+        };
+        /**多行排列，xNum是一排排几个 */
+        ImageChartlet.prototype.setMultiLine = function (xNum, interval) {
+            if (interval === void 0) { interval = 0; }
+            moon.SimpleLayout.displayRank(this.items, xNum, interval, interval, 0, 0);
+        };
+        return ImageChartlet;
+    }(BasicContainer));
+    moon.ImageChartlet = ImageChartlet;
+    __reflect(ImageChartlet.prototype, "moon.ImageChartlet", ["moon.ILayout"]);
+    /**图像动画类 */
+    var ImageAnimation = (function (_super) {
+        __extends(ImageAnimation, _super);
+        function ImageAnimation(skinName, start, end) {
+            if (skinName === void 0) { skinName = ""; }
+            var _this = _super.call(this) || this;
+            _this._ftp = MOON_FTP;
             for (var i = start; i <= end; i++) {
                 _this.items.push(skinName + i + "_png");
             }
             _this.skinName = _this.getItem(0);
             _this.addBitmap();
-            return _this;
-        }
-        BasicAnimation.prototype.hasItem = function (index) {
-            return this.items.length > 0 && (index >= 0 && index < this.items.length);
-        };
-        BasicAnimation.prototype.getItem = function (index) {
-            return this.items[index];
-        };
-        BasicAnimation.prototype.getNextItem = function () {
-            return this.items[this.index++];
-        };
-        BasicAnimation.prototype.reset = function () {
-            this.index = 0;
-        };
-        return BasicAnimation;
-    }(Image));
-    moon.BasicAnimation = BasicAnimation;
-    __reflect(BasicAnimation.prototype, "moon.BasicAnimation");
-    var ImageAnimation = (function (_super) {
-        __extends(ImageAnimation, _super);
-        function ImageAnimation(skinName, start, end) {
-            if (skinName === void 0) { skinName = ""; }
-            var _this = _super.call(this, skinName, start, end) || this;
-            _this._ftp = MOON_FTP;
             _this.createTime();
             return _this;
         }
@@ -153,9 +208,10 @@ var moon;
             this.removeTime();
         };
         return ImageAnimation;
-    }(BasicAnimation));
+    }(BasicContainer));
     moon.ImageAnimation = ImageAnimation;
     __reflect(ImageAnimation.prototype, "moon.ImageAnimation");
+    /**图像布局类 */
     var ImageLayout = (function () {
         function ImageLayout() {
         }
@@ -183,11 +239,13 @@ var moon;
         ImageLayout.prototype.setRight = function (distance) {
             this.image.x = this.tw - this.image.width - distance;
         };
-        ImageLayout.prototype.setCenterX = function () {
-            this.image.x = (this.tw - this.image.width) >> 1;
+        ImageLayout.prototype.setCenterX = function (distance) {
+            if (distance === void 0) { distance = 0; }
+            this.image.x = ((this.tw - this.image.width) >> 1) + distance;
         };
-        ImageLayout.prototype.setCenterY = function () {
-            this.image.y = (this.th - this.image.height) >> 1;
+        ImageLayout.prototype.setCenterY = function (distance) {
+            if (distance === void 0) { distance = 0; }
+            this.image.y = ((this.tw - this.image.width) >> 1) + distance;
         };
         ImageLayout.prototype.setCenterXByPanent = function (image) {
             if (image.parent instanceof Image)

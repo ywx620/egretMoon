@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,tips_png,btn1_png,btn2_png,body1_png,body2_png,body3_png,body4_png,body5_png,body6_png,body7_png,body8_png,body9_png,body10_png,body11_png,body12_png,body13_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,tips_png,btn1_png,btn2_png,body1_png,body2_png,body3_png,body4_png,body5_png,body6_png,body7_png,body8_png,body9_png,body10_png,body11_png,body12_png,body13_png,wallMin_jpg",
 			"name": "preload"
 		}
 	],
@@ -100,6 +100,11 @@
 			"name": "body13_png",
 			"type": "image",
 			"url": "assets/body13.png"
+		},
+		{
+			"name": "wallMin_jpg",
+			"type": "image",
+			"url": "assets/wallMin.jpg"
 		}
 	]
 }

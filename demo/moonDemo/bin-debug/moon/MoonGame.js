@@ -26,6 +26,15 @@ var MImage = (function (_super) {
 }(moon.Image));
 __reflect(MImage.prototype, "MImage");
 ;
+var ImageAnimation = (function (_super) {
+    __extends(ImageAnimation, _super);
+    function ImageAnimation() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return ImageAnimation;
+}(moon.ImageAnimation));
+__reflect(ImageAnimation.prototype, "ImageAnimation");
+;
 var Layout = (function (_super) {
     __extends(Layout, _super);
     function Layout() {
@@ -73,9 +82,15 @@ var moon;
             this.txtBlood = this.createText(400);
             this.panelStart = new BasicGameStart;
             this.panelStart.addEvent(moon.MoonEvent.START, this.start, this);
+            this.addChild(this.panelStart);
             this.panelOver = new BasicGameOver;
             this.panelOver.addEvent(moon.MoonEvent.START, this.start, this);
-            this.addChild(this.panelStart);
+            this.panelSet = new BasicGameSet;
+            this.panelSet.setBtnPos(4, 200);
+            this.panelSet.addEvent(moon.MoonEvent.PAUSE, this.onSetHandler, this);
+            this.panelSet.addEvent(moon.MoonEvent.PLAY, this.onSetHandler, this);
+            this.panelSet.addEvent(moon.MoonEvent.CHANGE, this.onSetHandler, this);
+            this.parent.parent.addChild(this.panelSet);
             this.initGame();
         };
         BasicGamePanel.prototype.initGame = function () {
@@ -118,6 +133,21 @@ var moon;
             this.txtBlood.text = "blood:" + this.blood;
             if (this.blood == 0) {
                 this.over();
+            }
+        };
+        BasicGamePanel.prototype.onSetHandler = function (e) {
+            if (e.type == moon.MoonEvent.PAUSE) {
+                this.stop();
+            }
+            else if (e.type == moon.MoonEvent.PLAY) {
+                this.play();
+            }
+            else {
+                var value = e.data;
+                if (e.dataType = "soundBg") {
+                }
+                else if (e.dataType = "soundEffect") {
+                }
             }
         };
         BasicGamePanel.prototype.createImageBg = function (name) {
@@ -198,5 +228,128 @@ var moon;
     }(BasicGameStart));
     moon.BasicGameOver = BasicGameOver;
     __reflect(BasicGameOver.prototype, "moon.BasicGameOver");
+    /**游戏设置面板*/
+    var BasicGameSet = (function (_super) {
+        __extends(BasicGameSet, _super);
+        function BasicGameSet() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        BasicGameSet.prototype.render = function () {
+            _super.prototype.render.call(this);
+            this.initView();
+        };
+        BasicGameSet.prototype.initView = function () {
+            var skin = this.getSkin();
+            skin.filters = [new egret.GlowFilter(0)];
+            this.btnSet = new Button(skin, this.getSkin());
+            this.btnSet.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+            this.addChild(this.btnSet);
+            if (this.btnSetPos) {
+                this.btnSet.x = this.btnSetPos.x;
+                this.btnSet.y = this.btnSetPos.y;
+            }
+            this.container = new Sprite;
+            var containerBg = this.createBackground(0, 0.5);
+            this.container.addChild(containerBg);
+            var setbg = new moon.MoonDisplayObject;
+            var bgWidth = this.stageWidth >> 1;
+            var colorBg = 0XFF9900;
+            setbg.type = moon.Const.SHAPE_RECT_ROUND;
+            setbg.data = { w: bgWidth * 1.1, h: bgWidth, ew: 100, eh: 100, c: colorBg };
+            setbg.setBackground(0XFFFFFF, 5);
+            setbg.x = (containerBg.width - bgWidth) >> 1;
+            setbg.y = (containerBg.height - bgWidth) >> 1;
+            this.container.addChild(setbg);
+            var label1 = new moon.Label("背景音乐", 0XFFFFFF);
+            var label2 = new moon.Label("游戏音效", 0XFFFFFF);
+            label1.textField.size = 40;
+            label2.textField.size = 40;
+            label1.x = label2.x = 50;
+            label1.y = 50;
+            label2.y = 150;
+            setbg.addChild(label1);
+            setbg.addChild(label2);
+            var btn = this.getToggleSwitch();
+            btn.x = label1.x + label1.width + 10;
+            btn.y = label1.y - 5;
+            setbg.addChild(btn);
+            this.btnSoundBg = btn;
+            var btn = this.getToggleSwitch();
+            btn.x = label2.x + label2.width + 10;
+            btn.y = label2.y - 5;
+            setbg.addChild(btn);
+            this.btnSoundEffect = btn;
+            var button = new Button();
+            button.label = "关  闭";
+            button.x = (setbg.width - button.width) >> 1;
+            button.y = 240;
+            button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+            setbg.addChild(button);
+            this.btnClose = button;
+        };
+        /**设置 */
+        BasicGameSet.prototype.setBtnPos = function (x, y) {
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            this.btnSetPos = new Point(x, y);
+        };
+        BasicGameSet.prototype.getSkin = function () {
+            var colorBg = 0XFF9900;
+            var colorIcon = 0X6A4000;
+            var container = new Sprite;
+            var bgWidth = 90;
+            var bg = new moon.MoonDisplayObject;
+            bg.type = moon.Const.SHAPE_RECT_ROUND;
+            bg.data = { w: bgWidth, h: bgWidth, ew: 30, eh: 30, c: colorBg };
+            bg.anchorOffsetX = bg.anchorOffsetY = bgWidth >> 1;
+            container.addChild(bg);
+            container.addChild(moon.MoonUI.getCircle(30, colorIcon));
+            var len = 8;
+            var rotation = 360 / len;
+            for (var i = 0; i < len; i++) {
+                var line = moon.MoonUI.getRect(15, 80, colorIcon);
+                line.anchorOffsetX = line.width >> 1;
+                line.anchorOffsetY = line.height >> 1;
+                line.rotation = rotation * i;
+                container.addChild(line);
+            }
+            container.addChild(moon.MoonUI.getCircle(20, colorBg));
+            container.addChild(moon.MoonUI.getCircle(6, colorIcon));
+            container.anchorOffsetX = container.anchorOffsetY = -(bgWidth / 2 + 4);
+            return container;
+        };
+        BasicGameSet.prototype.getToggleSwitch = function () {
+            var normal = moon.Skin.switchOn;
+            var down = moon.Skin.switchOn;
+            var normal2 = moon.MoonUI.getSwitch(moon.Color.bule, moon.Color.white);
+            var down2 = moon.MoonUI.getSwitch(moon.Color.bule, moon.Color.white);
+            var btn = new moon.MoreSkinButton([normal, down, normal2, down2]);
+            btn.toggleSwitch = true;
+            btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+            return btn;
+        };
+        BasicGameSet.prototype.onClick = function (e) {
+            var btn = e.currentTarget;
+            if (btn == this.btnSet) {
+                this.addChild(this.container);
+                this.dispEvent(moon.MoonEvent.PAUSE);
+            }
+            else if (btn == this.btnSoundBg) {
+                traceSimple("背景音乐" + this.btnSoundBg.currentPage);
+                this.dispEvent(moon.MoonEvent.CHANGE, this.btnSoundBg.currentPage, "soundBg");
+            }
+            else if (btn == this.btnSoundEffect) {
+                traceSimple("游戏音效" + this.btnSoundEffect.currentPage);
+                this.dispEvent(moon.MoonEvent.CHANGE, this.btnSoundEffect.currentPage, "soundEffect");
+            }
+            else if (btn == this.btnClose) {
+                this.removeChild(this.container);
+                this.dispEvent(moon.MoonEvent.PLAY);
+            }
+        };
+        return BasicGameSet;
+    }(moon.GameView));
+    moon.BasicGameSet = BasicGameSet;
+    __reflect(BasicGameSet.prototype, "moon.BasicGameSet");
 })(moon || (moon = {}));
 //# sourceMappingURL=MoonGame.js.map
