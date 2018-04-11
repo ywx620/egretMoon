@@ -100,10 +100,10 @@ module moon
         protected timer:egret.Timer;
         protected _ftp:number=MOON_FTP;
         public loop:boolean;
-        public constructor(skinName:string="",start:number,end:number){
+        public constructor(skinName:string="",start:number,end:number,type:string="png"){
             super();
             for(var i:number=start;i<=end;i++){
-                this.items.push(skinName+i+"_png");
+                this.items.push(skinName+i+"_"+type);
             }
             this.skinName=this.getItem(0);
             this.addBitmap();

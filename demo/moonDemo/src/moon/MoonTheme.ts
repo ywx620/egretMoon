@@ -11,6 +11,10 @@ class Stage extends egret.Stage{};
 class Tween extends egret.Tween{};
 class Ease extends egret.Ease{};
 //----------------------------------------------
+//以下几种方法在使用前都必须先调用各自的初始化函数
+//moon.TipsManager.getIns().init(this.stage);
+//moon.showLog.getIns().init(this.stage);
+//moon.AlertManager.getIns().init(this.stage);
 var trace=function(...arg):void
 {
     var str:string="";
@@ -18,7 +22,7 @@ var trace=function(...arg):void
          str+=arg[i]+",";
     }
 	str=str.substr(0,str.length-1);
-	moon.showLog.getIns().logMessage(str)
+	moon.LogManager.getIns().logMessage(str)
 }
 var traceSimple=function(...arg):void
 {
@@ -27,13 +31,20 @@ var traceSimple=function(...arg):void
          str+=arg[i]+",";
     }
 	str=str.substr(0,str.length-1);
-    moon.showLog.getIns().log(str);
+    moon.LogManager.getIns().log(str);
 }
 var alertAuto=function(title:string="提示或警告",closeTime:number=3):void
 {
 	moon.AlertManager.getIns().alertAuto(title,closeTime)
 }
-
+var alertHand=function(title:string="提示或警告"):void
+{
+	moon.AlertManager.getIns().alert(title);
+}
+var alertRoll=function(title:string="提示或警告",bgWidth:number=200):void
+{
+	moon.AlertManager.getIns().alertRoll(title,bgWidth);
+}
 //----------------------------------------------
 module moon
 {
@@ -397,17 +408,18 @@ module moon
 		}
     }
     //--------------
-	export class showLog
+	export class LogManager
 	{
-		private static instance:showLog;
+		private static instance:LogManager;
 		private txtSimple:TextField;
 		private txtMessage:TextField;
-		public static getIns():showLog{
+		public static getIns():LogManager{
 			if(this.instance == null){
-					this.instance = new showLog();
+					this.instance = new LogManager();
 			}
 			return this.instance;
 		}
+		/**请先调用初始化函数 */
 		public init(stage:Stage):void
 		{
 			var txt:TextField=(new Label).textField;
@@ -439,6 +451,7 @@ module moon
 			this.txtMessage.textColor=color;
 		}
 	}
+	//--------------
 	export class AlertManager
 	{
 		private static instance:AlertManager;
@@ -449,13 +462,28 @@ module moon
 			}
 			return this.instance;
 		}
+		/**请先调用初始化函数 */
 		public init(stage:Stage):void
 		{
 			this.stage=stage;
 		}
-		public alertAuto(title:string="提示或警告",closeTime:number=3):AlertAutoBar
+		public alertAuto(title:string="自动关闭的提示或警告",closeTime:number=3):AlertAutoBar
 		{
 			var a:AlertAutoBar=new AlertAutoBar(title,closeTime);
+			if(this.stage) this.stage.addChild(a);
+			else	trace("调用alertAuto时请先执行AlertManager的init初始化函数")
+			return a;
+		}
+		public alert(title:string="手动关闭的提示或警告"):AlertBar
+		{
+			var a:AlertBar=new AlertBar(title);
+			if(this.stage) this.stage.addChild(a);
+			else	trace("调用alertAuto时请先执行AlertManager的init初始化函数")
+			return a;
+		}
+		public alertRoll(title:string="提示或警告",bgWidth:number=200):AlertRollBar
+		{
+			var a:AlertRollBar=new AlertRollBar(title,bgWidth);
 			if(this.stage) this.stage.addChild(a);
 			else	trace("调用alertAuto时请先执行AlertManager的init初始化函数")
 			return a;
@@ -473,6 +501,7 @@ module moon
 			}
 			return this.instance;
 		}
+		/**请先调用初始化函数 */
 		public init(stage:Stage):void
 		{
 			this.stage=stage;
@@ -1480,32 +1509,86 @@ module moon
 			return this._selectIndex;
 		}
 	}
-	/**提示警告框 自动关闭*/
-	export class AlertAutoBar extends BasicBar
+	
+	/**提示警告框 手动关闭*/
+	export class AlertBar extends BasicBar
 	{
-		private bg:MoonDisplayObject;
-		private bgColor:number;
-		private text:TextField;
-		private time:number;
-		public constructor(title:string="提示或警告",closeTime:number=3)
+		protected bg:MoonDisplayObject;
+		protected bgColor:number;
+		protected text:TextField;
+		public constructor(title:string="提示或警告")
         {
 			super();
 			this.bgColor=Color.gray;
 			this.text=(new Label).textField;
 			this.text.text=title;
-			this.time=closeTime;
 		}
 		/**加载到舞台之后调用 */
-        protected render():void
-        {
+        protected render():void{
 			super.render();
+			this.initView();
+		}
+		protected initView():void{
+			var node:Sprite=this.createBackground(0,0.3);
+			
+			var tw:number=this.text.width;
+			var th:number=this.text.height;
+			var w:number=tw+80;
+			var h:number=th+120;
+			var x:number=(this.stageWidth-w)>>1;
+			var y:number=(this.stageHeight-h)>>1;
+			this.bg=new MoonDisplayObject;
+			this.bg.type=Const.SHAPE_RECT_ROUND;
+            this.bg.data={w:w,h:h,c:this.bgColor,ew:10,eh:10};
+            this.bg.setBackground(0,2);
+			this.bg.x=x;this.bg.y=y;
+			this.addChild(this.bg);
 
+			var btn:BasicButton=new BasicButton;
+			btn.label="确 定";
+			this.bg.addChild(btn);
+			btn.x=(w-btn.width)>>1;
+			btn.y=this.text.y+th+40;
+			btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
+
+			this.text.x=x+((w-tw)>>1);
+			this.text.y=y+20;
+			this.addChild(this.text);
+		}
+		private onClick(e:egret.TouchEvent):void
+		{
+			this.removeFromParent(true);
+			this.dispEvent(MoonEvent.CLOSE);
+		}
+		/**设置背景色 */
+		set color(value:number){
+			this.bgColor=value;
+			if(this.bg)this.bg.color=value;
+		};
+		public dispose():void
+		{
+			super.dispose();
+			this.bg=null;
+			this.bgColor=null;
+			this.text=null;
+		}
+	}
+	/**提示警告框 自动关闭*/
+	export class AlertAutoBar extends AlertBar
+	{
+		private time:number;
+		public constructor(title:string="提示或警告",closeTime:number=3)
+        {
+			super(title);
+			this.time=closeTime;
+		}
+		protected initView():void{
 			var tw:number=this.text.width;
 			var th:number=this.text.height;
 			var w:number=tw+20;
 			var h:number=th+20;
 			var x:number=(this.stageWidth-w)>>1;
-			var y:number=(this.stageHeight-w)>>1;
+			var y:number=(this.stageHeight-h)>>1;
 			this.bg=new MoonDisplayObject;
 			this.bg.type=Const.SHAPE_RECT_ROUND;
             this.bg.data={w:w,h:h,c:this.bgColor,ew:10,eh:10};
@@ -1524,66 +1607,50 @@ module moon
 		{
 			Tween.removeTweens(this);
 			this.removeFromParent(true);
-			this.bg=null;
-			this.bgColor=null;
-			this.text=null;
 			this.time=null;
 			this.dispEvent(MoonEvent.CLOSE);
 		}
 	}
-	/**提示警告框 手动关闭*/
-	export class AlertBar extends BasicBar
+	/**提示警告框 滚动显示*/
+	export class AlertRollBar extends AlertBar
 	{
-		private bg:MoonDisplayObject;
-		private bgColor:number;
-		private text:TextField;
-		public constructor(title:string="提示或警告")
+		private bgWidth:number;
+		public constructor(title:string="提示或警告",bgWidth:number=200)
         {
-			super();
-			this.bgColor=Color.gray;
-			this.text=(new Label).textField;
-			this.text.text=title;
+			super(title);
+			this.bgWidth=bgWidth;
 		}
-		/**加载到舞台之后调用 */
-        protected render():void
-        {
-			super.render();
-			var node:Sprite=this.createBackground(0,0.3);
-			
-			var w:number=this.stageWidth-100;
+		protected initView():void{
+			var tw:number=this.text.width;
+			var th:number=this.text.height;
+			var w:number=this.bgWidth;
+			var h:number=th+20;
 			var x:number=(this.stageWidth-w)>>1;
-			var y:number=(this.stageHeight-w)>>1;
+			var y:number=100;
 			this.bg=new MoonDisplayObject;
-			this.bg.type=Const.SHAPE_RECT_ROUND;
-            this.bg.data={w:w,h:w,c:this.bgColor,ew:10,eh:10};
-            this.bg.setBackground(0,2);
+			this.bg.type=Const.SHAPE_RECT;
+            this.bg.data={w:w,h:h,c:this.bgColor};
 			this.bg.x=x;this.bg.y=y;
 			this.addChild(this.bg);
+			var mask:Sprite=MoonUI.getRect(w,h,0,x,y);
+			this.bg.mask=mask;
 
-			var btn:BasicButton=new BasicButton;
-			btn.label="确定";
-			this.addChild(btn);
-			btn.x=(this.stageWidth-btn.width)>>1;
-			btn.y=this.bg.y+this.bg.height-100;
-			btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
 
-			this.text.x=(this.stageWidth-this.text.width)>>1;
-			this.text.y=this.bg.y+(this.bg.height>>1)-this.text.height;
-			this.addChild(this.text);
+			this.text.x=w;
+			this.text.y=10;
+			this.bg.addChild(this.text);
+			var time:number=2000+this.text.text.length*100;
+			var tx:number=-tw;
+			Tween.get(this.text).to({x:tx},time).call(this.backCall,this);
 		}
-		private onClick(e:egret.TouchEvent):void
+		private backCall():void
 		{
+			Tween.removeTweens(this);
+			Tween.removeTweens(this.text);
 			this.removeFromParent(true);
-			this.bg=null;
-			this.bgColor=null;
-			this.text=null;
+			this.bgWidth=null;
 			this.dispEvent(MoonEvent.CLOSE);
 		}
-		/**设置背景色 */
-		set color(value:number){
-			this.bgColor=value;
-			if(this.bg)this.bg.color=value;
-		};
 	}
 	/**输入框 */
 	export class InputBar extends BasicBar

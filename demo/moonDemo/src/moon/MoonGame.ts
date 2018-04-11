@@ -34,6 +34,13 @@ module moon
             this.txtBlood=this.createText(400);
             
 
+            this.panelSet=new BasicGameSet;
+            this.panelSet.setBtnPos(4,200);
+            this.panelSet.addEvent(MoonEvent.PAUSE,this.onSetHandler,this);
+            this.panelSet.addEvent(MoonEvent.PLAY,this.onSetHandler,this);
+            this.panelSet.addEvent(MoonEvent.CHANGE,this.onSetHandler,this);
+            this.addChild(this.panelSet);
+
             this.panelStart=new BasicGameStart;
             this.panelStart.addEvent(moon.MoonEvent.START,this.start,this)
             this.addChild(this.panelStart);
@@ -43,12 +50,7 @@ module moon
 
             
 
-            this.panelSet=new BasicGameSet;
-            this.panelSet.setBtnPos(4,200);
-            this.panelSet.addEvent(MoonEvent.PAUSE,this.onSetHandler,this);
-            this.panelSet.addEvent(MoonEvent.PLAY,this.onSetHandler,this);
-            this.panelSet.addEvent(MoonEvent.CHANGE,this.onSetHandler,this);
-            this.parent.parent.addChild(this.panelSet);
+           
 
             this.initGame();
         }
@@ -211,7 +213,7 @@ module moon
         protected initView():void
         {
            var skin:Sprite=this.getSkin();
-           skin.filters=[new egret.GlowFilter(0)];
+           //skin.filters=[new egret.GlowFilter(0)];
            this.btnSet=new Button(skin,this.getSkin());
            this.btnSet.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
            this.addChild(this.btnSet);
@@ -312,10 +314,10 @@ module moon
                 this.addChild(this.container);
                 this.dispEvent(MoonEvent.PAUSE);
             }else if(btn==this.btnSoundBg){
-                traceSimple("背景音乐"+this.btnSoundBg.currentPage);
+                alertAuto("背景音乐"+this.btnSoundBg.currentPage,1);
                 this.dispEvent(MoonEvent.CHANGE,this.btnSoundBg.currentPage,"soundBg");
             }else if(btn==this.btnSoundEffect){
-                traceSimple("游戏音效"+this.btnSoundEffect.currentPage);
+                alertAuto("游戏音效"+this.btnSoundEffect.currentPage,1);
                 this.dispEvent(MoonEvent.CHANGE,this.btnSoundEffect.currentPage,"soundEffect");
             }else if(btn==this.btnClose){
                 this.removeChild(this.container);

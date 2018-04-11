@@ -16,11 +16,11 @@ var MainMoon = (function (_super) {
     MainMoon.prototype.render = function () {
         _super.prototype.render.call(this);
         moon.TipsManager.getIns().init(this.stage);
-        moon.showLog.getIns().init(this.stage);
+        moon.LogManager.getIns().init(this.stage);
         moon.AlertManager.getIns().init(this.stage);
         this.createBackground(0XFFCC00);
         var names = ["基础组件", "组件Progress", "组件ScrollBar", "游戏2048界面", "画画", "选色游戏", "别踩白块", "消灭星星界面", "游戏背包"];
-        names.push("组件输入框", "城市背景", "游戏模版", "动画模版");
+        names.push("组件输入框", "城市背景", "游戏模版", "动画模版", "提示模块");
         var btns = [];
         for (var i = 0; i < names.length; i++) {
             var btn = new moon.BasicButton(moon.MoonUI.getRoundRect(300, 60, moon.Color.black), moon.MoonUI.getRoundRect(300, 60, moon.Color.gray));
@@ -39,9 +39,6 @@ var MainMoon = (function (_super) {
         // this.addChild(n);
         // var tw:Tween=Tween.get(n);
         // tw.to({y:500},2000,Ease.sineOut);
-        //this.addChild(new moon.AlertBar("-请点确定按钮-\n然后再点其它按钮"))
-        //this.addChild(new moon.AlertAutoBar());
-        alertAuto("只显示1秒然后自动关闭", 1);
     };
     MainMoon.prototype.click = function (e) {
         var btn = e.currentTarget;
@@ -86,6 +83,9 @@ var MainMoon = (function (_super) {
                 break;
             case 12:
                 view = new GameAnimation;
+                break;
+            case 13:
+                view = new GameAlert;
                 break;
         }
         this.father.addChild(view);

@@ -76,4 +76,45 @@ var GameAnimation = (function (_super) {
     return GameAnimation;
 }(BView));
 __reflect(GameAnimation.prototype, "GameAnimation");
+/**游戏提示模版 */
+var GameAlert = (function (_super) {
+    __extends(GameAlert, _super);
+    function GameAlert() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    GameAlert.prototype.render = function () {
+        this.label = "提示模版";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0XFFCCCC;
+        this.createCloseBtn();
+        this.createView();
+    };
+    GameAlert.prototype.createView = function () {
+        this.setButton("提示自动关闭", 100, 100);
+        this.setButton("提示手动关闭", 100, 200);
+        this.setButton("提示滚动关闭", 100, 300);
+    };
+    GameAlert.prototype.setButton = function (label, x, y) {
+        var btn = new Button();
+        btn.label = label;
+        this.addItem(btn, x, y);
+        btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+    };
+    GameAlert.prototype.onClick = function (e) {
+        var btn = e.currentTarget;
+        switch (btn.label) {
+            case "提示自动关闭":
+                alertAuto("只显示2秒然后自动关闭", 2);
+                break;
+            case "提示手动关闭":
+                alertHand("这是一个需要手动\n关闭的提示框");
+                break;
+            case "提示滚动关闭":
+                alertRoll("恭喜子乐获得了99级神器");
+                break;
+        }
+    };
+    return GameAlert;
+}(BView));
+__reflect(GameAlert.prototype, "GameAlert");
 //# sourceMappingURL=GameTest.js.map

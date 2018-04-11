@@ -80,17 +80,17 @@ var moon;
             this.txtScore = this.createText();
             this.txtLevel = this.createText(200);
             this.txtBlood = this.createText(400);
-            this.panelStart = new BasicGameStart;
-            this.panelStart.addEvent(moon.MoonEvent.START, this.start, this);
-            this.addChild(this.panelStart);
-            this.panelOver = new BasicGameOver;
-            this.panelOver.addEvent(moon.MoonEvent.START, this.start, this);
             this.panelSet = new BasicGameSet;
             this.panelSet.setBtnPos(4, 200);
             this.panelSet.addEvent(moon.MoonEvent.PAUSE, this.onSetHandler, this);
             this.panelSet.addEvent(moon.MoonEvent.PLAY, this.onSetHandler, this);
             this.panelSet.addEvent(moon.MoonEvent.CHANGE, this.onSetHandler, this);
-            this.parent.parent.addChild(this.panelSet);
+            this.addChild(this.panelSet);
+            this.panelStart = new BasicGameStart;
+            this.panelStart.addEvent(moon.MoonEvent.START, this.start, this);
+            this.addChild(this.panelStart);
+            this.panelOver = new BasicGameOver;
+            this.panelOver.addEvent(moon.MoonEvent.START, this.start, this);
             this.initGame();
         };
         BasicGamePanel.prototype.initGame = function () {
@@ -240,7 +240,7 @@ var moon;
         };
         BasicGameSet.prototype.initView = function () {
             var skin = this.getSkin();
-            skin.filters = [new egret.GlowFilter(0)];
+            //skin.filters=[new egret.GlowFilter(0)];
             this.btnSet = new Button(skin, this.getSkin());
             this.btnSet.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
             this.addChild(this.btnSet);
@@ -335,11 +335,11 @@ var moon;
                 this.dispEvent(moon.MoonEvent.PAUSE);
             }
             else if (btn == this.btnSoundBg) {
-                traceSimple("背景音乐" + this.btnSoundBg.currentPage);
+                alertAuto("背景音乐" + this.btnSoundBg.currentPage, 1);
                 this.dispEvent(moon.MoonEvent.CHANGE, this.btnSoundBg.currentPage, "soundBg");
             }
             else if (btn == this.btnSoundEffect) {
-                traceSimple("游戏音效" + this.btnSoundEffect.currentPage);
+                alertAuto("游戏音效" + this.btnSoundEffect.currentPage, 1);
                 this.dispEvent(moon.MoonEvent.CHANGE, this.btnSoundEffect.currentPage, "soundEffect");
             }
             else if (btn == this.btnClose) {

@@ -6,12 +6,12 @@ class MainMoon extends moon.BasicView
         super.render();
         
         moon.TipsManager.getIns().init(this.stage);
-        moon.showLog.getIns().init(this.stage);
+        moon.LogManager.getIns().init(this.stage);
         moon.AlertManager.getIns().init(this.stage);
 
         this.createBackground(0XFFCC00);
         var names:string[]=["基础组件","组件Progress","组件ScrollBar","游戏2048界面","画画","选色游戏","别踩白块","消灭星星界面","游戏背包"];
-        names.push("组件输入框","城市背景","游戏模版","动画模版")
+        names.push("组件输入框","城市背景","游戏模版","动画模版","提示模块")
         var btns:any[]=[];
         for(var i:number=0;i<names.length;i++){
             var btn:moon.BasicButton=new moon.BasicButton(moon.MoonUI.getRoundRect(300,60,moon.Color.black),moon.MoonUI.getRoundRect(300,60,moon.Color.gray));
@@ -33,11 +33,6 @@ class MainMoon extends moon.BasicView
         // var tw:Tween=Tween.get(n);
 		// tw.to({y:500},2000,Ease.sineOut);
 
-        //this.addChild(new moon.AlertBar("-请点确定按钮-\n然后再点其它按钮"))
-
-        //this.addChild(new moon.AlertAutoBar());
-        alertAuto("只显示1秒然后自动关闭",1);
-
     }
     protected click(e:egret.TouchEvent):void
     {
@@ -45,19 +40,20 @@ class MainMoon extends moon.BasicView
         this.removeFromParent();
         var view:moon.MoonContainer;
         switch(parseInt(btn.name)){
-            case 0:view=new MoonTest;           break;
-            case 1:view=new TestProgress;       break;
-            case 2:view=new TestScrollBar;      break;
-            case 3:view=new G2048;              break;
-            case 4:view=new Draw;               break;
-            case 5:view=new GameSelectColor;    break;
-            case 6:view=new DonotTouchWhiteRect;    break;
-            case 7:view=new DestoryStar;        break;
-            case 8:view=new GameBackpack;       break;
-            case 9:view=new TextInput;          break;
-            case 10:view=new HouseMapTest;      break;
-            case 11:view=new GameTest;          break;
-            case 12:view=new GameAnimation;     break;
+            case 0: view=new MoonTest;               break;
+            case 1: view=new TestProgress;           break;
+            case 2: view=new TestScrollBar;          break;
+            case 3: view=new G2048;                  break;
+            case 4: view=new Draw;                   break;
+            case 5: view=new GameSelectColor;        break;
+            case 6: view=new DonotTouchWhiteRect;    break;
+            case 7: view=new DestoryStar;            break;
+            case 8: view=new GameBackpack;           break;
+            case 9: view=new TextInput;              break;
+            case 10:view=new HouseMapTest;           break;
+            case 11:view=new GameTest;               break;
+            case 12:view=new GameAnimation;          break;
+            case 13:view=new GameAlert;              break;
          }
         this.father.addChild(view);
         view.addEvent(moon.MoonEvent.CLOSE,this.onClose,this);

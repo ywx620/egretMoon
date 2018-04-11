@@ -56,3 +56,38 @@ class GameAnimation extends BView
         this.body.play();
     }
 }
+/**游戏提示模版 */
+class GameAlert extends BView
+{
+    private body:moon.ImageAnimation;
+    protected render()
+    {
+        this.label="提示模版";
+        super.render();
+        this.colorBottom=0XFFCCCC;
+        this.createCloseBtn();
+        this.createView();
+    }
+    protected createView():void
+    {
+        this.setButton("提示自动关闭",100,100);
+        this.setButton("提示手动关闭",100,200);
+        this.setButton("提示滚动关闭",100,300);
+    }
+    private setButton(label:string,x:number,y:number):void
+    {
+        var btn:Button=new Button();
+        btn.label=label;
+        this.addItem(btn,x,y);
+        btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
+    }
+    private onClick(e:egret.TouchEvent):void
+    {
+        var btn:Button=e.currentTarget as Button;
+        switch(btn.label){
+            case "提示自动关闭": alertAuto("只显示2秒然后自动关闭",2);      break;
+            case "提示手动关闭": alertHand("这是一个需要手动\n关闭的提示框");break;
+            case "提示滚动关闭": alertRoll("恭喜子乐获得了99级神器");       break;
+        }
+    }
+}
