@@ -338,10 +338,10 @@ module moon
         protected setValue():void
         {
            var value:string=BasicGameStorage.localRead(BasicGameSet.SOUND_BG)||"1";
-           this.btnSoundBg.currentPageUpdateSkin=parseInt(value);
+           this.btnSoundBg.updatePage(parseInt(value));
 
            var value:string=BasicGameStorage.localRead(BasicGameSet.SOUND_EFFECT)||"1";
-           this.btnSoundEffect.currentPageUpdateSkin=parseInt(value);
+           this.btnSoundEffect.updatePage(parseInt(value));
         }
     }
     /**游戏数据存储*/

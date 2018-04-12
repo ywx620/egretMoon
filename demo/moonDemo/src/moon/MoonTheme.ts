@@ -1055,7 +1055,7 @@ module moon
 			this.skins=skins;
 		}
 		/**更新到第几个按钮同时刷新皮肤 */
-		set currentPageUpdateSkin(value:number)
+		public updatePage(value:number)
 		{
 			this.currentPage=value;
 			this.setSkinNormal();
