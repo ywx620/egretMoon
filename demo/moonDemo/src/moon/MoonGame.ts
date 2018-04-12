@@ -4,6 +4,8 @@ class ImageAnimation extends moon.ImageAnimation{};
 class Layout extends moon.ImageLayout{};
 class Scale9Image extends moon.Scale9Image{};
 class MoonEvent extends moon.MoonEvent{};
+class GameData extends moon.GameData{};
+class Const extends moon.Const{};
 module moon
 {
     /**游戏模版 */
@@ -22,8 +24,9 @@ module moon
         protected render():void
         {
             super.render();
+            GameData.stageWidth=this.stageWidth;
+            GameData.stageHeight=this.stageHeight;
             this.initView();
-            
         }
         protected initView():void
         {
@@ -199,12 +202,14 @@ module moon
     /**游戏设置面板*/
     export class BasicGameSet extends moon.GameView
     {
-        private btnSet:Button;
-        private btnClose:Button;
-        private container:Sprite;
-        private btnSoundBg:MoreSkinButton;
-        private btnSoundEffect:MoreSkinButton;
-        private btnSetPos:Point;
+        protected btnSet:MButton;
+        protected btnClose:MButton;
+        protected container:Sprite;
+        protected btnSoundBg:MoreSkinButton;
+        protected btnSoundEffect:MoreSkinButton;
+        protected btnSetPos:Point;
+        public static SOUND_BG:string="sound bg";
+        public static SOUND_EFFECT:string="sound effect";
         protected render():void
         {
             super.render();
@@ -214,7 +219,7 @@ module moon
         {
            var skin:Sprite=this.getSkin();
            //skin.filters=[new egret.GlowFilter(0)];
-           this.btnSet=new Button(skin,this.getSkin());
+           this.btnSet=new MButton(skin,this.getSkin());
            this.btnSet.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
            this.addChild(this.btnSet);
            if(this.btnSetPos){
@@ -257,7 +262,7 @@ module moon
            setbg.addChild(btn);
            this.btnSoundEffect=btn;
 
-           var button:Button=new Button();
+           var button:MButton=new MButton();
            button.label="关  闭";
            button.x=(setbg.width-button.width)>>1;
            button.y=240;
@@ -296,33 +301,75 @@ module moon
             container.anchorOffsetX=container.anchorOffsetY=-(bgWidth/2+4);
             return container;
         }
-        private getToggleSwitch():MoreSkinButton
+        protected getToggleSwitch():MoreSkinButton
         {
             var normal:Sprite=moon.Skin.switchOn;
             var down:Sprite=moon.Skin.switchOn;
             var normal2:Sprite=moon.MoonUI.getSwitch(moon.Color.bule,moon.Color.white)
-            var down2:Sprite=moon.MoonUI.getSwitch(moon.Color.bule,moon.Color.white)
+            var down2:Sprite=moon.MoonUI.getSwitch(moon.Color.red,moon.Color.white)
             var btn:MoreSkinButton=new MoreSkinButton([normal,down,normal2,down2]);
             btn.toggleSwitch=true;
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
             return btn;
         }
-        private onClick(e:egret.TouchEvent):void
+        protected onClick(e:egret.TouchEvent):void
         {
-            var btn:Button=e.currentTarget as Button;
+            var btn:MButton=e.currentTarget as MButton;
+            var value:number;
             if(btn==this.btnSet){
                 this.addChild(this.container);
+                this.setValue();
                 this.dispEvent(MoonEvent.PAUSE);
             }else if(btn==this.btnSoundBg){
-                alertAuto("背景音乐"+this.btnSoundBg.currentPage,1);
+                value=this.btnSoundBg.currentPage;
+                alertAuto("背景音乐"+(value==1?"开":"关"),1);
+                BasicGameStorage.localWrite(BasicGameSet.SOUND_BG,value.toString());
                 this.dispEvent(MoonEvent.CHANGE,this.btnSoundBg.currentPage,"soundBg");
             }else if(btn==this.btnSoundEffect){
-                alertAuto("游戏音效"+this.btnSoundEffect.currentPage,1);
+                value=this.btnSoundEffect.currentPage;
+                alertAuto("游戏音效"+(value==1?"开":"关"),1);
+                BasicGameStorage.localWrite(BasicGameSet.SOUND_EFFECT,value.toString());
                 this.dispEvent(MoonEvent.CHANGE,this.btnSoundEffect.currentPage,"soundEffect");
             }else if(btn==this.btnClose){
                 this.removeChild(this.container);
                 this.dispEvent(MoonEvent.PLAY);
             }
         }
+        protected setValue():void
+        {
+           var value:string=BasicGameStorage.localRead(BasicGameSet.SOUND_BG)||"1";
+           this.btnSoundBg.currentPageUpdateSkin=parseInt(value);
+
+           var value:string=BasicGameStorage.localRead(BasicGameSet.SOUND_EFFECT)||"1";
+           this.btnSoundEffect.currentPageUpdateSkin=parseInt(value);
+        }
+    }
+    /**游戏数据存储*/
+    export class BasicGameStorage
+    {
+        /**只能内部访问,在外部修改gameId */
+        private static getGameIdKey(key:string):string{return GameData.gameId+key}
+        /**本地 数据写入*/
+        public static localWrite(key:string,value:string):void{
+            egret.localStorage.setItem(this.getGameIdKey(key),value);
+        }
+        /**本地 数据读取*/
+        public static localRead(key:string):string{
+            return egret.localStorage.getItem(this.getGameIdKey(key));
+        }
+        /**本地 数据删除*/
+        public static localRemove(key:string):any{
+            egret.localStorage.removeItem(this.getGameIdKey(key));
+        }
+        /**本地 数据清空*/
+        public static localClear():any{
+            egret.localStorage.clear();
+        }
+        /**服务器 数据写入*/
+        public static serverWrite():void{}
+        /**服务器 数据读取*/
+        public static serverRead():string{return ""}
+        /**服务器 数据删除*/
+        public static serverRemove():void{}
     }
 }

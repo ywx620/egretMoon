@@ -33,6 +33,10 @@ class MainMoon extends moon.BasicView
         // var tw:Tween=Tween.get(n);
 		// tw.to({y:500},2000,Ease.sineOut);
 
+        //var a:moon.BasicGameSet=new moon.BasicGameSet
+        //this.addChild(a);
+        //moon.BasicGameStorage.localClear();
+
     }
     protected click(e:egret.TouchEvent):void
     {

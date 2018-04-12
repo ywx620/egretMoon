@@ -560,7 +560,7 @@ class TextInput extends BView
     {
         this.label="输入框测试";
         super.render();
-        this.colorBottom=0X999999;
+        this.colorBottom=0X99FF99;
         this.createCloseBtn();
         this.createView();
     }

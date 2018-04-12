@@ -183,6 +183,10 @@ var moon;
         Const.SHAPE_RECT_ROUND = "shape rect round";
         /**形状 圆块*/
         Const.SHAPE_CIRCLE = "shape circle";
+        /**版本 调试*/
+        Const.VER_DEBUG = "debug";
+        /**版本 发布*/
+        Const.VER_RELEASE = "release";
         return Const;
     }());
     moon.Const = Const;
@@ -734,11 +738,13 @@ var moon;
         };
         /**每次都覆盖上一次信息 */
         LogManager.prototype.log = function (value) {
-            this.txtSimple.text = value;
+            if (GameData.version == Const.VER_DEBUG)
+                this.txtSimple.text = value;
         };
         /**显示所有信息 */
         LogManager.prototype.logMessage = function (value) {
-            this.txtMessage.appendText(value + "\n");
+            if (GameData.version == Const.VER_DEBUG)
+                this.txtMessage.appendText(value + "\n");
         };
         LogManager.prototype.setLogColor = function (color) {
             this.txtSimple.textColor = color;
@@ -1412,6 +1418,15 @@ var moon;
             _this.skins = skins;
             return _this;
         }
+        Object.defineProperty(MoreSkinButton.prototype, "currentPageUpdateSkin", {
+            /**更新到第几个按钮同时刷新皮肤 */
+            set: function (value) {
+                this.currentPage = value;
+                this.setSkinNormal();
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(MoreSkinButton.prototype, "currentPage", {
             get: function () {
                 return this._currentPage;
@@ -2398,6 +2413,23 @@ var moon;
     }(BasicBar));
     moon.PanelMoreManager = PanelMoreManager;
     __reflect(PanelMoreManager.prototype, "moon.PanelMoreManager", ["moon.IOnoff"]);
+    var GameData = (function () {
+        function GameData() {
+        }
+        /**游戏屏幕宽 */
+        GameData.stageWidth = 640;
+        /**游戏屏幕高 */
+        GameData.stageHeight = 1136;
+        /**游戏版号，默认是调试版 */
+        GameData.version = Const.VER_DEBUG;
+        /**是否为移动模式（例如移动电话或平板电脑） */
+        GameData.isMobile = egret.Capabilities.isMobile;
+        /**游戏的ID */
+        GameData.gameId = 1;
+        return GameData;
+    }());
+    moon.GameData = GameData;
+    __reflect(GameData.prototype, "moon.GameData");
     /**游戏加载模版 */
     var GameLoad = (function (_super) {
         __extends(GameLoad, _super);

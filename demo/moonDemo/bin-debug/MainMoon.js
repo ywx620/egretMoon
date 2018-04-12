@@ -39,6 +39,9 @@ var MainMoon = (function (_super) {
         // this.addChild(n);
         // var tw:Tween=Tween.get(n);
         // tw.to({y:500},2000,Ease.sineOut);
+        //var a:moon.BasicGameSet=new moon.BasicGameSet
+        //this.addChild(a);
+        //moon.BasicGameStorage.localClear();
     };
     MainMoon.prototype.click = function (e) {
         var btn = e.currentTarget;

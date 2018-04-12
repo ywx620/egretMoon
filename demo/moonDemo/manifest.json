@@ -9,15 +9,15 @@
 	],
 	"game": [
 		"bin-debug/moon/MoonTheme.js",
-		"bin-debug/BView.js",
 		"bin-debug/moon/MoonImage.js",
+		"bin-debug/BView.js",
 		"bin-debug/Main.js",
 		"bin-debug/MainMoon.js",
-		"bin-debug/GameTest.js",
+		"bin-debug/MoonTest.js",
 		"bin-debug/MoonTest2.js",
 		"bin-debug/Platform.js",
 		"bin-debug/moon/MoonGame.js",
 		"bin-debug/LoadingUI.js",
-		"bin-debug/MoonTest.js"
+		"bin-debug/GameTest.js"
 	]
 }

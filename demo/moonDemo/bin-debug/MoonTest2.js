@@ -562,7 +562,7 @@ var TextInput = (function (_super) {
     TextInput.prototype.render = function () {
         this.label = "输入框测试";
         _super.prototype.render.call(this);
-        this.colorBottom = 0X999999;
+        this.colorBottom = 0X99FF99;
         this.createCloseBtn();
         this.createView();
     };

@@ -121,12 +121,13 @@ var moon;
     /**图像动画类 */
     var ImageAnimation = (function (_super) {
         __extends(ImageAnimation, _super);
-        function ImageAnimation(skinName, start, end) {
+        function ImageAnimation(skinName, start, end, type) {
             if (skinName === void 0) { skinName = ""; }
+            if (type === void 0) { type = "png"; }
             var _this = _super.call(this) || this;
             _this._ftp = MOON_FTP;
             for (var i = start; i <= end; i++) {
-                _this.items.push(skinName + i + "_png");
+                _this.items.push(skinName + i + "_" + type);
             }
             _this.skinName = _this.getItem(0);
             _this.addBitmap();

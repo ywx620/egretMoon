@@ -63,6 +63,10 @@ module moon
 		public static readonly SHAPE_RECT_ROUND:string="shape rect round";
 		/**形状 圆块*/
 		public static readonly SHAPE_CIRCLE:string="shape circle";
+		/**版本 调试*/
+		public static readonly VER_DEBUG:string="debug";
+		/**版本 发布*/
+		public static readonly VER_RELEASE:string="release";
 	}
 	export interface IItem{
 		update():void;
@@ -435,12 +439,12 @@ module moon
 		/**每次都覆盖上一次信息 */
 		public log(value:string):void
 		{
-			this.txtSimple.text=value;
+			if(GameData.version==Const.VER_DEBUG) this.txtSimple.text=value;
 		}
 		/**显示所有信息 */
 		public logMessage(value:string):void
 		{
-			this.txtMessage.appendText(value+"\n");
+			if(GameData.version==Const.VER_DEBUG) this.txtMessage.appendText(value+"\n");
 		}
 		public setLogColor(color:number):void
 		{
@@ -1049,6 +1053,12 @@ module moon
         {
 			super(skins[0],skins[1]);
 			this.skins=skins;
+		}
+		/**更新到第几个按钮同时刷新皮肤 */
+		set currentPageUpdateSkin(value:number)
+		{
+			this.currentPage=value;
+			this.setSkinNormal();
 		}
 		set currentPage(value:number)
 		{
@@ -1946,6 +1956,18 @@ module moon
 			super.dispose();
 			this.close();
 		}
+	}
+	export class GameData{
+		/**游戏屏幕宽 */
+		public static stageWidth:number=640;
+		/**游戏屏幕高 */
+		public static stageHeight:number=1136;
+		/**游戏版号，默认是调试版 */
+		public static version:string=Const.VER_DEBUG;
+		/**是否为移动模式（例如移动电话或平板电脑） */
+		public static isMobile:boolean=egret.Capabilities.isMobile;
+		/**游戏的ID */
+		public static gameId:number=1;
 	}
 	/**游戏加载模版 */
 	export class GameLoad extends moon.GameView
