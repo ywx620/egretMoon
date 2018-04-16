@@ -237,17 +237,24 @@ module moon
 		public static getRectAndX(w:number,h:number,c:number=0,x:number=0,y:number=0):Sprite
 		{
 			var s:Sprite=this.getRect(w,h,c,x,y)
+			s.addChild(this.getX(w,h,c,1,x,y));
+			return s;
+		}
+		/**得到矩形和一个X*/
+		public static getX(w:number,h:number,c:number=0,s:number=1,x:number=0,y:number=0):Sprite
+		{
+			var container:Sprite=new Sprite;
 			var l1:Sprite=new Sprite;
-			l1.graphics.lineStyle(0.1);
+			l1.graphics.lineStyle(s,c);
 			l1.graphics.moveTo(0,0);
 			l1.graphics.lineTo(w,h);
 			var l2:Sprite=new Sprite;
-			l2.graphics.lineStyle(0.1);
+			l2.graphics.lineStyle(s,c);
 			l2.graphics.moveTo(w,0);
 			l2.graphics.lineTo(0,h);
-			s.addChild(l1);
-			s.addChild(l2);
-			return s;
+			container.addChild(l1);
+			container.addChild(l2);
+			return container;
 		}
 		/**得到圆角矩形*/
 		public static getRoundRect(w:number,h:number,c:number=0,ew:number=5,eh:number=5,x:number=0,y:number=0):Sprite

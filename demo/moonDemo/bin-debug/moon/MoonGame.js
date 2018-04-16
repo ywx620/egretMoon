@@ -375,16 +375,127 @@ var moon;
         };
         BasicGameSet.prototype.setValue = function () {
             var value = BasicGameStorage.localRead(BasicGameSet.SOUND_BG) || "1";
-            this.btnSoundBg.currentPageUpdateSkin = parseInt(value);
+            this.btnSoundBg.updatePage(parseInt(value));
             var value = BasicGameStorage.localRead(BasicGameSet.SOUND_EFFECT) || "1";
-            this.btnSoundEffect.currentPageUpdateSkin = parseInt(value);
+            this.btnSoundEffect.updatePage(parseInt(value));
         };
         BasicGameSet.SOUND_BG = "sound bg";
         BasicGameSet.SOUND_EFFECT = "sound effect";
         return BasicGameSet;
-    }(moon.GameView));
+    }(moon.BasicView));
     moon.BasicGameSet = BasicGameSet;
     __reflect(BasicGameSet.prototype, "moon.BasicGameSet");
+    /**游戏积分排行板*/
+    var BasicGameRank = (function (_super) {
+        __extends(BasicGameRank, _super);
+        function BasicGameRank() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.items = [];
+            return _this;
+        }
+        BasicGameRank.prototype.render = function () {
+            _super.prototype.render.call(this);
+            this.initView();
+        };
+        BasicGameRank.prototype.initView = function () {
+            this.createBackground(0, 0.5);
+            var rankBg = moon.MoonUI.getRect(this.stageWidth - 100, this.stageHeight - 200, 0);
+            rankBg.alpha = 0.8;
+            this.addChild(rankBg);
+            Layout.getIns().setCenterXByPanent(rankBg);
+            Layout.getIns().setCenterYByPanent(rankBg);
+            var rect = new Rectangle(rankBg.x, rankBg.y, rankBg.width, rankBg.height);
+            var dis = 60;
+            var line = new Sprite;
+            line.graphics.lineStyle(2, 0XFFFFFF);
+            line.graphics.moveTo(rect.x, rect.y + dis);
+            line.graphics.lineTo(rect.x, rect.y);
+            line.graphics.lineTo(rect.right, rect.y);
+            line.graphics.lineTo(rect.right, rect.bottom);
+            line.graphics.lineTo(rect.x, rect.bottom);
+            line.graphics.lineTo(rect.x, rect.y + dis);
+            line.graphics.lineTo(rect.right, rect.y + dis);
+            this.addChild(line);
+            var xnum = 30;
+            var btnSkin = moon.MoonUI.getCircle(xnum, 0xffffff);
+            var skinX = moon.MoonUI.getX(xnum >> 1, xnum >> 1, 0x00ff00, 4);
+            skinX.anchorOffsetX = skinX.anchorOffsetY = xnum >> 2;
+            btnSkin.addChild(skinX);
+            var btn = new MButton(btnSkin, btnSkin);
+            btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+            this.addChild(btn);
+            btn.x = rankBg.x + rankBg.width;
+            btn.y = rankBg.y;
+            var txt = this.createText(0, 0, "分数排行榜");
+            Layout.getIns().setCenterXByPanent(txt);
+            txt.y = rankBg.y + (dis - txt.height) / 2;
+            this.addChild(txt);
+            var txt = this.createText(rankBg.x, rankBg.y + dis);
+            this.addChild(txt);
+            this.txtRank = txt;
+            this.conatiner = new Sprite;
+            //    this.conatiner.x=rankBg.x+1;
+            //    this.conatiner.y=rankBg.y+dis+2;
+            this.addChild(this.conatiner);
+            var itemw = rankBg.width - 2;
+            //    var mask:Sprite=MoonUI.getRect(itemw,rankBg.height-dis,this.conatiner.x,this.conatiner.y);
+            //    this.conatiner.mask=mask;
+            for (var i = 0; i < 50; i++) {
+                var item = new RankItem(itemw, i);
+                this.conatiner.addChild(item);
+                this.items.push(item);
+            }
+            moon.SimpleLayout.displayRank(this.items, 1);
+            var scrollBar = new moon.ScrollBar();
+            scrollBar.target = this.conatiner;
+            scrollBar.setSize(rect.width, rect.height - dis);
+            scrollBar.layout(moon.Const.VERTICAL);
+            this.addChild(scrollBar);
+            scrollBar.x = rect.x + 1;
+            scrollBar.y = rect.y + dis + 2;
+            this.update();
+        };
+        BasicGameRank.prototype.onClick = function (e) {
+            this.removeFromParent();
+        };
+        BasicGameRank.prototype.update = function () {
+            for (var i = 1; i < 10; i++) {
+                //this.txtRank.appendText("           "+i+"          "+(1000-i)+"\n");
+                //var item:RankItem=new ()
+            }
+        };
+        return BasicGameRank;
+    }(moon.BasicView));
+    moon.BasicGameRank = BasicGameRank;
+    __reflect(BasicGameRank.prototype, "moon.BasicGameRank");
+    var RankItem = (function (_super) {
+        __extends(RankItem, _super);
+        function RankItem(w, rank) {
+            var _this = _super.call(this) || this;
+            _this.colors = [0, 0XDD823B, 0XD2A85E, 0XDFD164];
+            _this.w = w;
+            _this.rank = rank + 1;
+            _this.initView();
+            return _this;
+        }
+        RankItem.prototype.initView = function () {
+            var bg = this.createRect(this.w, 80, 0);
+            bg.alpha = this.rank % 2 == 0 ? 0.6 : 0.1;
+            this.addChild(bg);
+            this.txtRank = this.createText(100, 0);
+            this.txtScore = this.createText(400, 0);
+            if (this.rank <= 3) {
+                this.txtRank.textColor = this.txtScore.textColor = this.colors[this.rank];
+            }
+            this.txtRank.text = String(this.rank);
+            this.txtScore.text = String(0);
+            Layout.getIns().setCenterYByPanent(this.txtRank);
+            Layout.getIns().setCenterYByPanent(this.txtScore);
+        };
+        return RankItem;
+    }(moon.BasicView));
+    moon.RankItem = RankItem;
+    __reflect(RankItem.prototype, "moon.RankItem");
     /**游戏数据存储*/
     var BasicGameStorage = (function () {
         function BasicGameStorage() {

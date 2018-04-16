@@ -37,6 +37,12 @@ class MainMoon extends moon.BasicView
         //this.addChild(a);
         //moon.BasicGameStorage.localClear();
 
+        var a:moon.BasicGameRank=new moon.BasicGameRank;
+        this.addChild(a);
+
+      
+
+
     }
     protected click(e:egret.TouchEvent):void
     {

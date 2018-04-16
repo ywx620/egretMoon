@@ -42,6 +42,8 @@ var MainMoon = (function (_super) {
         //var a:moon.BasicGameSet=new moon.BasicGameSet
         //this.addChild(a);
         //moon.BasicGameStorage.localClear();
+        var a = new moon.BasicGameRank;
+        this.addChild(a);
     };
     MainMoon.prototype.click = function (e) {
         var btn = e.currentTarget;

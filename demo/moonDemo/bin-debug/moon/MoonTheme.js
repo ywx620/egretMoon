@@ -518,17 +518,27 @@ var moon;
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             var s = this.getRect(w, h, c, x, y);
+            s.addChild(this.getX(w, h, c, 1, x, y));
+            return s;
+        };
+        /**得到矩形和一个X*/
+        MoonUI.getX = function (w, h, c, s, x, y) {
+            if (c === void 0) { c = 0; }
+            if (s === void 0) { s = 1; }
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            var container = new Sprite;
             var l1 = new Sprite;
-            l1.graphics.lineStyle(0.1);
+            l1.graphics.lineStyle(s, c);
             l1.graphics.moveTo(0, 0);
             l1.graphics.lineTo(w, h);
             var l2 = new Sprite;
-            l2.graphics.lineStyle(0.1);
+            l2.graphics.lineStyle(s, c);
             l2.graphics.moveTo(w, 0);
             l2.graphics.lineTo(0, h);
-            s.addChild(l1);
-            s.addChild(l2);
-            return s;
+            container.addChild(l1);
+            container.addChild(l2);
+            return container;
         };
         /**得到圆角矩形*/
         MoonUI.getRoundRect = function (w, h, c, ew, eh, x, y) {
@@ -1418,15 +1428,11 @@ var moon;
             _this.skins = skins;
             return _this;
         }
-        Object.defineProperty(MoreSkinButton.prototype, "currentPageUpdateSkin", {
-            /**更新到第几个按钮同时刷新皮肤 */
-            set: function (value) {
-                this.currentPage = value;
-                this.setSkinNormal();
-            },
-            enumerable: true,
-            configurable: true
-        });
+        /**更新到第几个按钮同时刷新皮肤 */
+        MoreSkinButton.prototype.updatePage = function (value) {
+            this.currentPage = value;
+            this.setSkinNormal();
+        };
         Object.defineProperty(MoreSkinButton.prototype, "currentPage", {
             get: function () {
                 return this._currentPage;
