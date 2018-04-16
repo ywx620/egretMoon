@@ -26,6 +26,7 @@ module moon
             super.render();
             GameData.stageWidth=this.stageWidth;
             GameData.stageHeight=this.stageHeight;
+            GameData.stage=this.stage;
             this.initView();
         }
         protected initView():void
@@ -183,11 +184,16 @@ module moon
     {
         protected txtScore:TextField;
         protected txtLevel:TextField;
+        protected rankPanel:BasicGameRank;
         protected initView():void
         {
             this.createBtn("再来一次");
+            var btn:MButton=this.createBtn("排行榜");
+            btn.y+=100;
             this.txtScore=this.createText();
             this.txtLevel=this.createText();
+
+            this.rankPanel=new BasicGameRank;
         }
         public update(data:Object):void
         {
@@ -197,6 +203,15 @@ module moon
             this.txtLevel.x=(this.stageWidth-this.txtLevel.width)/2;
             this.txtScore.y=(this.stageHeight-this.txtScore.height)/2-60;
             this.txtLevel.y=this.txtScore.y-60;
+        }
+        protected onClick(e:egret.TouchEvent):void
+        {
+            var btn:MButton=e.currentTarget as MButton;
+            if(btn.label=="再来一次"){
+                super.onClick(e);
+            }else{
+                GameData.stage.addChild(this.rankPanel);
+            }
         }
     }
     /**游戏设置面板*/
@@ -398,12 +413,8 @@ module moon
            this.txtRank=txt;
 
            this.conatiner=new Sprite;
-        //    this.conatiner.x=rankBg.x+1;
-        //    this.conatiner.y=rankBg.y+dis+2;
            this.addChild(this.conatiner);
            var itemw:number=rankBg.width-2
-        //    var mask:Sprite=MoonUI.getRect(itemw,rankBg.height-dis,this.conatiner.x,this.conatiner.y);
-        //    this.conatiner.mask=mask;
            for(var i=0;i<50;i++){
                 var item:RankItem=new RankItem(itemw,i);
                 this.conatiner.addChild(item);
@@ -413,23 +424,20 @@ module moon
 
            var scrollBar:moon.ScrollBar=new moon.ScrollBar();
             scrollBar.target=this.conatiner;
-            scrollBar.setSize(rect.width,rect.height-dis);
+            scrollBar.setSize(rect.width,rect.height-dis-2);
             scrollBar.layout(moon.Const.VERTICAL);
             this.addChild(scrollBar);
             scrollBar.x=rect.x+1
             scrollBar.y=rect.y+dis+2;
-
-           this.update();
         }
         protected onClick(e:egret.TouchEvent):void
         {
             this.removeFromParent();
         }
-        public update():void
+        public update(data:Object):void
         {
             for(var i=1;i<10;i++){
-                //this.txtRank.appendText("           "+i+"          "+(1000-i)+"\n");
-                //var item:RankItem=new ()
+                //this.txtScore
             }
         }
     }
@@ -460,7 +468,7 @@ module moon
                this.txtRank.textColor=this.txtScore.textColor=this.colors[this.rank];
             }
             this.txtRank.text=String(this.rank);
-            this.txtScore.text=String(0);
+            this.txtScore.text=String(10000-this.rank);
             Layout.getIns().setCenterYByPanent(this.txtRank);
             Layout.getIns().setCenterYByPanent(this.txtScore);
         }

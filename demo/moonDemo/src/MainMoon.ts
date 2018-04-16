@@ -37,8 +37,8 @@ class MainMoon extends moon.BasicView
         //this.addChild(a);
         //moon.BasicGameStorage.localClear();
 
-        var a:moon.BasicGameRank=new moon.BasicGameRank;
-        this.addChild(a);
+        //var a:moon.BasicGameRank=new moon.BasicGameRank;
+        //this.addChild(a);
 
       
 

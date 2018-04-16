@@ -1965,6 +1965,8 @@ module moon
 		}
 	}
 	export class GameData{
+		/**舞台*/
+		public static stage:Stage;
 		/**游戏屏幕宽 */
 		public static stageWidth:number=640;
 		/**游戏屏幕高 */
