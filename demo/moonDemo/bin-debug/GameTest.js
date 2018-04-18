@@ -117,4 +117,45 @@ var GameAlert = (function (_super) {
     return GameAlert;
 }(BView));
 __reflect(GameAlert.prototype, "GameAlert");
+/**游戏残影跟随模版 */
+var GameImageFollow = (function (_super) {
+    __extends(GameImageFollow, _super);
+    function GameImageFollow() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.vx = 1;
+        _this.vy = 1;
+        _this.vs = 5;
+        return _this;
+    }
+    GameImageFollow.prototype.render = function () {
+        this.label = "图像残影跟随模版";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0XFFCCCC;
+        this.createCloseBtn();
+        this.createView();
+        egret.startTick(this.loop, this);
+    };
+    GameImageFollow.prototype.createView = function () {
+        this.image = new moon.ImageFollow("tips_png", 10);
+        this.addChild(this.image);
+    };
+    GameImageFollow.prototype.loop = function (n) {
+        this.image.update(this.vx * this.vs, this.vy * this.vs);
+        if (this.image.headItem.y > this.stageHeight) {
+            this.vy = -1;
+        }
+        else if (this.image.headItem.y < 0) {
+            this.vy = 1;
+        }
+        if (this.image.headItem.x > this.stageWidth) {
+            this.vx = -1;
+        }
+        else if (this.image.headItem.x < 0) {
+            this.vx = 1;
+        }
+        return true;
+    };
+    return GameImageFollow;
+}(BView));
+__reflect(GameImageFollow.prototype, "GameImageFollow");
 //# sourceMappingURL=GameTest.js.map

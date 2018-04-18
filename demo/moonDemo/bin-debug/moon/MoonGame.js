@@ -91,9 +91,6 @@ var moon;
         /**加载到舞台之后调用 */
         BasicGamePanel.prototype.render = function () {
             _super.prototype.render.call(this);
-            moon.GameData.stageWidth = this.stageWidth;
-            moon.GameData.stageHeight = this.stageHeight;
-            moon.GameData.stage = this.stage;
             this.initView();
         };
         BasicGamePanel.prototype.initView = function () {
@@ -233,9 +230,9 @@ var moon;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         BasicGameOver.prototype.initView = function () {
-            this.createBtn("再来一次");
-            var btn = this.createBtn("排行榜");
-            btn.y += 100;
+            this.btnClose = this.createBtn("再来一次");
+            this.btnRank = this.createBtn("排行榜");
+            this.btnRank.y += 100;
             this.txtScore = this.createText();
             this.txtLevel = this.createText();
             this.rankPanel = new BasicGameRank;
@@ -250,11 +247,13 @@ var moon;
         };
         BasicGameOver.prototype.onClick = function (e) {
             var btn = e.currentTarget;
-            if (btn.label == "再来一次") {
+            if (btn == this.btnClose) {
                 _super.prototype.onClick.call(this, e);
             }
-            else {
-                moon.GameData.stage.addChild(this.rankPanel);
+            else if (btn == this.btnRank) {
+                if (this.rankPanel) {
+                    moon.GameData.stage.addChild(this.rankPanel);
+                }
             }
         };
         return BasicGameOver;
@@ -404,6 +403,7 @@ var moon;
         function BasicGameRank() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.items = [];
+            _this.max = 50;
             return _this;
         }
         BasicGameRank.prototype.render = function () {
@@ -449,7 +449,7 @@ var moon;
             this.conatiner = new Sprite;
             this.addChild(this.conatiner);
             var itemw = rankBg.width - 2;
-            for (var i = 0; i < 50; i++) {
+            for (var i = 0; i < this.max; i++) {
                 var item = new RankItem(itemw, i);
                 this.conatiner.addChild(item);
                 this.items.push(item);
@@ -467,8 +467,12 @@ var moon;
             this.removeFromParent();
         };
         BasicGameRank.prototype.update = function (data) {
-            for (var i = 1; i < 10; i++) {
-                //this.txtScore
+            var len = 51;
+            for (var i = 0; i < len; i++) {
+                if (i < this.max) {
+                    var item = this.items[i];
+                    item.txtScore.text = "100";
+                }
             }
         };
         return BasicGameRank;
@@ -495,7 +499,8 @@ var moon;
                 this.txtRank.textColor = this.txtScore.textColor = this.colors[this.rank];
             }
             this.txtRank.text = String(this.rank);
-            this.txtScore.text = String(10000 - this.rank);
+            //this.txtScore.text=String(10000-this.rank);
+            this.txtScore.text = String(0);
             Layout.getIns().setCenterYByPanent(this.txtRank);
             Layout.getIns().setCenterYByPanent(this.txtScore);
         };
@@ -535,5 +540,71 @@ var moon;
     }());
     moon.BasicGameStorage = BasicGameStorage;
     __reflect(BasicGameStorage.prototype, "moon.BasicGameStorage");
+    /**初始化游戏*/
+    var GameMoon = (function () {
+        function GameMoon() {
+        }
+        GameMoon.init = function (stage) {
+            //移动端与PC端使用不同模式
+            egret.Capabilities.isMobile ? stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH : stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
+            //保存好舞台数据
+            moon.GameData.stageWidth = stage.stageWidth;
+            moon.GameData.stageHeight = stage.stageHeight;
+            moon.GameData.stage = stage;
+            //初始化部分功能
+            moon.TipsManager.getIns().init(stage);
+            moon.LogManager.getIns().init(stage);
+            moon.AlertManager.getIns().init(stage);
+        };
+        return GameMoon;
+    }());
+    moon.GameMoon = GameMoon;
+    __reflect(GameMoon.prototype, "moon.GameMoon");
+    /**游戏间的工具类*/
+    var GameUtils = (function () {
+        function GameUtils() {
+        }
+        /**把数字转换成时间格式,showNum为3时00:00:00,为2时00:00,为1时00*/
+        GameUtils.getTimeFormatByNum = function (num, type, showNum) {
+            if (type === void 0) { type = ":"; }
+            if (showNum === void 0) { showNum = 3; }
+            var s;
+            var hour;
+            var minute;
+            var second;
+            if (showNum == 1) {
+                second = this.numberFormat(num);
+                return second;
+            }
+            else if (showNum == 2) {
+                minute = this.numberFormat((num / 60));
+                second = this.numberFormat(num % 60);
+                return minute + type + second;
+            }
+            else {
+                hour = this.numberFormat(num / 60 / 60 >> 0);
+                minute = this.numberFormat((num / 60) % 60);
+                second = this.numberFormat(num % 60);
+                return hour + type + minute + type + second;
+            }
+        };
+        /**数字格式，把小于10的数在前面加个0*/
+        GameUtils.numberFormat = function (num) {
+            num = Math.floor(num);
+            if (num >= 10)
+                return "" + num;
+            else
+                return "0" + num;
+        };
+        /***两点间的距离 */
+        GameUtils.twoDistance = function (a, b) {
+            var x = a.x - b.x;
+            var y = a.y - b.y;
+            return Math.sqrt(x * x + y * y);
+        };
+        return GameUtils;
+    }());
+    moon.GameUtils = GameUtils;
+    __reflect(GameUtils.prototype, "moon.GameUtils");
 })(moon || (moon = {}));
 //# sourceMappingURL=MoonGame.js.map

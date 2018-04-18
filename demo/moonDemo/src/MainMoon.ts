@@ -4,14 +4,12 @@ class MainMoon extends moon.BasicView
     protected render():void
     {
         super.render();
-        
-        moon.TipsManager.getIns().init(this.stage);
-        moon.LogManager.getIns().init(this.stage);
-        moon.AlertManager.getIns().init(this.stage);
+
+        moon.GameMoon.init(this.stage);
 
         this.createBackground(0XFFCC00);
         var names:string[]=["基础组件","组件Progress","组件ScrollBar","游戏2048界面","画画","选色游戏","别踩白块","消灭星星界面","游戏背包"];
-        names.push("组件输入框","城市背景","游戏模版","动画模版","提示模块")
+        names.push("组件输入框","城市背景","游戏模版","动画模版","提示模块","跟随模块")
         var btns:any[]=[];
         for(var i:number=0;i<names.length;i++){
             var btn:moon.BasicButton=new moon.BasicButton(moon.MoonUI.getRoundRect(300,60,moon.Color.black),moon.MoonUI.getRoundRect(300,60,moon.Color.gray));
@@ -19,7 +17,7 @@ class MainMoon extends moon.BasicView
             btn.label=names[i];
             btn.name=i.toString();
             btn.x=(this.stageWidth-btn.width)>>1;
-            btn.y=i*(btn.height+20);
+            btn.y=i*(btn.height+10);
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.click,this);
             this.addChild(btn);
         }
@@ -64,6 +62,7 @@ class MainMoon extends moon.BasicView
             case 11:view=new GameTest;               break;
             case 12:view=new GameAnimation;          break;
             case 13:view=new GameAlert;              break;
+            case 14:view=new GameImageFollow;        break;
          }
         this.father.addChild(view);
         view.addEvent(moon.MoonEvent.CLOSE,this.onClose,this);

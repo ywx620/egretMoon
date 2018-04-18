@@ -27,7 +27,7 @@
 * moon.AlertRollBar			滚动关闭的提示或警告
 * moon.GameLoad					游戏素材加载时的界面
 * moon.GameData					游戏中预先保存数据如,stageWidth,stageHeight
-* moon.MoonDisplayObject可示对象(可修改背景色与边框)
+* moon.MoonDisplayObject 可示对象(可修改背景色与边框)
 
 # 图片的管理模块
 # 类文件MoonImage.ts

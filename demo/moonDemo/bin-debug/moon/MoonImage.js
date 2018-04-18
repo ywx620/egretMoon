@@ -71,6 +71,11 @@ var moon;
         BasicContainer.prototype.getNextItem = function () {
             return this.items[this.index++];
         };
+        Object.defineProperty(BasicContainer.prototype, "itemsLength", {
+            get: function () { return this.items.length; },
+            enumerable: true,
+            configurable: true
+        });
         BasicContainer.prototype.reset = function () {
             this.index = 0;
         };
@@ -118,6 +123,55 @@ var moon;
     }(BasicContainer));
     moon.ImageChartlet = ImageChartlet;
     __reflect(ImageChartlet.prototype, "moon.ImageChartlet", ["moon.ILayout"]);
+    /**图像残影跟随 */
+    var ImageFollow = (function (_super) {
+        __extends(ImageFollow, _super);
+        function ImageFollow(skinName, count) {
+            if (count === void 0) { count = 1; }
+            var _this = _super.call(this, skinName, count) || this;
+            /**跟随速度 */
+            _this.speed = 4;
+            _this.head = _this.items[0];
+            _this.addChild(_this.head);
+            _this.reset();
+            while (_this.hasItem(_this.index)) {
+                var item = _this.getNextItem();
+                item.alpha = (_this.itemsLength - (_this.index - 1)) / _this.itemsLength;
+            }
+            egret.startTick(_this.loop, _this);
+            return _this;
+        }
+        /**更新位置 */
+        ImageFollow.prototype.update = function (x, y) {
+            this.head.x += x;
+            this.head.y += y;
+        };
+        /**循环函数*/
+        ImageFollow.prototype.loop = function (num) {
+            var len = this.items.length - 1;
+            var endItem = this.items[len];
+            if (moon.GameUtils.twoDistance(this.headItem, endItem) > 0.1) {
+                //当头尾间的距离小于0.1时，就不在执行循环跟随。
+                var v = this.speed;
+                for (var i = 0; i < len; i++) {
+                    var item1 = this.items[i];
+                    var item2 = this.items[i + 1];
+                    item2.x += (item1.x - item2.x) / v;
+                    item2.y += (item1.y - item2.y) / v;
+                }
+            }
+            return true;
+        };
+        Object.defineProperty(ImageFollow.prototype, "headItem", {
+            get: function () { return this.head; },
+            enumerable: true,
+            configurable: true
+        });
+        ;
+        return ImageFollow;
+    }(ImageChartlet));
+    moon.ImageFollow = ImageFollow;
+    __reflect(ImageFollow.prototype, "moon.ImageFollow");
     /**图像动画类 */
     var ImageAnimation = (function (_super) {
         __extends(ImageAnimation, _super);

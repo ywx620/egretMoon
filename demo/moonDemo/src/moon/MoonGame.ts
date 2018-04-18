@@ -24,9 +24,6 @@ module moon
         protected render():void
         {
             super.render();
-            GameData.stageWidth=this.stageWidth;
-            GameData.stageHeight=this.stageHeight;
-            GameData.stage=this.stage;
             this.initView();
         }
         protected initView():void
@@ -184,12 +181,14 @@ module moon
     {
         protected txtScore:TextField;
         protected txtLevel:TextField;
+        protected btnClose:MButton;
+        protected btnRank:MButton;
         protected rankPanel:BasicGameRank;
         protected initView():void
         {
-            this.createBtn("再来一次");
-            var btn:MButton=this.createBtn("排行榜");
-            btn.y+=100;
+            this.btnClose=this.createBtn("再来一次");
+            this.btnRank=this.createBtn("排行榜");
+            this.btnRank.y+=100;
             this.txtScore=this.createText();
             this.txtLevel=this.createText();
 
@@ -207,10 +206,12 @@ module moon
         protected onClick(e:egret.TouchEvent):void
         {
             var btn:MButton=e.currentTarget as MButton;
-            if(btn.label=="再来一次"){
+            if(btn==this.btnClose){
                 super.onClick(e);
-            }else{
-                GameData.stage.addChild(this.rankPanel);
+            }else if(btn==this.btnRank){
+                if(this.rankPanel){
+                    GameData.stage.addChild(this.rankPanel);
+                }
             }
         }
     }
@@ -362,9 +363,10 @@ module moon
         /**游戏积分排行板*/
     export class BasicGameRank extends moon.BasicView
     {
-        private txtRank:TextField;
-        private items:RankItem[]=[];
-        private conatiner:Sprite;
+        protected txtRank:TextField;
+        protected items:RankItem[]=[];
+        protected conatiner:Sprite;
+        protected max:number=50;
         protected render():void
         {
             super.render();
@@ -415,7 +417,7 @@ module moon
            this.conatiner=new Sprite;
            this.addChild(this.conatiner);
            var itemw:number=rankBg.width-2
-           for(var i=0;i<50;i++){
+           for(var i=0;i<this.max;i++){
                 var item:RankItem=new RankItem(itemw,i);
                 this.conatiner.addChild(item);
                 this.items.push(item);
@@ -436,8 +438,12 @@ module moon
         }
         public update(data:Object):void
         {
-            for(var i=1;i<10;i++){
-                //this.txtScore
+            var len:number=51;
+            for(var i=0;i<len;i++){
+                if(i<this.max){
+                    var item:RankItem=this.items[i];
+                    item.txtScore.text="100"
+                }
             }
         }
     }
@@ -446,7 +452,7 @@ module moon
         private w:number;
         private rank:number;
         private txtRank:TextField;
-        private txtScore:TextField;
+        public txtScore:TextField;
         private colors:number[]=[0,0XDD823B,0XD2A85E,0XDFD164];
         public constructor(w:number,rank:number)
         {
@@ -468,7 +474,8 @@ module moon
                this.txtRank.textColor=this.txtScore.textColor=this.colors[this.rank];
             }
             this.txtRank.text=String(this.rank);
-            this.txtScore.text=String(10000-this.rank);
+            //this.txtScore.text=String(10000-this.rank);
+            this.txtScore.text=String(0);
             Layout.getIns().setCenterYByPanent(this.txtRank);
             Layout.getIns().setCenterYByPanent(this.txtScore);
         }
@@ -500,5 +507,59 @@ module moon
         public static serverRead():string{return ""}
         /**服务器 数据删除*/
         public static serverRemove():void{}
+    }
+    /**初始化游戏*/
+    export class GameMoon
+    {
+        public static init(stage:Stage):void
+        {
+            //移动端与PC端使用不同模式
+            egret.Capabilities.isMobile?stage.scaleMode=egret.StageScaleMode.FIXED_WIDTH:stage.scaleMode=egret.StageScaleMode.SHOW_ALL;
+            //保存好舞台数据
+            GameData.stageWidth=stage.stageWidth;
+            GameData.stageHeight=stage.stageHeight;
+            GameData.stage=stage;
+            //初始化部分功能
+            moon.TipsManager.getIns().init(stage);
+            moon.LogManager.getIns().init(stage);
+            moon.AlertManager.getIns().init(stage);
+        }
+    }
+    /**游戏间的工具类*/
+    export class GameUtils
+    {
+        /**把数字转换成时间格式,showNum为3时00:00:00,为2时00:00,为1时00*/
+		public static getTimeFormatByNum(num:number,type:string=":",showNum:number=3):string{
+			var s:string;
+			var hour:string;
+			var minute:string;
+			var second:string;
+			if(showNum==1){
+				second = this.numberFormat(num);
+				return second;
+			}else if(showNum==2){
+				minute = this.numberFormat((num/60));
+				second = this.numberFormat(num%60);
+				return minute+type+second;
+			}else{
+				hour = this.numberFormat(num/60/60>>0);
+				minute = this.numberFormat((num/60) % 60);
+				second = this.numberFormat(num%60);
+				return hour+type+minute+type+second;
+			}
+		}
+        /**数字格式，把小于10的数在前面加个0*/
+		public static numberFormat(num:number):string{
+            num=Math.floor(num);
+			if(num>=10)			return ""+num;
+			else				return "0"+num;
+		}
+        /***两点间的距离 */
+        public static twoDistance(a:any,b:any):number
+        {
+            var x:number=a.x-b.x;
+            var y:number=a.y-b.y;
+            return Math.sqrt(x*x+y*y);
+        }
     }
 }

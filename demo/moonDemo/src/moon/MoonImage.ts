@@ -41,7 +41,6 @@ module moon
         protected items:any[]=[];
         protected index:number=0;
         protected skinImage:Scale9Image;
-        
         public addItem(item:any):void{
             this.items.push(item);
         }
@@ -59,6 +58,7 @@ module moon
 		public getNextItem():any{
 			return this.items[this.index++]; 
 		}
+        public get itemsLength():number{return this.items.length}
 		public reset():void{
 			this.index=0;
 		}
@@ -72,7 +72,7 @@ module moon
                 this.items.push(this.getBitmap());
             }
         }
-        private getBitmap():Scale9Image
+        protected getBitmap():Scale9Image
         {
             var skin:Scale9Image;
             if(RES.hasRes(this.skinName)){
@@ -94,6 +94,47 @@ module moon
         {
             SimpleLayout.displayRank(this.items,xNum,interval,interval,0,0);
         }
+    }
+     /**图像残影跟随 */
+    export class ImageFollow extends ImageChartlet{
+        protected head:DisplayObject;
+        /**跟随速度 */
+        public speed:number=4;
+        public constructor(skinName:string,count:number=1){
+            super(skinName,count);
+            this.head=this.items[0];
+            this.addChild(this.head);
+            this.reset()
+            while(this.hasItem(this.index)){
+                var item:DisplayObject=this.getNextItem();
+                item.alpha=(this.itemsLength-(this.index-1))/this.itemsLength;
+            }
+            egret.startTick(this.loop,this);
+        }
+        /**更新位置 */
+        public update(x:number,y:number):void{
+            this.head.x+=x;
+            this.head.y+=y;
+        }
+        /**循环函数*/
+        private loop(num:number):boolean
+        {
+           
+            var len:number=this.items.length-1;
+            var endItem=this.items[len];
+            if(GameUtils.twoDistance(this.headItem,endItem)>0.1){
+                //当头尾间的距离小于0.1时，就不在执行循环跟随。
+                var v:number=this.speed;
+                for(var i=0;i<len;i++){
+                    var item1=this.items[i];
+                    var item2=this.items[i+1];
+                    item2.x+=(item1.x-item2.x)/v;
+                    item2.y+=(item1.y-item2.y)/v;
+                }
+            }
+            return true;
+        }
+        public get headItem():DisplayObject{return this.head};
     }
     /**图像动画类 */
     export class ImageAnimation extends BasicContainer{

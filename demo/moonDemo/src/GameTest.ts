@@ -91,3 +91,40 @@ class GameAlert extends BView
         }
     }
 }
+/**游戏残影跟随模版 */
+class GameImageFollow extends BView
+{
+    private image:moon.ImageFollow;
+    protected render()
+    {
+        this.label="图像残影跟随模版";
+        super.render();
+        this.colorBottom=0XFFCCCC;
+        this.createCloseBtn();
+        this.createView();
+        egret.startTick(this.loop, this);
+    }
+    protected createView():void
+    {
+        this.image=new moon.ImageFollow("tips_png",10);
+        this.addChild(this.image);
+	}
+    private vx:number=1;
+    private vy:number=1;
+    private vs:number=5
+    protected loop(n:number):boolean
+    {
+         this.image.update(this.vx*this.vs,this.vy*this.vs);
+        if(this.image.headItem.y>this.stageHeight){
+           this.vy=-1;
+        }else if(this.image.headItem.y<0){
+            this.vy=1;
+        }
+         if(this.image.headItem.x>this.stageWidth){
+           this.vx=-1;
+        }else if(this.image.headItem.x<0){
+            this.vx=1;
+        }
+        return true;
+    }
+}
