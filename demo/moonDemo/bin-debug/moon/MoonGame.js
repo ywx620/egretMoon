@@ -83,6 +83,68 @@ __reflect(Const.prototype, "Const");
 var moon;
 (function (moon) {
     /**游戏模版 */
+    var BasicGameMain = (function (_super) {
+        __extends(BasicGameMain, _super);
+        function BasicGameMain() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        /**加载到舞台之后调用 */
+        BasicGameMain.prototype.render = function () {
+            _super.prototype.render.call(this);
+            this.initView();
+        };
+        BasicGameMain.prototype.initView = function () {
+            this.createBgGradientFill();
+            this.panelGame = new BasicGamePanel;
+            this.panelGame.addEvent(moon.MoonEvent.OVER, this.onOver, this);
+            this.addChild(this.panelGame);
+            this.setBtn = new SetButton;
+            this.setBtn.x = 100;
+            this.setBtn.y = 100;
+            this.setBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.openSetPanel, this);
+            this.addChild(this.setBtn);
+            this.panelSet = new BasicGameSet;
+            this.panelSet.addEvent(moon.MoonEvent.PLAY, this.onSetHandler, this);
+            this.panelSet.addEvent(moon.MoonEvent.CHANGE, this.onSetHandler, this);
+            this.panelStart = new BasicGameStart;
+            this.panelStart.addEvent(moon.MoonEvent.START, this.start, this);
+            this.addChild(this.panelStart);
+            this.panelOver = new BasicGameOver;
+            this.panelOver.addEvent(moon.MoonEvent.START, this.start, this);
+        };
+        BasicGameMain.prototype.start = function (e) {
+            this.panelGame.initGame();
+            this.panelGame.start();
+        };
+        BasicGameMain.prototype.onOver = function (e) {
+            this.addChild(this.panelOver);
+            this.panelOver.alpha = 0;
+            Tween.get(this.panelOver).to({ alpha: 1 }, 300);
+            this.panelOver.update(e.data);
+        };
+        BasicGameMain.prototype.openSetPanel = function (e) {
+            this.addChild(this.panelSet);
+            this.panelSet.alpha = 0;
+            Tween.get(this.panelSet).to({ alpha: 1 }, 300);
+            this.panelGame.pause();
+        };
+        BasicGameMain.prototype.onSetHandler = function (e) {
+            if (e.type == moon.MoonEvent.PLAY) {
+                this.panelGame.start();
+            }
+            else {
+                var value = e.data;
+                if (e.dataType = "soundBg") {
+                }
+                else if (e.dataType = "soundEffect") {
+                }
+            }
+        };
+        return BasicGameMain;
+    }(moon.GameView));
+    moon.BasicGameMain = BasicGameMain;
+    __reflect(BasicGameMain.prototype, "moon.BasicGameMain");
+    /**游戏模版 */
     var BasicGamePanel = (function (_super) {
         __extends(BasicGamePanel, _super);
         function BasicGamePanel() {
@@ -98,17 +160,6 @@ var moon;
             this.txtScore = this.createText();
             this.txtLevel = this.createText(200);
             this.txtBlood = this.createText(400);
-            this.panelSet = new BasicGameSet;
-            this.panelSet.setBtnPos(4, 200);
-            this.panelSet.addEvent(moon.MoonEvent.PAUSE, this.onSetHandler, this);
-            this.panelSet.addEvent(moon.MoonEvent.PLAY, this.onSetHandler, this);
-            this.panelSet.addEvent(moon.MoonEvent.CHANGE, this.onSetHandler, this);
-            this.addChild(this.panelSet);
-            this.panelStart = new BasicGameStart;
-            this.panelStart.addEvent(moon.MoonEvent.START, this.start, this);
-            this.addChild(this.panelStart);
-            this.panelOver = new BasicGameOver;
-            this.panelOver.addEvent(moon.MoonEvent.START, this.start, this);
             this.initGame();
         };
         BasicGamePanel.prototype.initGame = function () {
@@ -119,9 +170,11 @@ var moon;
             this.updateLevel();
             this.updateScore();
         };
-        BasicGamePanel.prototype.start = function (e) {
-            this.initGame();
+        BasicGamePanel.prototype.start = function () {
             this.play();
+        };
+        BasicGamePanel.prototype.pause = function () {
+            this.stop();
         };
         BasicGamePanel.prototype.loop = function (n) {
             this.blood--;
@@ -131,10 +184,7 @@ var moon;
             return true;
         };
         BasicGamePanel.prototype.over = function () {
-            this.addChild(this.panelOver);
-            this.panelOver.alpha = 0;
-            Tween.get(this.panelOver).to({ alpha: 1 }, 300);
-            this.panelOver.update({ score: this.score, level: this.level });
+            this.dispEvent(moon.MoonEvent.OVER, { score: this.score, level: this.level });
             this.stop();
         };
         BasicGamePanel.prototype.updateLevel = function () {
@@ -151,21 +201,6 @@ var moon;
             this.txtBlood.text = "blood:" + this.blood;
             if (this.blood == 0) {
                 this.over();
-            }
-        };
-        BasicGamePanel.prototype.onSetHandler = function (e) {
-            if (e.type == moon.MoonEvent.PAUSE) {
-                this.stop();
-            }
-            else if (e.type == moon.MoonEvent.PLAY) {
-                this.play();
-            }
-            else {
-                var value = e.data;
-                if (e.dataType = "soundBg") {
-                }
-                else if (e.dataType = "soundEffect") {
-                }
             }
         };
         BasicGamePanel.prototype.createImageBg = function (name) {
@@ -230,6 +265,8 @@ var moon;
             return _super !== null && _super.apply(this, arguments) || this;
         }
         BasicGameOver.prototype.initView = function () {
+            var bg = this.createBackground();
+            bg.alpha = 0.5;
             this.btnClose = this.createBtn("再来一次");
             this.btnRank = this.createBtn("排行榜");
             this.btnRank.y += 100;
@@ -244,6 +281,7 @@ var moon;
             this.txtLevel.x = (this.stageWidth - this.txtLevel.width) / 2;
             this.txtScore.y = (this.stageHeight - this.txtScore.height) / 2 - 60;
             this.txtLevel.y = this.txtScore.y - 60;
+            moon.GameData.score = data["score"];
         };
         BasicGameOver.prototype.onClick = function (e) {
             var btn = e.currentTarget;
@@ -271,18 +309,8 @@ var moon;
             this.initView();
         };
         BasicGameSet.prototype.initView = function () {
-            var skin = this.getSkin();
-            //skin.filters=[new egret.GlowFilter(0)];
-            this.btnSet = new MButton(skin, this.getSkin());
-            this.btnSet.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
-            this.addChild(this.btnSet);
-            if (this.btnSetPos) {
-                this.btnSet.x = this.btnSetPos.x;
-                this.btnSet.y = this.btnSetPos.y;
-            }
-            this.container = new Sprite;
             var containerBg = this.createBackground(0, 0.5);
-            this.container.addChild(containerBg);
+            this.addChild(containerBg);
             var setbg = new moon.MoonDisplayObject;
             var bgWidth = this.stageWidth >> 1;
             var colorBg = 0XFF9900;
@@ -291,7 +319,7 @@ var moon;
             setbg.setBackground(0XFFFFFF, 5);
             setbg.x = (containerBg.width - bgWidth) >> 1;
             setbg.y = (containerBg.height - bgWidth) >> 1;
-            this.container.addChild(setbg);
+            this.addChild(setbg);
             var label1 = new moon.Label("背景音乐", 0XFFFFFF);
             var label2 = new moon.Label("游戏音效", 0XFFFFFF);
             label1.textField.size = 40;
@@ -319,37 +347,6 @@ var moon;
             setbg.addChild(button);
             this.btnClose = button;
         };
-        /**设置 */
-        BasicGameSet.prototype.setBtnPos = function (x, y) {
-            if (x === void 0) { x = 0; }
-            if (y === void 0) { y = 0; }
-            this.btnSetPos = new Point(x, y);
-        };
-        BasicGameSet.prototype.getSkin = function () {
-            var colorBg = 0XFF9900;
-            var colorIcon = 0X6A4000;
-            var container = new Sprite;
-            var bgWidth = 90;
-            var bg = new moon.MoonDisplayObject;
-            bg.type = moon.Const.SHAPE_RECT_ROUND;
-            bg.data = { w: bgWidth, h: bgWidth, ew: 30, eh: 30, c: colorBg };
-            bg.anchorOffsetX = bg.anchorOffsetY = bgWidth >> 1;
-            container.addChild(bg);
-            container.addChild(moon.MoonUI.getCircle(30, colorIcon));
-            var len = 8;
-            var rotation = 360 / len;
-            for (var i = 0; i < len; i++) {
-                var line = moon.MoonUI.getRect(15, 80, colorIcon);
-                line.anchorOffsetX = line.width >> 1;
-                line.anchorOffsetY = line.height >> 1;
-                line.rotation = rotation * i;
-                container.addChild(line);
-            }
-            container.addChild(moon.MoonUI.getCircle(20, colorBg));
-            container.addChild(moon.MoonUI.getCircle(6, colorIcon));
-            container.anchorOffsetX = container.anchorOffsetY = -(bgWidth / 2 + 4);
-            return container;
-        };
         BasicGameSet.prototype.getToggleSwitch = function () {
             var normal = moon.Skin.switchOn;
             var down = moon.Skin.switchOn;
@@ -363,12 +360,7 @@ var moon;
         BasicGameSet.prototype.onClick = function (e) {
             var btn = e.currentTarget;
             var value;
-            if (btn == this.btnSet) {
-                this.addChild(this.container);
-                this.setValue();
-                this.dispEvent(moon.MoonEvent.PAUSE);
-            }
-            else if (btn == this.btnSoundBg) {
+            if (btn == this.btnSoundBg) {
                 value = this.btnSoundBg.currentPage;
                 alertAuto("背景音乐" + (value == 1 ? "开" : "关"), 1);
                 BasicGameStorage.localWrite(BasicGameSet.SOUND_BG, value.toString());
@@ -381,7 +373,7 @@ var moon;
                 this.dispEvent(moon.MoonEvent.CHANGE, this.btnSoundEffect.currentPage, "soundEffect");
             }
             else if (btn == this.btnClose) {
-                this.removeChild(this.container);
+                this.removeFromParent();
                 this.dispEvent(moon.MoonEvent.PLAY);
             }
         };
@@ -403,7 +395,7 @@ var moon;
         function BasicGameRank() {
             var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.items = [];
-            _this.max = 50;
+            _this.max = 100;
             return _this;
         }
         BasicGameRank.prototype.render = function () {
@@ -443,9 +435,10 @@ var moon;
             Layout.getIns().setCenterXByPanent(txt);
             txt.y = rankBg.y + (dis - txt.height) / 2;
             this.addChild(txt);
-            var txt = this.createText(rankBg.x, rankBg.y + dis);
+            var txt = this.createText(rankBg.x, rankBg.y - dis / 2);
             this.addChild(txt);
             this.txtRank = txt;
+            this.txtRank.text = "你的排名:";
             this.conatiner = new Sprite;
             this.addChild(this.conatiner);
             var itemw = rankBg.width - 2;
@@ -467,13 +460,25 @@ var moon;
             this.removeFromParent();
         };
         BasicGameRank.prototype.update = function (data) {
-            var len = 51;
+            var len = this.max;
+            var myRank = -1;
             for (var i = 0; i < len; i++) {
-                if (i < this.max) {
+                if (i <= this.max) {
+                    var score = 100;
                     var item = this.items[i];
-                    item.txtScore.text = "100";
+                    item.txtScore.text = "" + score;
+                    if (i < len - 1) {
+                        var next = 90;
+                        if (moon.GameData.score > next && moon.GameData.score <= score) {
+                            myRank = i;
+                        }
+                    }
                 }
             }
+            if (myRank > 0)
+                this.txtRank.text = "你的排名:" + myRank;
+            else
+                this.txtRank.text = "未上榜";
         };
         return BasicGameRank;
     }(moon.BasicView));
@@ -493,8 +498,8 @@ var moon;
             var bg = this.createRect(this.w, 80, 0);
             bg.alpha = this.rank % 2 == 0 ? 0.6 : 0.1;
             this.addChild(bg);
-            this.txtRank = this.createText(100, 0);
-            this.txtScore = this.createText(400, 0);
+            this.txtRank = this.createText(150, 0);
+            this.txtScore = this.createText(350, 0);
             if (this.rank <= 3) {
                 this.txtRank.textColor = this.txtScore.textColor = this.colors[this.rank];
             }
@@ -508,6 +513,50 @@ var moon;
     }(moon.BasicView));
     moon.RankItem = RankItem;
     __reflect(RankItem.prototype, "moon.RankItem");
+    var SetButton = (function (_super) {
+        __extends(SetButton, _super);
+        function SetButton() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        SetButton.prototype.render = function () {
+            _super.prototype.render.call(this);
+            var skin1 = this.getSkin();
+            var skin2 = this.getSkin(0XFF5500);
+            //skin.filters=[new egret.GlowFilter(0)];
+            this.statusNormal = skin1;
+            this.statusDown = skin2;
+            this.updateSkin(this.statusNormal);
+        };
+        SetButton.prototype.getSkin = function (bgc) {
+            if (bgc === void 0) { bgc = 0XFF9900; }
+            var colorBg = bgc;
+            var colorIcon = 0X6A4000;
+            var container = new Sprite;
+            var bgWidth = 90;
+            var bg = new moon.MoonDisplayObject;
+            bg.type = moon.Const.SHAPE_RECT_ROUND;
+            bg.data = { w: bgWidth, h: bgWidth, ew: 30, eh: 30, c: colorBg };
+            bg.anchorOffsetX = bg.anchorOffsetY = bgWidth >> 1;
+            container.addChild(bg);
+            container.addChild(moon.MoonUI.getCircle(30, colorIcon));
+            var len = 8;
+            var rotation = 360 / len;
+            for (var i = 0; i < len; i++) {
+                var line = moon.MoonUI.getRect(15, 80, colorIcon);
+                line.anchorOffsetX = line.width >> 1;
+                line.anchorOffsetY = line.height >> 1;
+                line.rotation = rotation * i;
+                container.addChild(line);
+            }
+            container.addChild(moon.MoonUI.getCircle(20, colorBg));
+            container.addChild(moon.MoonUI.getCircle(6, colorIcon));
+            container.anchorOffsetX = container.anchorOffsetY = -(bgWidth / 2 + 4);
+            return container;
+        };
+        return SetButton;
+    }(MButton));
+    moon.SetButton = SetButton;
+    __reflect(SetButton.prototype, "moon.SetButton");
     /**游戏数据存储*/
     var BasicGameStorage = (function () {
         function BasicGameStorage() {

@@ -9,11 +9,81 @@ class Const extends moon.Const{};
 module moon
 {
     /**游戏模版 */
-	export class BasicGamePanel extends moon.GameView
+	export class BasicGameMain extends moon.GameView
     {
+        protected panelGame:BasicGamePanel;
         protected panelStart:BasicGameStart;
         protected panelOver:BasicGameOver;
         protected panelSet:BasicGameSet;
+        protected setBtn:SetButton;
+        /**加载到舞台之后调用 */
+        protected render():void
+        {
+            super.render();
+            this.initView();
+        }
+        protected initView():void
+        {
+            this.createBgGradientFill();
+            
+            this.panelGame=new BasicGamePanel;
+            this.panelGame.addEvent(MoonEvent.OVER,this.onOver,this);
+            this.addChild(this.panelGame);
+
+            this.setBtn=new SetButton;
+            this.setBtn.x=100;
+            this.setBtn.y=100;
+            this.setBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.openSetPanel,this);
+            this.addChild(this.setBtn);
+
+            this.panelSet=new BasicGameSet;
+            this.panelSet.addEvent(MoonEvent.PLAY,this.onSetHandler,this);
+            this.panelSet.addEvent(MoonEvent.CHANGE,this.onSetHandler,this);
+
+            this.panelStart=new BasicGameStart;
+            this.panelStart.addEvent(moon.MoonEvent.START,this.start,this);
+            this.addChild(this.panelStart);
+
+            this.panelOver=new BasicGameOver;
+            this.panelOver.addEvent(moon.MoonEvent.START,this.start,this);
+            
+        }
+        protected start(e:moon.MoonEvent):void
+        {
+            this.panelGame.initGame();
+            this.panelGame.start();
+        }
+        protected onOver(e:MoonEvent):void
+        {
+            this.addChild(this.panelOver);
+            this.panelOver.alpha=0;
+            Tween.get(this.panelOver).to({alpha:1},300)
+            this.panelOver.update(e.data);
+        }
+        protected openSetPanel(e:egret.TouchEvent):void
+        {
+            this.addChild(this.panelSet);
+            this.panelSet.alpha=0;
+            Tween.get(this.panelSet).to({alpha:1},300);
+            this.panelGame.pause();
+        }
+        protected onSetHandler(e:MoonEvent):void
+        {
+            if(e.type==MoonEvent.PLAY){
+               this.panelGame.start();
+            }else{
+                var value:number=e.data as number;
+                if(e.dataType="soundBg"){
+
+                }else if(e.dataType="soundEffect"){
+
+                }
+            }
+        }
+    }
+    /**游戏模版 */
+	export class BasicGamePanel extends moon.GameView
+    {
         protected score:number;//分数
         protected level:number;//等级
         protected blood:number;//血量
@@ -29,33 +99,13 @@ module moon
         protected initView():void
         {
             this.createBgGradientFill();
-            
             this.txtScore=this.createText();
             this.txtLevel=this.createText(200);
             this.txtBlood=this.createText(400);
             
-
-            this.panelSet=new BasicGameSet;
-            this.panelSet.setBtnPos(4,200);
-            this.panelSet.addEvent(MoonEvent.PAUSE,this.onSetHandler,this);
-            this.panelSet.addEvent(MoonEvent.PLAY,this.onSetHandler,this);
-            this.panelSet.addEvent(MoonEvent.CHANGE,this.onSetHandler,this);
-            this.addChild(this.panelSet);
-
-            this.panelStart=new BasicGameStart;
-            this.panelStart.addEvent(moon.MoonEvent.START,this.start,this)
-            this.addChild(this.panelStart);
-
-            this.panelOver=new BasicGameOver;
-            this.panelOver.addEvent(moon.MoonEvent.START,this.start,this)
-
-            
-
-           
-
             this.initGame();
         }
-        protected initGame():void
+        public initGame():void
         {
             this.level=1;
             this.score=0;
@@ -64,10 +114,13 @@ module moon
             this.updateLevel();
             this.updateScore();
         }
-        protected start(e:moon.MoonEvent):void
+        public start():void
         {
-            this.initGame();
             this.play();
+        }
+        public pause():void
+        {
+            this.stop();
         }
         protected loop(n:number):boolean
         {
@@ -79,10 +132,7 @@ module moon
         }
         protected over():void
         {
-            this.addChild(this.panelOver);
-            this.panelOver.alpha=0;
-            Tween.get(this.panelOver).to({alpha:1},300)
-            this.panelOver.update({score:this.score,level:this.level});
+            this.dispEvent(MoonEvent.OVER,{score:this.score,level:this.level})
             this.stop();
         }
         protected updateLevel():void
@@ -102,21 +152,6 @@ module moon
             this.txtBlood.text="blood:"+this.blood;
             if(this.blood==0){
                 this.over();
-            }
-        }
-        protected onSetHandler(e:MoonEvent):void
-        {
-            if(e.type==MoonEvent.PAUSE){
-                this.stop();
-            }else if(e.type==MoonEvent.PLAY){
-                this.play();
-            }else{
-                var value:number=e.data as number;
-                if(e.dataType="soundBg"){
-
-                }else if(e.dataType="soundEffect"){
-
-                }
             }
         }
         protected createImageBg(name:string):void
@@ -186,6 +221,9 @@ module moon
         protected rankPanel:BasicGameRank;
         protected initView():void
         {
+            var bg:Sprite=this.createBackground();
+            bg.alpha=0.5;
+
             this.btnClose=this.createBtn("再来一次");
             this.btnRank=this.createBtn("排行榜");
             this.btnRank.y+=100;
@@ -202,6 +240,7 @@ module moon
             this.txtLevel.x=(this.stageWidth-this.txtLevel.width)/2;
             this.txtScore.y=(this.stageHeight-this.txtScore.height)/2-60;
             this.txtLevel.y=this.txtScore.y-60;
+            GameData.score=data["score"];
         }
         protected onClick(e:egret.TouchEvent):void
         {
@@ -218,12 +257,9 @@ module moon
     /**游戏设置面板*/
     export class BasicGameSet extends moon.BasicView
     {
-        protected btnSet:MButton;
         protected btnClose:MButton;
-        protected container:Sprite;
         protected btnSoundBg:MoreSkinButton;
         protected btnSoundEffect:MoreSkinButton;
-        protected btnSetPos:Point;
         public static SOUND_BG:string="sound bg";
         public static SOUND_EFFECT:string="sound effect";
         protected render():void
@@ -233,19 +269,8 @@ module moon
         }
         protected initView():void
         {
-           var skin:Sprite=this.getSkin();
-           //skin.filters=[new egret.GlowFilter(0)];
-           this.btnSet=new MButton(skin,this.getSkin());
-           this.btnSet.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
-           this.addChild(this.btnSet);
-           if(this.btnSetPos){
-               this.btnSet.x=this.btnSetPos.x;
-               this.btnSet.y=this.btnSetPos.y;
-           }           
-
-           this.container=new Sprite;
            var containerBg=this.createBackground(0,0.5);
-           this.container.addChild(containerBg);
+           this.addChild(containerBg);
 
            var setbg:MoonDisplayObject=new MoonDisplayObject;
            var bgWidth:number=this.stageWidth>>1;
@@ -255,7 +280,7 @@ module moon
            setbg.setBackground(0XFFFFFF,5);
            setbg.x=(containerBg.width-bgWidth)>>1;
            setbg.y=(containerBg.height-bgWidth)>>1;
-           this.container.addChild(setbg);
+           this.addChild(setbg);
 
            var label1:Label=new Label("背景音乐",0XFFFFFF);
            var label2:Label=new Label("游戏音效",0XFFFFFF);
@@ -286,37 +311,7 @@ module moon
            setbg.addChild(button);
            this.btnClose=button;
 
-        }
-        /**设置 */
-        public setBtnPos(x:number=0,y:number=0):void{
-            this.btnSetPos=new Point(x,y)
-        }
-        protected getSkin():Sprite
-        {
-            var colorBg:number=0XFF9900;
-            var colorIcon:number=0X6A4000;
-            var container:Sprite=new Sprite;
-            var bgWidth:number=90;
-            var bg:MoonDisplayObject=new MoonDisplayObject;
-            bg.type=Const.SHAPE_RECT_ROUND;
-            bg.data={w:bgWidth,h:bgWidth,ew:30,eh:30,c:colorBg};
-            bg.anchorOffsetX=bg.anchorOffsetY=bgWidth>>1;
-            container.addChild(bg);
-            container.addChild(MoonUI.getCircle(30,colorIcon));
-            var len:number=8;
-            var rotation:number=360/len;
-            for(var i:number=0;i<len;i++){
-                var line:Sprite=MoonUI.getRect(15,80,colorIcon);
-                line.anchorOffsetX=line.width>>1;
-                line.anchorOffsetY=line.height>>1;
-                line.rotation=rotation*i;
-                container.addChild(line);
-            }
-            container.addChild(MoonUI.getCircle(20,colorBg));
-            container.addChild(MoonUI.getCircle(6,colorIcon));
-            container.anchorOffsetX=container.anchorOffsetY=-(bgWidth/2+4);
-            return container;
-        }
+        }        
         protected getToggleSwitch():MoreSkinButton
         {
             var normal:Sprite=moon.Skin.switchOn;
@@ -332,11 +327,7 @@ module moon
         {
             var btn:MButton=e.currentTarget as MButton;
             var value:number;
-            if(btn==this.btnSet){
-                this.addChild(this.container);
-                this.setValue();
-                this.dispEvent(MoonEvent.PAUSE);
-            }else if(btn==this.btnSoundBg){
+            if(btn==this.btnSoundBg){
                 value=this.btnSoundBg.currentPage;
                 alertAuto("背景音乐"+(value==1?"开":"关"),1);
                 BasicGameStorage.localWrite(BasicGameSet.SOUND_BG,value.toString());
@@ -347,7 +338,7 @@ module moon
                 BasicGameStorage.localWrite(BasicGameSet.SOUND_EFFECT,value.toString());
                 this.dispEvent(MoonEvent.CHANGE,this.btnSoundEffect.currentPage,"soundEffect");
             }else if(btn==this.btnClose){
-                this.removeChild(this.container);
+                this.removeFromParent();
                 this.dispEvent(MoonEvent.PLAY);
             }
         }
@@ -366,7 +357,7 @@ module moon
         protected txtRank:TextField;
         protected items:RankItem[]=[];
         protected conatiner:Sprite;
-        protected max:number=50;
+        protected max:number=100;
         protected render():void
         {
             super.render();
@@ -410,9 +401,10 @@ module moon
            txt.y=rankBg.y+(dis-txt.height)/2;
            this.addChild(txt);
 
-           var txt:TextField=this.createText(rankBg.x,rankBg.y+dis);
+           var txt:TextField=this.createText(rankBg.x,rankBg.y-dis/2);
            this.addChild(txt);
            this.txtRank=txt;
+           this.txtRank.text="你的排名:"
 
            this.conatiner=new Sprite;
            this.addChild(this.conatiner);
@@ -438,13 +430,23 @@ module moon
         }
         public update(data:Object):void
         {
-            var len:number=51;
+            var len:number=this.max;
+            var myRank:number=-1;
             for(var i=0;i<len;i++){
-                if(i<this.max){
+                if(i<=this.max){
+                    var score:number=100;
                     var item:RankItem=this.items[i];
-                    item.txtScore.text="100"
+                    item.txtScore.text=""+score;
+                    if(i<len-1){
+                        var next:number=90
+                        if(GameData.score>next&&GameData.score<=score){
+                            myRank=i;
+                        }
+                    }
                 }
             }
+            if(myRank>0) this.txtRank.text="你的排名:"+myRank;
+            else         this.txtRank.text="未上榜"
         }
     }
     export class RankItem extends BasicView
@@ -468,8 +470,8 @@ module moon
             bg.alpha=this.rank%2==0?0.6:0.1;
             this.addChild(bg);
 
-            this.txtRank=this.createText(100,0);
-            this.txtScore=this.createText(400,0);
+            this.txtRank=this.createText(150,0);
+            this.txtScore=this.createText(350,0);
             if(this.rank<=3){
                this.txtRank.textColor=this.txtScore.textColor=this.colors[this.rank];
             }
@@ -478,6 +480,45 @@ module moon
             this.txtScore.text=String(0);
             Layout.getIns().setCenterYByPanent(this.txtRank);
             Layout.getIns().setCenterYByPanent(this.txtScore);
+        }
+    }
+    export class SetButton extends MButton
+    {
+        protected render():void
+        {
+            super.render();
+            var skin1:Sprite=this.getSkin();
+            var skin2:Sprite=this.getSkin(0XFF5500);
+            //skin.filters=[new egret.GlowFilter(0)];
+            this.statusNormal=skin1;
+		    this.statusDown=skin2;
+			this.updateSkin(this.statusNormal);    
+        }   
+        protected getSkin(bgc:number=0XFF9900):Sprite
+        {
+            var colorBg:number=bgc;
+            var colorIcon:number=0X6A4000;
+            var container:Sprite=new Sprite;
+            var bgWidth:number=90;
+            var bg:MoonDisplayObject=new MoonDisplayObject;
+            bg.type=Const.SHAPE_RECT_ROUND;
+            bg.data={w:bgWidth,h:bgWidth,ew:30,eh:30,c:colorBg};
+            bg.anchorOffsetX=bg.anchorOffsetY=bgWidth>>1;
+            container.addChild(bg);
+            container.addChild(MoonUI.getCircle(30,colorIcon));
+            var len:number=8;
+            var rotation:number=360/len;
+            for(var i:number=0;i<len;i++){
+                var line:Sprite=MoonUI.getRect(15,80,colorIcon);
+                line.anchorOffsetX=line.width>>1;
+                line.anchorOffsetY=line.height>>1;
+                line.rotation=rotation*i;
+                container.addChild(line);
+            }
+            container.addChild(MoonUI.getCircle(20,colorBg));
+            container.addChild(MoonUI.getCircle(6,colorIcon));
+            container.anchorOffsetX=container.anchorOffsetY=-(bgWidth/2+4);
+            return container;
         }
     }
     /**游戏数据存储*/

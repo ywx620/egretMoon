@@ -12,7 +12,7 @@ class GameTest extends BView
     }
     protected createView():void
     {
-        this.addItem(new moon.BasicGamePanel);
+        this.addItem(new moon.BasicGameMain);
     }
 }
 /**游戏动画模版 */

@@ -569,6 +569,7 @@ module moon
 		//tabbar event
 		public static readonly CHANGE:string="change";//更换
 		public static readonly COMPLETE:string="complete";//完成
+		public static readonly ERROR:string="error";//错误
 		public static readonly RENDER_COMPLETE:string="render complete";//渲染完成
 		public static readonly UPDATE:string="update";//更新
 		public static readonly START:string="start";//开始
@@ -1977,6 +1978,8 @@ module moon
 		public static isMobile:boolean=egret.Capabilities.isMobile;
 		/**游戏的ID */
 		public static gameId:number=1;
+		/**游戏分数 */
+		public static score:number=0;
 	}
 	/**游戏加载模版 */
 	export class GameLoad extends moon.GameView

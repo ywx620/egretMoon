@@ -34,6 +34,7 @@
 * moon.Image					  基本的图片管理类
 * moon.BasicContainer		基础图片容器（统一的增加删除查找下一个等方法）
 * moon.ImageChartlet		图片贴图类（用一张小图拼成一个大的背景图）
+* moon.ImageFollow		  图像残影跟随类（当图片运动时后面有残影跟随着）
 * moon.ImageAnimation		图片动画类（使用一张张独立图片制作动画的类）
 * moon.ImageLayout		  图像布局类（图片上下局中或离舞台上下左右多小像素点）
 

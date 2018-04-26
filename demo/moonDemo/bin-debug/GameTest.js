@@ -31,7 +31,7 @@ var GameTest = (function (_super) {
         this.createView();
     };
     GameTest.prototype.createView = function () {
-        this.addItem(new moon.BasicGamePanel);
+        this.addItem(new moon.BasicGameMain);
     };
     return GameTest;
 }(BView));
