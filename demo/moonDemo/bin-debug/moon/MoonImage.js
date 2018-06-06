@@ -8,6 +8,11 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+/**
+ * ...2017-4-28
+ * @author vinson
+ * 图片处理类，需要MoonTheme支持
+ */
 var MOON_FTP = 24;
 var moon;
 (function (moon) {
@@ -172,6 +177,93 @@ var moon;
     }(ImageChartlet));
     moon.ImageFollow = ImageFollow;
     __reflect(ImageFollow.prototype, "moon.ImageFollow");
+    /**图像循环播放（一般用于两张相同的背景一直循环使用） */
+    var ImageLoopPlay = (function (_super) {
+        __extends(ImageLoopPlay, _super);
+        function ImageLoopPlay(skinName) {
+            var _this = _super.call(this, skinName, 2) || this;
+            _this._speed = -5; //速度
+            _this.layout();
+            return _this;
+        }
+        Object.defineProperty(ImageLoopPlay.prototype, "speed", {
+            get: function () { return this._speed; },
+            set: function (v) { this._speed = v; },
+            enumerable: true,
+            configurable: true
+        });
+        /**横竖版布局，默认是横版布局 interval在此表示需要移动的左右还是上下的方向*/
+        ImageLoopPlay.prototype.layout = function (type, interval) {
+            if (type === void 0) { type = moon.Const.HORIZONTAL; }
+            if (interval === void 0) { interval = -1; }
+            this.type = type;
+            this.reset();
+            while (this.hasItem(this.index)) {
+                var item = this.getItem(this.index);
+                item.x = item.y = 0;
+                if (type == moon.Const.HORIZONTAL) {
+                    if (interval < 0)
+                        item.x = this.index * item.width;
+                    else
+                        item.x = this.index * item.width * -1;
+                }
+                else {
+                    if (interval < 0)
+                        item.y = this.index * item.height;
+                    else
+                        item.y = this.index * item.height * -1;
+                }
+                this.index++;
+            }
+        };
+        ImageLoopPlay.prototype.play = function () {
+            egret.startTick(this.loop, this);
+        };
+        ImageLoopPlay.prototype.stop = function () {
+            egret.stopTick(this.loop, this);
+        };
+        /**循环函数*/
+        ImageLoopPlay.prototype.loop = function (num) {
+            var len = this.items.length;
+            for (var i = 0; i < len; i++) {
+                var item = this.items[i];
+                if (this.type == moon.Const.HORIZONTAL) {
+                    item.x += this.speed;
+                    if (this.speed < 0) {
+                        if (item.x <= -item.width) {
+                            var x = item.x + item.width;
+                            item.x = item.width + x;
+                        }
+                    }
+                    else {
+                        if (item.x >= item.width) {
+                            var x = item.x - item.width;
+                            item.x = -item.width + x;
+                        }
+                    }
+                }
+                else {
+                    item.y += this.speed;
+                    if (this.speed < 0) {
+                        if (item.y <= -item.height) {
+                            var y = item.y + item.height;
+                            item.y = item.height + y;
+                        }
+                    }
+                    else {
+                        if (item.y >= item.height) {
+                            var y = item.y - item.height;
+                            item.y = -item.height + y;
+                        }
+                    }
+                }
+            }
+            return true;
+        };
+        return ImageLoopPlay;
+    }(ImageChartlet));
+    moon.ImageLoopPlay = ImageLoopPlay;
+    __reflect(ImageLoopPlay.prototype, "moon.ImageLoopPlay");
     /**图像动画类 */
     var ImageAnimation = (function (_super) {
         __extends(ImageAnimation, _super);

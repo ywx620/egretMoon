@@ -74,14 +74,7 @@ class GameAlert extends BView
         this.setButton("提示手动关闭",100,200);
         this.setButton("提示滚动关闭",100,300);
     }
-    private setButton(label:string,x:number,y:number):void
-    {
-        var btn:Button=new Button();
-        btn.label=label;
-        this.addItem(btn,x,y);
-        btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
-    }
-    private onClick(e:egret.TouchEvent):void
+    protected onClick(e:egret.TouchEvent):void
     {
         var btn:Button=e.currentTarget as Button;
         switch(btn.label){
@@ -126,5 +119,61 @@ class GameImageFollow extends BView
             this.vx=1;
         }
         return true;
+    }
+}
+/**游戏残影跟随模版 */
+class GameImageLoop extends BView
+{
+    private image:moon.ImageLoopPlay;
+    private slider:moon.SliderBar;
+    protected render()
+    {
+        this.label="背景图循环播放模版";
+        super.render();
+        this.colorBottom=0XFFCCCC;
+        this.createCloseBtn();
+        this.createView();
+
+        this.setButton("向左移动",100,100);
+        this.setButton("向右移动",100,200);
+        this.setButton("向上移动",100,300);
+        this.setButton("向下移动",100,400);
+
+        this.addItem(new moon.Label("控制速度",0XFFFFFF),200,10);
+        var s:moon.SliderBar=new moon.SliderBar;
+        s.value=0.5;
+        this.addItem(s,50,50);
+        s.addEvent(moon.MoonEvent.OVER,this.onSlider,this);
+        this.slider=s;
+    }
+    protected onClick(e:egret.TouchEvent):void
+    {
+        var btn:Button=e.currentTarget as Button;
+        switch(btn.label){
+            case "向左移动": this.layout(moon.Const.HORIZONTAL,-1);     break;
+            case "向右移动": this.layout(moon.Const.HORIZONTAL,1);      break;
+            case "向上移动": this.layout(moon.Const.VERTICAL,-1);       break;
+            case "向下移动": this.layout(moon.Const.VERTICAL,1);        break;
+        }
+    }
+    protected layout(type:string=moon.Const.HORIZONTAL,interval:number=-1):void
+	{
+        this.slider.value=0.5;
+        this.image.stop();
+        this.image.speed=5*interval;
+        this.image.layout(type,interval);
+        this.image.play();
+    }
+    protected createView():void
+    {
+        this.image=new moon.ImageLoopPlay("loopBg_jpg");
+        this.addItem(this.image);
+        this.image.play();
+	}
+    private onSlider(e:moon.MoonEvent):void
+    {
+        var s:moon.SliderBar=e.currentTarget as moon.SliderBar;
+        var vector:number=this.image.speed/Math.abs(this.image.speed);//取得速度向量
+        this.image.speed=vector*s.value*10;
     }
 }

@@ -94,12 +94,6 @@ var GameAlert = (function (_super) {
         this.setButton("提示手动关闭", 100, 200);
         this.setButton("提示滚动关闭", 100, 300);
     };
-    GameAlert.prototype.setButton = function (label, x, y) {
-        var btn = new Button();
-        btn.label = label;
-        this.addItem(btn, x, y);
-        btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
-    };
     GameAlert.prototype.onClick = function (e) {
         var btn = e.currentTarget;
         switch (btn.label) {
@@ -158,4 +152,66 @@ var GameImageFollow = (function (_super) {
     return GameImageFollow;
 }(BView));
 __reflect(GameImageFollow.prototype, "GameImageFollow");
+/**游戏残影跟随模版 */
+var GameImageLoop = (function (_super) {
+    __extends(GameImageLoop, _super);
+    function GameImageLoop() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    GameImageLoop.prototype.render = function () {
+        this.label = "背景图循环播放模版";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0XFFCCCC;
+        this.createCloseBtn();
+        this.createView();
+        this.setButton("向左移动", 100, 100);
+        this.setButton("向右移动", 100, 200);
+        this.setButton("向上移动", 100, 300);
+        this.setButton("向下移动", 100, 400);
+        this.addItem(new moon.Label("控制速度", 0XFFFFFF), 200, 10);
+        var s = new moon.SliderBar;
+        s.value = 0.5;
+        this.addItem(s, 50, 50);
+        s.addEvent(moon.MoonEvent.OVER, this.onSlider, this);
+        this.slider = s;
+    };
+    GameImageLoop.prototype.onClick = function (e) {
+        var btn = e.currentTarget;
+        switch (btn.label) {
+            case "向左移动":
+                this.layout(moon.Const.HORIZONTAL, -1);
+                break;
+            case "向右移动":
+                this.layout(moon.Const.HORIZONTAL, 1);
+                break;
+            case "向上移动":
+                this.layout(moon.Const.VERTICAL, -1);
+                break;
+            case "向下移动":
+                this.layout(moon.Const.VERTICAL, 1);
+                break;
+        }
+    };
+    GameImageLoop.prototype.layout = function (type, interval) {
+        if (type === void 0) { type = moon.Const.HORIZONTAL; }
+        if (interval === void 0) { interval = -1; }
+        this.slider.value = 0.5;
+        this.image.stop();
+        this.image.speed = 5 * interval;
+        this.image.layout(type, interval);
+        this.image.play();
+    };
+    GameImageLoop.prototype.createView = function () {
+        this.image = new moon.ImageLoopPlay("loopBg_jpg");
+        this.addItem(this.image);
+        this.image.play();
+    };
+    GameImageLoop.prototype.onSlider = function (e) {
+        var s = e.currentTarget;
+        var vector = this.image.speed / Math.abs(this.image.speed); //取得速度向量
+        this.image.speed = vector * s.value * 10;
+    };
+    return GameImageLoop;
+}(BView));
+__reflect(GameImageLoop.prototype, "GameImageLoop");
 //# sourceMappingURL=GameTest.js.map

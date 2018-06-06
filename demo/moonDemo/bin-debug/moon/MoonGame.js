@@ -8,6 +8,11 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+/**
+ * ...2017-4-28
+ * @author vinson
+ * 基础游戏类，需要MoonTheme支持
+ */
 var MButton = (function (_super) {
     __extends(MButton, _super);
     function MButton() {
@@ -16,7 +21,16 @@ var MButton = (function (_super) {
     return MButton;
 }(moon.BasicButton));
 __reflect(MButton.prototype, "MButton");
-;
+; //按钮
+var MBasicView = (function (_super) {
+    __extends(MBasicView, _super);
+    function MBasicView() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MBasicView;
+}(moon.BasicView));
+__reflect(MBasicView.prototype, "MBasicView");
+; //窗口
 var MImage = (function (_super) {
     __extends(MImage, _super);
     function MImage() {
@@ -25,34 +39,70 @@ var MImage = (function (_super) {
     return MImage;
 }(moon.Image));
 __reflect(MImage.prototype, "MImage");
-;
-var ImageAnimation = (function (_super) {
-    __extends(ImageAnimation, _super);
-    function ImageAnimation() {
+; //图片
+var MContainer = (function (_super) {
+    __extends(MContainer, _super);
+    function MContainer() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return ImageAnimation;
+    return MContainer;
+}(moon.BasicContainer));
+__reflect(MContainer.prototype, "MContainer");
+; //图片容器
+var MAnimation = (function (_super) {
+    __extends(MAnimation, _super);
+    function MAnimation() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MAnimation;
 }(moon.ImageAnimation));
-__reflect(ImageAnimation.prototype, "ImageAnimation");
-;
-var Layout = (function (_super) {
-    __extends(Layout, _super);
-    function Layout() {
+__reflect(MAnimation.prototype, "MAnimation");
+; //图片动画
+var MChartlet = (function (_super) {
+    __extends(MChartlet, _super);
+    function MChartlet() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return Layout;
+    return MChartlet;
+}(moon.ImageAnimation));
+__reflect(MChartlet.prototype, "MChartlet");
+; //图片贴图
+var MFollow = (function (_super) {
+    __extends(MFollow, _super);
+    function MFollow() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MFollow;
+}(moon.ImageAnimation));
+__reflect(MFollow.prototype, "MFollow");
+; //图片跟随
+var MILayout = (function (_super) {
+    __extends(MILayout, _super);
+    function MILayout() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MILayout;
 }(moon.ImageLayout));
-__reflect(Layout.prototype, "Layout");
-;
-var Scale9Image = (function (_super) {
-    __extends(Scale9Image, _super);
-    function Scale9Image() {
+__reflect(MILayout.prototype, "MILayout");
+; //单个对象的多种方法布局
+var MSLayout = (function (_super) {
+    __extends(MSLayout, _super);
+    function MSLayout() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return Scale9Image;
+    return MSLayout;
+}(moon.SimpleLayout));
+__reflect(MSLayout.prototype, "MSLayout");
+; //多个对象的简单布局
+var M9Image = (function (_super) {
+    __extends(M9Image, _super);
+    function M9Image() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return M9Image;
 }(moon.Scale9Image));
-__reflect(Scale9Image.prototype, "Scale9Image");
-;
+__reflect(M9Image.prototype, "M9Image");
+; //九宫格
 var MoonEvent = (function (_super) {
     __extends(MoonEvent, _super);
     function MoonEvent() {
@@ -61,25 +111,34 @@ var MoonEvent = (function (_super) {
     return MoonEvent;
 }(moon.MoonEvent));
 __reflect(MoonEvent.prototype, "MoonEvent");
-;
-var GameData = (function (_super) {
-    __extends(GameData, _super);
-    function GameData() {
+; //事件
+var MGameData = (function (_super) {
+    __extends(MGameData, _super);
+    function MGameData() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return GameData;
+    return MGameData;
 }(moon.GameData));
-__reflect(GameData.prototype, "GameData");
-;
-var Const = (function (_super) {
-    __extends(Const, _super);
-    function Const() {
+__reflect(MGameData.prototype, "MGameData");
+; //游戏数据
+var MConst = (function (_super) {
+    __extends(MConst, _super);
+    function MConst() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return Const;
+    return MConst;
 }(moon.Const));
-__reflect(Const.prototype, "Const");
-;
+__reflect(MConst.prototype, "MConst");
+; //常量
+var MColort = (function (_super) {
+    __extends(MColort, _super);
+    function MColort() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MColort;
+}(moon.Const));
+__reflect(MColort.prototype, "MColort");
+; //颜色常量
 var moon;
 (function (moon) {
     /**游戏模版 */
@@ -267,7 +326,7 @@ var moon;
         BasicGameOver.prototype.initView = function () {
             var bg = this.createBackground();
             bg.alpha = 0.5;
-            this.btnClose = this.createBtn("再来一次");
+            this.btnRestart = this.createBtn("再来一次");
             this.btnRank = this.createBtn("排行榜");
             this.btnRank.y += 100;
             this.txtScore = this.createText();
@@ -285,7 +344,7 @@ var moon;
         };
         BasicGameOver.prototype.onClick = function (e) {
             var btn = e.currentTarget;
-            if (btn == this.btnClose) {
+            if (btn == this.btnRestart) {
                 _super.prototype.onClick.call(this, e);
             }
             else if (btn == this.btnRank) {
@@ -407,8 +466,8 @@ var moon;
             var rankBg = moon.MoonUI.getRect(this.stageWidth - 100, this.stageHeight - 200, 0);
             rankBg.alpha = 0.8;
             this.addChild(rankBg);
-            Layout.getIns().setCenterXByPanent(rankBg);
-            Layout.getIns().setCenterYByPanent(rankBg);
+            MILayout.getIns().setCenterXByPanent(rankBg);
+            MILayout.getIns().setCenterYByPanent(rankBg);
             var rect = new Rectangle(rankBg.x, rankBg.y, rankBg.width, rankBg.height);
             var dis = 60;
             var line = new Sprite;
@@ -432,7 +491,7 @@ var moon;
             btn.x = rankBg.x + rankBg.width;
             btn.y = rankBg.y;
             var txt = this.createText(0, 0, "分数排行榜");
-            Layout.getIns().setCenterXByPanent(txt);
+            MILayout.getIns().setCenterXByPanent(txt);
             txt.y = rankBg.y + (dis - txt.height) / 2;
             this.addChild(txt);
             var txt = this.createText(rankBg.x, rankBg.y - dis / 2);
@@ -506,8 +565,8 @@ var moon;
             this.txtRank.text = String(this.rank);
             //this.txtScore.text=String(10000-this.rank);
             this.txtScore.text = String(0);
-            Layout.getIns().setCenterYByPanent(this.txtRank);
-            Layout.getIns().setCenterYByPanent(this.txtScore);
+            MILayout.getIns().setCenterYByPanent(this.txtRank);
+            MILayout.getIns().setCenterYByPanent(this.txtScore);
         };
         return RankItem;
     }(moon.BasicView));
@@ -656,4 +715,86 @@ var moon;
     moon.GameUtils = GameUtils;
     __reflect(GameUtils.prototype, "moon.GameUtils");
 })(moon || (moon = {}));
+//类必须在其基类之后声明。
+var MGameMain = (function (_super) {
+    __extends(MGameMain, _super);
+    function MGameMain() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGameMain;
+}(moon.BasicGameMain));
+__reflect(MGameMain.prototype, "MGameMain");
+; //游戏主控制类（控制几个面板的事件回调）
+var MGamePanel = (function (_super) {
+    __extends(MGamePanel, _super);
+    function MGamePanel() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGamePanel;
+}(moon.BasicGamePanel));
+__reflect(MGamePanel.prototype, "MGamePanel");
+; //游戏面板逻辑控制类
+var MGameStart = (function (_super) {
+    __extends(MGameStart, _super);
+    function MGameStart() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGameStart;
+}(moon.BasicGameStart));
+__reflect(MGameStart.prototype, "MGameStart");
+; //游戏开始面板类
+var MGameOver = (function (_super) {
+    __extends(MGameOver, _super);
+    function MGameOver() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGameOver;
+}(moon.BasicGameOver));
+__reflect(MGameOver.prototype, "MGameOver");
+; //游戏结束面板类
+var MGameSet = (function (_super) {
+    __extends(MGameSet, _super);
+    function MGameSet() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGameSet;
+}(moon.BasicGameSet));
+__reflect(MGameSet.prototype, "MGameSet");
+; //游戏设置面板类
+var MGameRank = (function (_super) {
+    __extends(MGameRank, _super);
+    function MGameRank() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGameRank;
+}(moon.BasicGameRank));
+__reflect(MGameRank.prototype, "MGameRank");
+; //游戏设置面板类
+var MRankItem = (function (_super) {
+    __extends(MRankItem, _super);
+    function MRankItem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MRankItem;
+}(moon.RankItem));
+__reflect(MRankItem.prototype, "MRankItem");
+; //游戏排行的子对象
+var MGameMoon = (function (_super) {
+    __extends(MGameMoon, _super);
+    function MGameMoon() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGameMoon;
+}(moon.GameMoon));
+__reflect(MGameMoon.prototype, "MGameMoon");
+; //游戏数据初始化
+var MGameUtils = (function (_super) {
+    __extends(MGameUtils, _super);
+    function MGameUtils() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MGameUtils;
+}(moon.GameUtils));
+__reflect(MGameUtils.prototype, "MGameUtils");
+; //游戏工具类
 //# sourceMappingURL=MoonGame.js.map

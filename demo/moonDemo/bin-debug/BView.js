@@ -17,6 +17,14 @@ var BView = (function (_super) {
         _super.prototype.render.call(this);
         this.canvasY = this.topHeight;
     };
+    BView.prototype.setButton = function (label, x, y) {
+        var btn = new Button();
+        btn.label = label;
+        this.addItem(btn, x, y);
+        btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onClick, this);
+    };
+    BView.prototype.onClick = function (e) {
+    };
     BView.prototype.createCloseBtn = function () {
         var btn = new moon.BasicButton();
         btn.label = "关闭";

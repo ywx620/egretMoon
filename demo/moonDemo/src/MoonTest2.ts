@@ -380,7 +380,7 @@ class DonotTouchWhiteRect extends BView
         }
         return node;
     }
-    private onClick(e:egret.TouchEvent):void
+    protected onClick(e:egret.TouchEvent):void
     {
         var r:moon.MoonDisplayObject=e.currentTarget as moon.MoonDisplayObject;
         if(r.name=="1"){

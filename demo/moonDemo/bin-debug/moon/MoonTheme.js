@@ -8,6 +8,11 @@ var __extends = this && this.__extends || function __extends(t, e) {
 for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
 r.prototype = e.prototype, t.prototype = new r();
 };
+/**
+ * ...2017-4-28
+ * @author vinson
+ * 纯代码组件类，可独立使用
+ */
 var TextField = (function (_super) {
     __extends(TextField, _super);
     function TextField() {
@@ -747,6 +752,10 @@ var moon;
             this.txtMessage = txt;
         };
         /**每次都覆盖上一次信息 */
+        LogManager.prototype.debug = function (value) {
+            this.txtSimple.text = value;
+        };
+        /**每次都覆盖上一次信息 */
         LogManager.prototype.log = function (value) {
             if (GameData.version == Const.VER_DEBUG)
                 this.txtSimple.text = value;
@@ -1356,6 +1365,7 @@ var moon;
                 this.stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
                 this.updateSkin(this.statusNormal);
             }
+            this.dispEvent(MoonEvent.CLICK);
         };
         Object.defineProperty(BasicButton.prototype, "textWidth", {
             get: function () {
@@ -2427,6 +2437,8 @@ var moon;
         GameData.stageWidth = 640;
         /**游戏屏幕高 */
         GameData.stageHeight = 1136;
+        /**帧频*/
+        GameData.FPS = 60;
         /**游戏版号，默认是调试版 */
         GameData.version = Const.VER_DEBUG;
         /**是否为移动模式（例如移动电话或平板电脑） */

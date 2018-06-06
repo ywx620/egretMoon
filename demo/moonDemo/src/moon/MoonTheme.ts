@@ -1,3 +1,8 @@
+/**
+ * ...2017-4-28
+ * @author vinson
+ * 纯代码组件类，可独立使用
+ */
 class TextField extends egret.TextField {};
 class Sprite extends egret.Sprite {};
 class Shape extends egret.Shape {};
@@ -442,6 +447,11 @@ module moon
 			txt.size=25;
 			stage.addChild(txt);
 			this.txtMessage=txt;
+		}
+		/**每次都覆盖上一次信息 */
+		public debug(value:string):void
+		{
+			this.txtSimple.text=value;
 		}
 		/**每次都覆盖上一次信息 */
 		public log(value:string):void
@@ -997,7 +1007,8 @@ module moon
 			}else{
 				this.stage.removeEventListener(egret.TouchEvent.TOUCH_END,this.onTouch,this);
 				this.updateSkin(this.statusNormal);
-			}										
+			}
+			this.dispEvent(MoonEvent.CLICK);									
 		}
 		protected get textWidth():number
 		{
@@ -1972,6 +1983,8 @@ module moon
 		public static stageWidth:number=640;
 		/**游戏屏幕高 */
 		public static stageHeight:number=1136;
+		/**帧频*/
+		public static FPS:number=60;
 		/**游戏版号，默认是调试版 */
 		public static version:string=Const.VER_DEBUG;
 		/**是否为移动模式（例如移动电话或平板电脑） */

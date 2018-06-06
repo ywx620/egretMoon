@@ -1,3 +1,8 @@
+/**
+ * ...2017-4-28
+ * @author vinson
+ * 图片处理类，需要MoonTheme支持
+ */
 var MOON_FTP:number=24;
 module moon
 {
@@ -135,6 +140,77 @@ module moon
             return true;
         }
         public get headItem():DisplayObject{return this.head};
+    }
+    /**图像循环播放（一般用于两张相同的背景一直循环使用） */
+    export class ImageLoopPlay extends ImageChartlet implements ILayout{
+        private _speed:number=-5;//速度
+        private type:string;//布局类型
+        public constructor(skinName:string){
+            super(skinName,2);
+            this.layout();
+        }
+        set speed(v:number){this._speed=v;}
+        get speed():number{return this._speed;}
+        /**横竖版布局，默认是横版布局 interval在此表示需要移动的左右还是上下的方向*/
+		public layout(type:string=Const.HORIZONTAL,interval:number=-1):void
+		{
+			this.type=type;
+            this.reset();
+            while(this.hasItem(this.index)){
+                var item:DisplayObject=this.getItem(this.index);
+                item.x=item.y=0;
+                if(type==Const.HORIZONTAL){
+                    if(interval<0)  item.x=this.index*item.width;
+                    else            item.x=this.index*item.width*-1;
+                }else{
+                    if(interval<0)  item.y=this.index*item.height;
+                    else            item.y=this.index*item.height*-1;
+                }
+                this.index++;
+            }
+		}
+        public play():void{
+             egret.startTick(this.loop,this);
+        }
+        public stop():void{
+             egret.stopTick(this.loop,this);
+        }
+        /**循环函数*/
+        private loop(num:number):boolean
+        {
+            var len:number=this.items.length;
+            for(var i=0;i<len;i++){
+                var item=this.items[i];
+                if(this.type==Const.HORIZONTAL){
+                     item.x+=this.speed;
+                    if(this.speed<0){//向左移动，当移出屏幕时又重新放到上一张图片后面
+                        if(item.x<=-item.width){
+                            var x:number=item.x+item.width;
+                            item.x=item.width+x;
+                        }
+                    }else{//向右移动，当移出屏幕时又重新放到上一张图片前面
+                        if(item.x>=item.width){
+                            var x:number=item.x-item.width;
+                            item.x=-item.width+x;
+                        }
+                    }
+                }else{
+                     item.y+=this.speed;
+                    if(this.speed<0){//向上移动，当移出屏幕时又重新放到上一张图片后面
+                        if(item.y<=-item.height){
+                            var y:number=item.y+item.height;
+                            item.y=item.height+y;
+                        }
+                    }else{//向下移动，当移出屏幕时又重新放到上一张图片前面
+                        if(item.y>=item.height){
+                            var y:number=item.y-item.height;
+                            item.y=-item.height+y;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
     }
     /**图像动画类 */
     export class ImageAnimation extends BasicContainer{

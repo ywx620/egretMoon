@@ -11,6 +11,17 @@ class BView extends moon.PanelBar
         super.render();
         this.canvasY=this.topHeight;
     }
+    protected setButton(label:string,x:number,y:number):void
+    {
+        var btn:Button=new Button();
+        btn.label=label;
+        this.addItem(btn,x,y);
+        btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
+    }
+    protected onClick(e:egret.TouchEvent):void
+    {
+        
+    }
     protected createCloseBtn():void
     {
         var btn:moon.BasicButton=new moon.BasicButton();

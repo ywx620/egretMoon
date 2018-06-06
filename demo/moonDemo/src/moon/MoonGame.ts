@@ -1,11 +1,23 @@
-class MButton extends moon.BasicButton {};
-class MImage extends moon.Image{};
-class ImageAnimation extends moon.ImageAnimation{};
-class Layout extends moon.ImageLayout{};
-class Scale9Image extends moon.Scale9Image{};
-class MoonEvent extends moon.MoonEvent{};
-class GameData extends moon.GameData{};
-class Const extends moon.Const{};
+/**
+ * ...2017-4-28
+ * @author vinson
+ * 基础游戏类，需要MoonTheme支持
+ */
+class MButton extends moon.BasicButton {};//按钮
+class MBasicView extends moon.BasicView {};//窗口
+class MImage extends moon.Image{};//图片
+class MContainer extends moon.BasicContainer{};//图片容器
+class MAnimation extends moon.ImageAnimation{};//图片动画
+class MChartlet extends moon.ImageAnimation{};//图片贴图
+class MFollow extends moon.ImageAnimation{};//图片跟随
+class MILayout extends moon.ImageLayout{};//单个对象的多种方法布局
+class MSLayout extends moon.SimpleLayout{};//多个对象的简单布局
+class M9Image extends moon.Scale9Image{};//九宫格
+class MoonEvent extends moon.MoonEvent{};//事件
+class MGameData extends moon.GameData{};//游戏数据
+class MConst extends moon.Const{};//常量
+class MColort extends moon.Const{};//颜色常量
+
 module moon
 {
     /**游戏模版 */
@@ -216,7 +228,7 @@ module moon
     {
         protected txtScore:TextField;
         protected txtLevel:TextField;
-        protected btnClose:MButton;
+        protected btnRestart:MButton;
         protected btnRank:MButton;
         protected rankPanel:BasicGameRank;
         protected initView():void
@@ -224,7 +236,7 @@ module moon
             var bg:Sprite=this.createBackground();
             bg.alpha=0.5;
 
-            this.btnClose=this.createBtn("再来一次");
+            this.btnRestart=this.createBtn("再来一次");
             this.btnRank=this.createBtn("排行榜");
             this.btnRank.y+=100;
             this.txtScore=this.createText();
@@ -245,7 +257,7 @@ module moon
         protected onClick(e:egret.TouchEvent):void
         {
             var btn:MButton=e.currentTarget as MButton;
-            if(btn==this.btnClose){
+            if(btn==this.btnRestart){
                 super.onClick(e);
             }else if(btn==this.btnRank){
                 if(this.rankPanel){
@@ -369,8 +381,8 @@ module moon
            var rankBg=MoonUI.getRect(this.stageWidth-100,this.stageHeight-200,0);
            rankBg.alpha=0.8;
            this.addChild(rankBg);
-           Layout.getIns().setCenterXByPanent(rankBg);
-           Layout.getIns().setCenterYByPanent(rankBg);
+           MILayout.getIns().setCenterXByPanent(rankBg);
+           MILayout.getIns().setCenterYByPanent(rankBg);
            var rect:Rectangle=new Rectangle(rankBg.x,rankBg.y,rankBg.width,rankBg.height);
            var dis:number=60;
            var line:Sprite=new Sprite;
@@ -397,7 +409,7 @@ module moon
            btn.y=rankBg.y;
 
            var txt:TextField=this.createText(0,0,"分数排行榜");
-           Layout.getIns().setCenterXByPanent(txt);
+           MILayout.getIns().setCenterXByPanent(txt);
            txt.y=rankBg.y+(dis-txt.height)/2;
            this.addChild(txt);
 
@@ -451,11 +463,11 @@ module moon
     }
     export class RankItem extends BasicView
     {
-        private w:number;
-        private rank:number;
-        private txtRank:TextField;
+        protected w:number;
+        protected rank:number;
+        protected txtRank:TextField;
         public txtScore:TextField;
-        private colors:number[]=[0,0XDD823B,0XD2A85E,0XDFD164];
+        protected colors:number[]=[0,0XDD823B,0XD2A85E,0XDFD164];
         public constructor(w:number,rank:number)
         {
             super();
@@ -478,8 +490,8 @@ module moon
             this.txtRank.text=String(this.rank);
             //this.txtScore.text=String(10000-this.rank);
             this.txtScore.text=String(0);
-            Layout.getIns().setCenterYByPanent(this.txtRank);
-            Layout.getIns().setCenterYByPanent(this.txtScore);
+            MILayout.getIns().setCenterYByPanent(this.txtRank);
+            MILayout.getIns().setCenterYByPanent(this.txtScore);
         }
     }
     export class SetButton extends MButton
@@ -525,7 +537,7 @@ module moon
     export class BasicGameStorage
     {
         /**只能内部访问,在外部修改gameId */
-        private static getGameIdKey(key:string):string{return GameData.gameId+key}
+        protected static getGameIdKey(key:string):string{return GameData.gameId+key}
         /**本地 数据写入*/
         public static localWrite(key:string,value:string):void{
             egret.localStorage.setItem(this.getGameIdKey(key),value);
@@ -604,3 +616,13 @@ module moon
         }
     }
 }
+//类必须在其基类之后声明。
+class MGameMain extends moon.BasicGameMain{};//游戏主控制类（控制几个面板的事件回调）
+class MGamePanel extends moon.BasicGamePanel{};//游戏面板逻辑控制类
+class MGameStart extends moon.BasicGameStart{};//游戏开始面板类
+class MGameOver extends moon.BasicGameOver{};//游戏结束面板类
+class MGameSet extends moon.BasicGameSet{};//游戏设置面板类
+class MGameRank extends moon.BasicGameRank{};//游戏设置面板类
+class MRankItem extends moon.RankItem{};//游戏排行的子对象
+class MGameMoon extends moon.GameMoon{};//游戏数据初始化
+class MGameUtils extends moon.GameUtils{};//游戏工具类
