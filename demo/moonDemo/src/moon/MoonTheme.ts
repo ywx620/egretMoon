@@ -20,6 +20,10 @@ class Ease extends egret.Ease{};
 //moon.TipsManager.getIns().init(this.stage);
 //moon.showLog.getIns().init(this.stage);
 //moon.AlertManager.getIns().init(this.stage);
+var log=function(...arg):void
+{
+	console.log(arg)
+}
 var trace=function(...arg):void
 {
     var str:string="";

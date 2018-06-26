@@ -3,7 +3,7 @@
 此套方案有自己的一套独立moon.MoonEvent事件来管理组件的变化数据
 使用时只要用addEvent()来帧听变化就可以得到数据
 
-# 此套方案有一些常用的组件如
+# 此套方案有一些常用的组件（可独立使用）
 # 类文件MoonTheme.ts
 * moon.BasicView				基础窗
 * moon.BasicButton 			基础按钮（只有两个皮肤）
@@ -29,7 +29,7 @@
 * moon.GameData					游戏中预先保存数据如,stageWidth,stageHeight
 * moon.MoonDisplayObject 可示对象(可修改背景色与边框)
 
-# 图片的管理模块
+# 图片的管理模块（需要MoonTheme类支持）
 # 类文件MoonImage.ts
 * moon.Image					  基本的图片管理类
 * moon.BasicContainer		基础图片容器（统一的增加删除查找下一个等方法）
@@ -37,8 +37,9 @@
 * moon.ImageFollow		  图像残影跟随类（当图片运动时后面有残影跟随着）
 * moon.ImageAnimation		图片动画类（使用一张张独立图片制作动画的类）
 * moon.ImageLayout		  图像布局类（图片上下局中或离舞台上下左右多小像素点）
+* moon.ImageLoopPlay    控制图像循环播放（一般用于两张相同的背景一直循环使用）
 
-# 基本小游戏各个模块
+# 基本小游戏各个模块（需要MoonTheme类支持）
 # 类文件MoonGame.ts
 * moon.BasicGamePanel		基本的游戏逻辑处理类
 * moon.BasicGameStart		基本的游戏开始处理类

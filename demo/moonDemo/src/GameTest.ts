@@ -174,6 +174,6 @@ class GameImageLoop extends BView
     {
         var s:moon.SliderBar=e.currentTarget as moon.SliderBar;
         var vector:number=this.image.speed/Math.abs(this.image.speed);//取得速度向量
-        this.image.speed=vector*s.value*10;
+        this.image.speed=vector*(1+s.value*10);
     }
 }

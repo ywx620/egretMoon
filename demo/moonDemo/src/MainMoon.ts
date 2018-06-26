@@ -63,7 +63,7 @@ class MainMoon extends moon.BasicView
             case 12:view=new GameAnimation;          break;
             case 13:view=new GameAlert;              break;
             case 14:view=new GameImageFollow;        break;
-            case 15:view=new GameImageLoop;        break;
+            case 15:view=new GameImageLoop;          break;
          }
         this.father.addChild(view);
         view.addEvent(moon.MoonEvent.CLOSE,this.onClose,this);

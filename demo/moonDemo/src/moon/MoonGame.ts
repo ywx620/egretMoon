@@ -8,15 +8,15 @@ class MBasicView extends moon.BasicView {};//窗口
 class MImage extends moon.Image{};//图片
 class MContainer extends moon.BasicContainer{};//图片容器
 class MAnimation extends moon.ImageAnimation{};//图片动画
-class MChartlet extends moon.ImageAnimation{};//图片贴图
-class MFollow extends moon.ImageAnimation{};//图片跟随
+class MChartlet extends moon.ImageChartlet{};//图片贴图
+class MFollow extends moon.ImageFollow{};//图片跟随
 class MILayout extends moon.ImageLayout{};//单个对象的多种方法布局
 class MSLayout extends moon.SimpleLayout{};//多个对象的简单布局
 class M9Image extends moon.Scale9Image{};//九宫格
 class MoonEvent extends moon.MoonEvent{};//事件
 class MGameData extends moon.GameData{};//游戏数据
 class MConst extends moon.Const{};//常量
-class MColort extends moon.Const{};//颜色常量
+class MColort extends moon.Color{};//颜色常量
 
 module moon
 {
@@ -613,6 +613,15 @@ module moon
             var x:number=a.x-b.x;
             var y:number=a.y-b.y;
             return Math.sqrt(x*x+y*y);
+        }
+        /**两个可显示对象的区域碰撞*/
+        public static hitTestRect(obj1: egret.DisplayObject,obj2: egret.DisplayObject): boolean {
+            var rect1:egret.Rectangle = obj1.getBounds();//获取显示对象的测量边界
+            var rect2:egret.Rectangle = obj2.getBounds();//获取显示对象的测量边界
+            rect1.x=obj1.x;rect1.y=obj1.y;
+            rect2.x=obj2.x;rect2.y=obj2.y;
+            //此方法检查指定的 Rectangle 对象的 x、y、width 和 height 属性，以查看它是否与此 Rectangle 对象相交。
+            return rect1.intersects(rect2);
         }
     }
 }

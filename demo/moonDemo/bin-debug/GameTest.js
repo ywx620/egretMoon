@@ -209,7 +209,7 @@ var GameImageLoop = (function (_super) {
     GameImageLoop.prototype.onSlider = function (e) {
         var s = e.currentTarget;
         var vector = this.image.speed / Math.abs(this.image.speed); //取得速度向量
-        this.image.speed = vector * s.value * 10;
+        this.image.speed = vector * (1 + s.value * 10);
     };
     return GameImageLoop;
 }(BView));

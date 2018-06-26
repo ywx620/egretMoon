@@ -60,8 +60,14 @@ module moon
         public hasItem(index:number):boolean{
 			return this.items.length>0&&(index>=0&&index<this.items.length);
 		}
+		 public get hasNextItem():boolean{
+            return this.hasItem(this.index);
+        }
 		public getNextItem():any{
 			return this.items[this.index++]; 
+		}
+        public getIndexByItem(item:Scale9Image):any{
+			return this.items.indexOf(item);
 		}
         public get itemsLength():number{return this.items.length}
 		public reset():void{
