@@ -1,0 +1,90 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addItem",
+			"memberof": "moon.IItem",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "item",
+					"type": "DisplayObject",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "DisplayObject",
+			"name": "getItem",
+			"memberof": "moon.IItem",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "index",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "DisplayObject",
+			"name": "getNextItem",
+			"memberof": "moon.IItem",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "boolean",
+			"name": "hasItem",
+			"memberof": "moon.IItem",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "index",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeItem",
+			"memberof": "moon.IItem",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "item",
+					"type": "DisplayObject",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "reset",
+			"memberof": "moon.IItem",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "update",
+			"memberof": "moon.IItem",
+			"scope": "instance"
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "interface",
+		"name": "IItem",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts"
+	}
+}

@@ -1,0 +1,64 @@
+{
+	"globalMember": [
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonImage.ts",
+			"kind": "globalMember",
+			"type": "number",
+			"name": "MOON_FTP",
+			"memberof": "window",
+			"scope": "instance",
+			"description": "...2017-4-28"
+		},
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+			"kind": "globalMember",
+			"name": "alertAuto",
+			"memberof": "window",
+			"scope": "instance"
+		},
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+			"kind": "globalMember",
+			"name": "alertHand",
+			"memberof": "window",
+			"scope": "instance"
+		},
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+			"kind": "globalMember",
+			"name": "alertRoll",
+			"memberof": "window",
+			"scope": "instance"
+		},
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+			"kind": "globalMember",
+			"name": "log",
+			"memberof": "window",
+			"scope": "instance",
+			"description": "//moon.AlertManager.getIns().init(this.stage);"
+		},
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\Platform.ts",
+			"kind": "globalMember",
+			"type": "Platform",
+			"name": "platform",
+			"memberof": "window",
+			"scope": "instance"
+		},
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+			"kind": "globalMember",
+			"name": "trace",
+			"memberof": "window",
+			"scope": "instance"
+		},
+		{
+			"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+			"kind": "globalMember",
+			"name": "traceSimple",
+			"memberof": "window",
+			"scope": "instance"
+		}
+	]
+}

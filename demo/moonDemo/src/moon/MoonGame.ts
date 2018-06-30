@@ -631,7 +631,7 @@ class MGamePanel extends moon.BasicGamePanel{};//游戏面板逻辑控制类
 class MGameStart extends moon.BasicGameStart{};//游戏开始面板类
 class MGameOver extends moon.BasicGameOver{};//游戏结束面板类
 class MGameSet extends moon.BasicGameSet{};//游戏设置面板类
-class MGameRank extends moon.BasicGameRank{};//游戏设置面板类
+class MGameRank extends moon.BasicGameRank{};//游戏排名面板类
 class MRankItem extends moon.RankItem{};//游戏排行的子对象
 class MGameMoon extends moon.GameMoon{};//游戏数据初始化
 class MGameUtils extends moon.GameUtils{};//游戏工具类

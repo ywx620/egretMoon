@@ -1,0 +1,96 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "any",
+			"name": "localClear",
+			"memberof": "moon.BasicGameStorage",
+			"scope": "static",
+			"description": "本地 数据清空"
+		},
+		{
+			"kind": "function",
+			"type": "string",
+			"name": "localRead",
+			"memberof": "moon.BasicGameStorage",
+			"scope": "static",
+			"description": "本地 数据读取",
+			"params": [
+				{
+					"name": "key",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "any",
+			"name": "localRemove",
+			"memberof": "moon.BasicGameStorage",
+			"scope": "static",
+			"description": "本地 数据删除",
+			"params": [
+				{
+					"name": "key",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "localWrite",
+			"memberof": "moon.BasicGameStorage",
+			"scope": "static",
+			"description": "本地 数据写入",
+			"params": [
+				{
+					"name": "key",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "value",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "string",
+			"name": "serverRead",
+			"memberof": "moon.BasicGameStorage",
+			"scope": "static",
+			"description": "服务器 数据读取"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "serverRemove",
+			"memberof": "moon.BasicGameStorage",
+			"scope": "static",
+			"description": "服务器 数据删除"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "serverWrite",
+			"memberof": "moon.BasicGameStorage",
+			"scope": "static",
+			"description": "服务器 数据写入"
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "BasicGameStorage",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonGame.ts",
+		"description": "游戏数据存储"
+	}
+}

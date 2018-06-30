@@ -1,0 +1,93 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "HORIZONTAL",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "布局 横版",
+			"default": "\"horizontal\"",
+			"inherited": true,
+			"inherits": "moon.Const"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "SHAPE_CIRCLE",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "形状 圆块",
+			"default": "\"shape circle\"",
+			"inherited": true,
+			"inherits": "moon.Const"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "SHAPE_RECT",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "形状 方块",
+			"default": "\"shape rect\"",
+			"inherited": true,
+			"inherits": "moon.Const"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "SHAPE_RECT_ROUND",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "形状 圆角方块",
+			"default": "\"shape rect round\"",
+			"inherited": true,
+			"inherits": "moon.Const"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "VERTICAL",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "布局 竖版",
+			"default": "\"vertical\"",
+			"inherited": true,
+			"inherits": "moon.Const"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "VER_DEBUG",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "版本 调试",
+			"default": "\"debug\"",
+			"inherited": true,
+			"inherits": "moon.Const"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "VER_RELEASE",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "版本 发布",
+			"default": "\"release\"",
+			"inherited": true,
+			"inherits": "moon.Const"
+		}
+	],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "MConst",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonGame.ts",
+		"augments": [
+			"moon.Const"
+		]
+	}
+}

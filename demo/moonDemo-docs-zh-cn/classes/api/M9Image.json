@@ -1,0 +1,16 @@
+{
+	"member": [],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "M9Image",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonGame.ts",
+		"augments": [
+			"moon.Scale9Image",
+			"Bitmap"
+		]
+	}
+}

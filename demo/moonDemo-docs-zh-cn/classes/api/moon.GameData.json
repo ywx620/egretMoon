@@ -1,0 +1,87 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "FPS",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "帧频",
+			"default": "60"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "gameId",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏的ID",
+			"default": "1"
+		},
+		{
+			"kind": "member",
+			"type": "boolean",
+			"name": "isMobile",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "是否为移动模式（例如移动电话或平板电脑）",
+			"default": "egret.Capabilities.isMobile"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "score",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏分数",
+			"default": "0"
+		},
+		{
+			"kind": "member",
+			"type": "Stage",
+			"name": "stage",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "舞台"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "stageHeight",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏屏幕高",
+			"default": "1136"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "stageWidth",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏屏幕宽",
+			"default": "640"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "version",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏版号，默认是调试版",
+			"default": "Const.VER_DEBUG"
+		}
+	],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "GameData",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"children": [
+			"MGameData"
+		]
+	}
+}

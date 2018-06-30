@@ -45,7 +45,9 @@ module moon
     export class BasicContainer extends Image{
         protected items:any[]=[];
         protected index:number=0;
-        protected skinImage:Scale9Image;
+        public reset():void{
+			this.index=0;
+		}
         public addItem(item:any):void{
             this.items.push(item);
         }
@@ -69,10 +71,19 @@ module moon
         public getIndexByItem(item:Scale9Image):any{
 			return this.items.indexOf(item);
 		}
-        public get itemsLength():number{return this.items.length}
-		public reset():void{
-			this.index=0;
-		}
+        public get itemsLength():number{
+            return this.items.length
+        }
+        public get currIndex():number{
+            return this.index;
+        }
+		public removeAll():void{
+            while(this.hasItem(0)){
+                var item:M9Image=this.getItem(0);
+                if(item.parent) item.parent.removeChild(item);
+                this.removeItem(0);
+            }
+        }
     }
     /**图像贴图类 */
     export class ImageChartlet extends BasicContainer implements ILayout{

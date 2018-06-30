@@ -1,0 +1,236 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "lineSpacing",
+			"memberof": "moon.BasicTips",
+			"scope": "instance",
+			"default": "4"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "side",
+			"memberof": "moon.BasicTips",
+			"scope": "instance",
+			"default": "14"
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"name": "BasicTips",
+			"memberof": "moon.BasicTips",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "skinName",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "帧听事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				},
+				{
+					"name": "thisObj",
+					"type": "any",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "发布事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "data",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				},
+				{
+					"name": "dataType",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispose",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "销毁",
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildAll",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除所有的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "endIndex",
+					"type": "number",
+					"default": "2147483647",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildIndex",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除index层的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeFromParent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "把自己从父级删除",
+			"params": [
+				{
+					"name": "value",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setTextFlow",
+			"memberof": "moon.BasicTips",
+			"scope": "instance",
+			"description": "设置富文字 {text:\"string\",style:{\"size\":50,\"textColor\":0}}",
+			"params": [
+				{
+					"name": "textFlow",
+					"type": "egret.ITextElement[]",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setValue",
+			"memberof": "moon.BasicTips",
+			"scope": "instance",
+			"description": "设置普通文字",
+			"params": [
+				{
+					"name": "value",
+					"type": "string",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "BasicTips",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"augments": [
+			"moon.MoonContainer",
+			"DisplayObjectContainer"
+		]
+	}
+}

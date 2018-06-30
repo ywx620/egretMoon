@@ -1,0 +1,226 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "CHANGE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"description": "//tabbar event",
+			"default": "\"change\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "CLICK",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"event-click\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "CLOSE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"close\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "COMPLETE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"complete\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "ERROR",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"error\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "MOUSE_DOWN",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"event-down\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "MOUSE_MOVE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"event-move\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "MOUSE_OUT",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"event-out\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "MOUSE_OVER",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"description": "//button event",
+			"default": "\"event-over\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "MOUSE_UP",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"event-up\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "MOVE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"move\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "OPEN",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"open\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "OVER",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"over\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "PAUSE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"pause\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "PLAY",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"play\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "RENDER_COMPLETE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"render complete\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "START",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"start\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "STOP",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"stop\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "UPDATE",
+			"memberof": "moon.MoonEvent",
+			"scope": "static",
+			"default": "\"update\""
+		},
+		{
+			"kind": "member",
+			"type": "Object",
+			"name": "currentTarget",
+			"memberof": "moon.MoonEvent",
+			"scope": "instance"
+		},
+		{
+			"kind": "member",
+			"type": "Object",
+			"name": "data",
+			"memberof": "moon.MoonEvent",
+			"scope": "instance"
+		},
+		{
+			"kind": "member",
+			"type": "Object",
+			"name": "dataType",
+			"memberof": "moon.MoonEvent",
+			"scope": "instance"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "type",
+			"memberof": "moon.MoonEvent",
+			"scope": "instance"
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"name": "MoonEvent",
+			"memberof": "moon.MoonEvent",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"default": "\"\"",
+					"description": ""
+				},
+				{
+					"name": "data",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				},
+				{
+					"name": "currentTarget",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "MoonEvent",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"augments": [],
+		"children": [
+			"MoonEvent"
+		]
+	}
+}

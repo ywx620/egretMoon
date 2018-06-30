@@ -1,0 +1,68 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "displayRank",
+			"memberof": "moon.SimpleLayout",
+			"scope": "static",
+			"description": "参数：数组,X轴个数,X轴距离,Y轴距离,X轴位置,Y轴位置,正排/反排",
+			"params": [
+				{
+					"name": "array",
+					"type": "any[]",
+					"description": ""
+				},
+				{
+					"name": "xNum",
+					"type": "number",
+					"default": "1",
+					"description": ""
+				},
+				{
+					"name": "xDis",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "yDis",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "sign",
+					"type": "number",
+					"default": "1",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "SimpleLayout",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "...简单的布局",
+		"children": [
+			"MSLayout"
+		]
+	}
+}

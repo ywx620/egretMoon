@@ -1,0 +1,70 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "bgName",
+			"memberof": "moon.TipsManager",
+			"scope": "instance",
+			"default": "\"tips_png\""
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"type": "moon.TipsManager",
+			"name": "getIns",
+			"memberof": "moon.TipsManager",
+			"scope": "static"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "init",
+			"memberof": "moon.TipsManager",
+			"scope": "instance",
+			"description": "请先调用初始化函数",
+			"params": [
+				{
+					"name": "stage",
+					"type": "Stage",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeTips",
+			"memberof": "moon.TipsManager",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "simpleTips",
+			"memberof": "moon.TipsManager",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "value",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "pos",
+					"type": "Point",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "TipsManager",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts"
+	}
+}

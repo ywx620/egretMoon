@@ -1,0 +1,16 @@
+{
+	"member": [],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "DisplayObjectContainer",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"augments": [],
+		"children": [
+			"moon.MoonContainer"
+		]
+	}
+}

@@ -1,0 +1,41 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"name": "LoadingUI",
+			"memberof": "LoadingUI",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "onProgress",
+			"memberof": "LoadingUI",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "current",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "total",
+					"type": "number",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "LoadingUI",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\LoadingUI.ts",
+		"description": "//////////////////////////////////////////////////////////////////////////////////////",
+		"augments": [],
+		"implements": []
+	}
+}

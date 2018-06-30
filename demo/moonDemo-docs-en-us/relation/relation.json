@@ -1,0 +1,522 @@
+{
+	"api": {
+		"": {
+			"class": [
+				{
+					"name": "BView",
+					"description": ""
+				},
+				{
+					"name": "Button",
+					"description": ""
+				},
+				{
+					"name": "GameTest",
+					"description": "游戏模版"
+				},
+				{
+					"name": "GameAnimation",
+					"description": "游戏动画模版"
+				},
+				{
+					"name": "GameAlert",
+					"description": "游戏提示模版"
+				},
+				{
+					"name": "GameImageFollow",
+					"description": "游戏残影跟随模版"
+				},
+				{
+					"name": "GameImageLoop",
+					"description": "游戏残影跟随模版"
+				},
+				{
+					"name": "LoadingUI",
+					"description": "//////////////////////////////////////////////////////////////////////////////////////"
+				},
+				{
+					"name": "Main",
+					"description": "//////////////////////////////////////////////////////////////////////////////////////"
+				},
+				{
+					"name": "MainMoon",
+					"description": ""
+				},
+				{
+					"name": "MButton",
+					"description": "...2017-4-28"
+				},
+				{
+					"name": "MBasicView",
+					"description": ""
+				},
+				{
+					"name": "MImage",
+					"description": ""
+				},
+				{
+					"name": "MContainer",
+					"description": ""
+				},
+				{
+					"name": "MAnimation",
+					"description": ""
+				},
+				{
+					"name": "MChartlet",
+					"description": ""
+				},
+				{
+					"name": "MFollow",
+					"description": ""
+				},
+				{
+					"name": "MILayout",
+					"description": ""
+				},
+				{
+					"name": "MSLayout",
+					"description": ""
+				},
+				{
+					"name": "M9Image",
+					"description": ""
+				},
+				{
+					"name": "MoonEvent",
+					"description": ""
+				},
+				{
+					"name": "MGameData",
+					"description": ""
+				},
+				{
+					"name": "MConst",
+					"description": ""
+				},
+				{
+					"name": "MColort",
+					"description": ""
+				},
+				{
+					"name": "MGameMain",
+					"description": "//类必须在其基类之后声明。"
+				},
+				{
+					"name": "MGamePanel",
+					"description": ""
+				},
+				{
+					"name": "MGameStart",
+					"description": ""
+				},
+				{
+					"name": "MGameOver",
+					"description": ""
+				},
+				{
+					"name": "MGameSet",
+					"description": ""
+				},
+				{
+					"name": "MGameRank",
+					"description": ""
+				},
+				{
+					"name": "MRankItem",
+					"description": ""
+				},
+				{
+					"name": "MGameMoon",
+					"description": ""
+				},
+				{
+					"name": "MGameUtils",
+					"description": ""
+				},
+				{
+					"name": "TextField",
+					"description": "...2017-4-28"
+				},
+				{
+					"name": "Sprite",
+					"description": ""
+				},
+				{
+					"name": "Shape",
+					"description": ""
+				},
+				{
+					"name": "DisplayObject",
+					"description": ""
+				},
+				{
+					"name": "DisplayObjectContainer",
+					"description": ""
+				},
+				{
+					"name": "Point",
+					"description": ""
+				},
+				{
+					"name": "Rectangle",
+					"description": ""
+				},
+				{
+					"name": "Bitmap",
+					"description": ""
+				},
+				{
+					"name": "BitmapData",
+					"description": ""
+				},
+				{
+					"name": "Stage",
+					"description": ""
+				},
+				{
+					"name": "Tween",
+					"description": ""
+				},
+				{
+					"name": "Ease",
+					"description": ""
+				},
+				{
+					"name": "MoonTest",
+					"description": ""
+				},
+				{
+					"name": "TestProgress",
+					"description": ""
+				},
+				{
+					"name": "TestScrollBar",
+					"description": ""
+				},
+				{
+					"name": "G2048",
+					"description": ""
+				},
+				{
+					"name": "Draw",
+					"description": ""
+				},
+				{
+					"name": "GameSelectColor",
+					"description": ""
+				},
+				{
+					"name": "DonotTouchWhiteRect",
+					"description": ""
+				},
+				{
+					"name": "DestoryStar",
+					"description": ""
+				},
+				{
+					"name": "GameBackpack",
+					"description": ""
+				},
+				{
+					"name": "TextInput",
+					"description": ""
+				},
+				{
+					"name": "HouseMapTest",
+					"description": "城市背景地图"
+				},
+				{
+					"name": "MapHorizontalHouse",
+					"description": "城市背景地图"
+				},
+				{
+					"name": "DebugPlatform",
+					"description": ""
+				}
+			],
+			"interface": [
+				{
+					"name": "Platform",
+					"description": "平台数据接口。由于每款游戏通常需要发布到多个平台上，所以提取出一个统一的接口用于开发者获取平台数据信息推荐开发者通过这种方式封装平台逻辑，以保证整体结构的稳定由于不同平台的接口形式各有不同，白鹭推荐开发者将所有接口封装为基于 Promise 的异步形式"
+				},
+				{
+					"name": "Window",
+					"description": ""
+				}
+			]
+		},
+		"moon": {
+			"class": [
+				{
+					"name": "BasicGameMain",
+					"description": "游戏模版"
+				},
+				{
+					"name": "BasicGamePanel",
+					"description": "游戏模版"
+				},
+				{
+					"name": "BasicGameStart",
+					"description": "游戏开始界面"
+				},
+				{
+					"name": "BasicGameOver",
+					"description": "游戏结束界面"
+				},
+				{
+					"name": "BasicGameSet",
+					"description": "游戏设置面板"
+				},
+				{
+					"name": "BasicGameRank",
+					"description": "游戏积分排行板"
+				},
+				{
+					"name": "RankItem",
+					"description": ""
+				},
+				{
+					"name": "SetButton",
+					"description": ""
+				},
+				{
+					"name": "BasicGameStorage",
+					"description": "游戏数据存储"
+				},
+				{
+					"name": "GameMoon",
+					"description": "初始化游戏"
+				},
+				{
+					"name": "GameUtils",
+					"description": "游戏间的工具类"
+				},
+				{
+					"name": "Image",
+					"description": "图像类"
+				},
+				{
+					"name": "BasicContainer",
+					"description": "图像容器类"
+				},
+				{
+					"name": "ImageChartlet",
+					"description": "图像贴图类"
+				},
+				{
+					"name": "ImageFollow",
+					"description": "图像残影跟随"
+				},
+				{
+					"name": "ImageLoopPlay",
+					"description": "图像循环播放（一般用于两张相同的背景一直循环使用）"
+				},
+				{
+					"name": "ImageAnimation",
+					"description": "图像动画类"
+				},
+				{
+					"name": "ImageLayout",
+					"description": "图像布局类"
+				},
+				{
+					"name": "FONT",
+					"description": ""
+				},
+				{
+					"name": "Const",
+					"description": ""
+				},
+				{
+					"name": "Color",
+					"description": "颜色"
+				},
+				{
+					"name": "Skin",
+					"description": "皮肤"
+				},
+				{
+					"name": "SimpleLayout",
+					"description": "...简单的布局"
+				},
+				{
+					"name": "MoonUI",
+					"description": "...默认参数x轴,y轴,w宽,h高,r半径,c颜色,ew圆角宽,eh圆家高"
+				},
+				{
+					"name": "LogManager",
+					"description": "//--------------"
+				},
+				{
+					"name": "AlertManager",
+					"description": "//--------------"
+				},
+				{
+					"name": "TipsManager",
+					"description": ""
+				},
+				{
+					"name": "MoonEvent",
+					"description": ""
+				},
+				{
+					"name": "MoonDisplayObject",
+					"description": ""
+				},
+				{
+					"name": "MoonContainer",
+					"description": ""
+				},
+				{
+					"name": "BasicView",
+					"description": ""
+				},
+				{
+					"name": "GameView",
+					"description": ""
+				},
+				{
+					"name": "Scale9Image",
+					"description": "九宫格"
+				},
+				{
+					"name": "BasicTips",
+					"description": ""
+				},
+				{
+					"name": "Label",
+					"description": ""
+				},
+				{
+					"name": "BasicButton",
+					"description": ""
+				},
+				{
+					"name": "MoreSkinButton",
+					"description": "类似多个皮肤按钮,构造函数的参数必须大于2个且必须是2的次方使用四个皮肤就可以模拟ToggleSwitch了"
+				},
+				{
+					"name": "BasicBar",
+					"description": "基础的组件类"
+				},
+				{
+					"name": "ProgressBar",
+					"description": "进度条"
+				},
+				{
+					"name": "SliderBar",
+					"description": "滑动器"
+				},
+				{
+					"name": "ScrollBar",
+					"description": "滚动条"
+				},
+				{
+					"name": "CheckBoxBar",
+					"description": "复选框按钮"
+				},
+				{
+					"name": "TabbarBar",
+					"description": "复选框按钮"
+				},
+				{
+					"name": "RadioButtonBar",
+					"description": "单选框按钮"
+				},
+				{
+					"name": "AlertBar",
+					"description": "提示警告框 手动关闭"
+				},
+				{
+					"name": "AlertAutoBar",
+					"description": "提示警告框 自动关闭"
+				},
+				{
+					"name": "AlertRollBar",
+					"description": "提示警告框 滚动显示"
+				},
+				{
+					"name": "InputBar",
+					"description": "输入框"
+				},
+				{
+					"name": "PanelBar",
+					"description": "面板"
+				},
+				{
+					"name": "PanelMoreManager",
+					"description": "多个面板管理"
+				},
+				{
+					"name": "GameData",
+					"description": ""
+				},
+				{
+					"name": "GameLoad",
+					"description": "游戏加载模版"
+				}
+			],
+			"interface": [
+				{
+					"name": "IItem",
+					"description": ""
+				},
+				{
+					"name": "ILayout",
+					"description": ""
+				},
+				{
+					"name": "IOnoff",
+					"description": ""
+				}
+			]
+		},
+		"window": {
+			"globalMember": [
+				{
+					"name": "MOON_FTP",
+					"description": "...2017-4-28"
+				},
+				{
+					"name": "alertAuto",
+					"description": ""
+				},
+				{
+					"name": "alertHand",
+					"description": ""
+				},
+				{
+					"name": "alertRoll",
+					"description": ""
+				},
+				{
+					"name": "log",
+					"description": "//moon.AlertManager.getIns().init(this.stage);"
+				},
+				{
+					"name": "platform",
+					"description": ""
+				},
+				{
+					"name": "trace",
+					"description": ""
+				},
+				{
+					"name": "traceSimple",
+					"description": ""
+				}
+			]
+		}
+	},
+	"other": {
+		"global": {
+			"class": [
+				{
+					"name": "Types",
+					"description": "基础类型介绍"
+				}
+			]
+		}
+	}
+}

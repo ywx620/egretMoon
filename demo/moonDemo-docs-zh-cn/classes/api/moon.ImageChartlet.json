@@ -1,0 +1,406 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "bgHeight",
+			"memberof": "moon.Image",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.Image"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "bgWidth",
+			"memberof": "moon.Image",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.Image"
+		},
+		{
+			"kind": "member",
+			"type": "boolean",
+			"name": "hasNextItem",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"rwType": 1,
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "itemsLength",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"rwType": 1,
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"name": "ImageChartlet",
+			"memberof": "moon.ImageChartlet",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "skinName",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "count",
+					"type": "number",
+					"default": "1",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addBitmap",
+			"memberof": "moon.Image",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.Image"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "帧听事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				},
+				{
+					"name": "thisObj",
+					"type": "any",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addItem",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "item",
+					"type": "any",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "发布事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "data",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				},
+				{
+					"name": "dataType",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispose",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "销毁",
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "any",
+			"name": "getIndexByItem",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "item",
+					"type": "moon.Scale9Image",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "function",
+			"type": "any",
+			"name": "getItem",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "index",
+					"type": "number",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "function",
+			"type": "any",
+			"name": "getNextItem",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "function",
+			"type": "boolean",
+			"name": "hasItem",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "index",
+					"type": "number",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "layout",
+			"memberof": "moon.ImageChartlet",
+			"scope": "instance",
+			"description": "竖排获横排",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "interval",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildAll",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除所有的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "endIndex",
+					"type": "number",
+					"default": "2147483647",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildIndex",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除index层的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeFromParent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "把自己从父级删除",
+			"params": [
+				{
+					"name": "value",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeItem",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "index",
+					"type": "number",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "reset",
+			"memberof": "moon.BasicContainer",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setAnchorCenter",
+			"memberof": "moon.Image",
+			"scope": "instance",
+			"description": "设置锚点在中心",
+			"inherited": true,
+			"inherits": "moon.Image"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setMultiLine",
+			"memberof": "moon.ImageChartlet",
+			"scope": "instance",
+			"description": "多行排列，xNum是一排排几个",
+			"params": [
+				{
+					"name": "xNum",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "interval",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "ImageChartlet",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonImage.ts",
+		"description": "图像贴图类",
+		"augments": [
+			"moon.BasicContainer",
+			"moon.Image",
+			"moon.MoonContainer",
+			"DisplayObjectContainer"
+		],
+		"implements": [
+			{
+				"name": "moon.ILayout"
+			}
+		],
+		"children": [
+			"MChartlet",
+			"moon.ImageFollow",
+			"moon.ImageLoopPlay"
+		]
+	}
+}

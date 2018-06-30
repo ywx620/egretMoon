@@ -1,0 +1,79 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "HORIZONTAL",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "布局 横版",
+			"default": "\"horizontal\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "SHAPE_CIRCLE",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "形状 圆块",
+			"default": "\"shape circle\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "SHAPE_RECT",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "形状 方块",
+			"default": "\"shape rect\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "SHAPE_RECT_ROUND",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "形状 圆角方块",
+			"default": "\"shape rect round\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "VERTICAL",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "布局 竖版",
+			"default": "\"vertical\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "VER_DEBUG",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "版本 调试",
+			"default": "\"debug\""
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "VER_RELEASE",
+			"memberof": "moon.Const",
+			"scope": "static",
+			"description": "版本 发布",
+			"default": "\"release\""
+		}
+	],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "Const",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"children": [
+			"MConst"
+		]
+	}
+}

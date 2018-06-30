@@ -1,0 +1,39 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"name": "Scale9Image",
+			"memberof": "moon.Scale9Image",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "name",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "rect",
+					"type": "Rectangle",
+					"default": "null",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "Scale9Image",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "九宫格",
+		"augments": [
+			"Bitmap"
+		],
+		"children": [
+			"M9Image"
+		]
+	}
+}

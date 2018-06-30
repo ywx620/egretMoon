@@ -1,0 +1,21 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "fontName",
+			"memberof": "moon.FONT",
+			"scope": "static",
+			"default": "\"黑体\""
+		}
+	],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "FONT",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts"
+	}
+}

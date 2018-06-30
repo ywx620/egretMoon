@@ -1,0 +1,195 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "buttonDown",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "buttonNormal",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认按钮"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "checkBoxOff",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认复选框"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "checkBoxOn",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "pointDown",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "pointNormal",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认点"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "progressBackground",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认进度条"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "progressValue",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "radioOff",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认单选框"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "radioOn",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "randomCircle",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "randomRect",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "scrollBar",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认滚动条"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "sliderBackground",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认滑动器"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "sliderBar",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "sliderValue",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "switchOff",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1,
+			"description": "默认开关"
+		},
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "switchOn",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"rwType": 1
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"type": "moon.MoreSkinButton",
+			"name": "getCheckBox",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"params": [
+				{
+					"name": "label",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "moon.BasicButton",
+			"name": "getRodatioButton",
+			"memberof": "moon.Skin",
+			"scope": "static",
+			"params": [
+				{
+					"name": "label",
+					"type": "string",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "Skin",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "皮肤"
+	}
+}

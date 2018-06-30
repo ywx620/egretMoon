@@ -1,0 +1,99 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "string",
+			"name": "getTimeFormatByNum",
+			"memberof": "moon.GameUtils",
+			"scope": "static",
+			"description": "把数字转换成时间格式,showNum为3时00:00:00,为2时00:00,为1时00",
+			"params": [
+				{
+					"name": "num",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"default": "\":\"",
+					"description": ""
+				},
+				{
+					"name": "showNum",
+					"type": "number",
+					"default": "3",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "boolean",
+			"name": "hitTestRect",
+			"memberof": "moon.GameUtils",
+			"scope": "static",
+			"description": "两个可显示对象的区域碰撞",
+			"params": [
+				{
+					"name": "obj1",
+					"type": "egret.DisplayObject",
+					"description": ""
+				},
+				{
+					"name": "obj2",
+					"type": "egret.DisplayObject",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "string",
+			"name": "numberFormat",
+			"memberof": "moon.GameUtils",
+			"scope": "static",
+			"description": "数字格式，把小于10的数在前面加个0",
+			"params": [
+				{
+					"name": "num",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "number",
+			"name": "twoDistance",
+			"memberof": "moon.GameUtils",
+			"scope": "static",
+			"description": "两点间的距离",
+			"params": [
+				{
+					"name": "a",
+					"type": "any",
+					"description": ""
+				},
+				{
+					"name": "b",
+					"type": "any",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "GameUtils",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonGame.ts",
+		"description": "游戏间的工具类",
+		"children": [
+			"MGameUtils"
+		]
+	}
+}

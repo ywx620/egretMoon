@@ -1,0 +1,20 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "Platform",
+			"name": "platform",
+			"memberof": "Window",
+			"scope": "instance"
+		}
+	],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "interface",
+		"name": "Window",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\Platform.ts"
+	}
+}

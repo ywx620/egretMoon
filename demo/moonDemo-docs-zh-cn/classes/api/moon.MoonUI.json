@@ -1,0 +1,652 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "randomColor",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"rwType": 1,
+			"description": "得到随机色"
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getAddRoundRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到圆角矩形-加",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getArrowRoundRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到圆角矩形与三角形合体rc是正方形颜色,pc是三角形颜色",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "rc",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "pc",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "rotation",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getCheckBoxRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形-复选框 bc背景颜色，gc钩的颜色,type为0是没有钩为1是有钩",
+			"params": [
+				{
+					"name": "bc",
+					"type": "number",
+					"default": "0XFFFFFF",
+					"description": ""
+				},
+				{
+					"name": "gc",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "type",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getCircle",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到圆形",
+			"params": [
+				{
+					"name": "r",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getGridding",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形-网格rect.x是x轴数量rect.y是y轴数量rect.width是网格宽rect.height是网格高lc网格线颜色",
+			"params": [
+				{
+					"name": "rect",
+					"type": "Rectangle",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getHeart",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到爱心",
+			"params": [
+				{
+					"name": "r",
+					"type": "number",
+					"default": "15",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0XFF0000",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getLineCircle",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到圆形框",
+			"params": [
+				{
+					"name": "r",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "s",
+					"type": "number",
+					"default": "1",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getLineRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形框",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "s",
+					"type": "number",
+					"default": "1",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getMatrixRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到渐变矩形 a为角度偏移率0,0.5,1,2分别为四个正方向",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c1",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "c2",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "a",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getPolygon",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到多边形,side边数,rotation角度",
+			"params": [
+				{
+					"name": "side",
+					"type": "number",
+					"default": "3",
+					"description": ""
+				},
+				{
+					"name": "r",
+					"type": "number",
+					"default": "10",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "rotation",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getRadioCircle",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形-单选框 bc背景颜色，gc钩的颜色,type为0是没有圆为1是有圆",
+			"params": [
+				{
+					"name": "bc",
+					"type": "number",
+					"default": "0XFFFFFF",
+					"description": ""
+				},
+				{
+					"name": "gc",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "type",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getRectAndX",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形和一个X",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getRemoveRoundRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到圆角矩形-减",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getRoundRect",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到圆角矩形",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "ew",
+					"type": "number",
+					"default": "5",
+					"description": ""
+				},
+				{
+					"name": "eh",
+					"type": "number",
+					"default": "5",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getRoundRectText",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到带文字的圆角方形",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "str",
+					"type": "string",
+					"default": "\"click\"",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getScrollLineBar",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到滚动条的bar",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getSwitch",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形-switchButton bc背景颜色，gc钩选的颜色,type为0是没有钩为1是有钩",
+			"params": [
+				{
+					"name": "bc",
+					"type": "number",
+					"default": "0XFFFFFF",
+					"description": ""
+				},
+				{
+					"name": "gc",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "type",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "Sprite",
+			"name": "getX",
+			"memberof": "moon.MoonUI",
+			"scope": "static",
+			"description": "得到矩形和一个X",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "c",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "s",
+					"type": "number",
+					"default": "1",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "MoonUI",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "...默认参数x轴,y轴,w宽,h高,r半径,c颜色,ew圆角宽,eh圆家高"
+	}
+}

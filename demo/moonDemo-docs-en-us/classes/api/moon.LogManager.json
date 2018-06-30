@@ -1,0 +1,109 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "debug",
+			"memberof": "moon.LogManager",
+			"scope": "instance",
+			"description": "每次都覆盖上一次信息",
+			"params": [
+				{
+					"name": "value",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "moon.LogManager",
+			"name": "getIns",
+			"memberof": "moon.LogManager",
+			"scope": "static"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "init",
+			"memberof": "moon.LogManager",
+			"scope": "instance",
+			"description": "请先调用初始化函数",
+			"params": [
+				{
+					"name": "stage",
+					"type": "Stage",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "log",
+			"memberof": "moon.LogManager",
+			"scope": "instance",
+			"description": "每次都覆盖上一次信息",
+			"params": [
+				{
+					"name": "value",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "logMessage",
+			"memberof": "moon.LogManager",
+			"scope": "instance",
+			"description": "显示所有信息",
+			"params": [
+				{
+					"name": "value",
+					"type": "string",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setLogColor",
+			"memberof": "moon.LogManager",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "color",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setLogMessageColor",
+			"memberof": "moon.LogManager",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "color",
+					"type": "number",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "LogManager",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "//--------------"
+	}
+}

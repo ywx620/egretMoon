@@ -1,0 +1,132 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "black",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "bule",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "gray",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "green",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "random",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "red",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "skinDown",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "skinNormal",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "titleBackground",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "white",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"rwType": 1
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"type": "number[]",
+			"name": "getRandomArray",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"params": [
+				{
+					"name": "count",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "number",
+			"name": "lightenDarkenColor",
+			"memberof": "moon.Color",
+			"scope": "static",
+			"description": "可改变颜色的亮暗,value值是-255到255",
+			"params": [
+				{
+					"name": "color",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "value",
+					"type": "number",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "Color",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "颜色",
+		"children": [
+			"MColort"
+		]
+	}
+}

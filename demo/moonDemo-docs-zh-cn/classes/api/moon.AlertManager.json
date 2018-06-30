@@ -1,0 +1,93 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "moon.AlertBar",
+			"name": "alert",
+			"memberof": "moon.AlertManager",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "title",
+					"type": "string",
+					"default": "\"手动关闭的提示或警告\"",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "moon.AlertAutoBar",
+			"name": "alertAuto",
+			"memberof": "moon.AlertManager",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "title",
+					"type": "string",
+					"default": "\"自动关闭的提示或警告\"",
+					"description": ""
+				},
+				{
+					"name": "closeTime",
+					"type": "number",
+					"default": "3",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "moon.AlertRollBar",
+			"name": "alertRoll",
+			"memberof": "moon.AlertManager",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "title",
+					"type": "string",
+					"default": "\"提示或警告\"",
+					"description": ""
+				},
+				{
+					"name": "bgWidth",
+					"type": "number",
+					"default": "200",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "moon.AlertManager",
+			"name": "getIns",
+			"memberof": "moon.AlertManager",
+			"scope": "static"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "init",
+			"memberof": "moon.AlertManager",
+			"scope": "instance",
+			"description": "请先调用初始化函数",
+			"params": [
+				{
+					"name": "stage",
+					"type": "Stage",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "AlertManager",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "//--------------"
+	}
+}

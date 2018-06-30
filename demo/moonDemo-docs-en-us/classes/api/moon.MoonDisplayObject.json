@@ -1,0 +1,65 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "color",
+			"memberof": "moon.MoonDisplayObject",
+			"scope": "instance"
+		},
+		{
+			"kind": "member",
+			"type": "Object",
+			"name": "data",
+			"memberof": "moon.MoonDisplayObject",
+			"scope": "instance",
+			"rwType": 2,
+			"description": "{w:1,h:1,r:1,c:1,ew:1,eh:1}"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "type",
+			"memberof": "moon.MoonDisplayObject",
+			"scope": "instance"
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"name": "MoonDisplayObject",
+			"memberof": "moon.MoonDisplayObject",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"name": "setBackground",
+			"memberof": "moon.MoonDisplayObject",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "color",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "side",
+					"type": "number",
+					"default": "1",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "MoonDisplayObject",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"augments": [
+			"Sprite"
+		]
+	}
+}

@@ -1,0 +1,170 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "moon.ImageLayout",
+			"name": "getIns",
+			"memberof": "moon.ImageLayout",
+			"scope": "static"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setBottom",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "distance",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setCenterX",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "distance",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setCenterXByPanent",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "image",
+					"type": "DisplayObject",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setCenterY",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "distance",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setCenterYByPanent",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "image",
+					"type": "DisplayObject",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setImage",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "image",
+					"type": "DisplayObject",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setLeft",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "distance",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setRight",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "distance",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setStageWH",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "w",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "h",
+					"type": "number",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"name": "setTop",
+			"memberof": "moon.ImageLayout",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "distance",
+					"type": "number",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "ImageLayout",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonImage.ts",
+		"description": "图像布局类",
+		"children": [
+			"MILayout"
+		]
+	}
+}

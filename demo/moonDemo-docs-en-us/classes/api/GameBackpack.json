@@ -1,0 +1,540 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "Sprite",
+			"name": "canvas",
+			"memberof": "BView",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "canvasY",
+			"memberof": "BView",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "colorBottom",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"rwType": 2,
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "colorTop",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"rwType": 2,
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "label",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "topHeight",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"rwType": 1,
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		},
+		{
+			"kind": "member",
+			"type": "Rectangle",
+			"name": "windowRect",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"rwType": 1,
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "帧听事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				},
+				{
+					"name": "thisObj",
+					"type": "any",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addItem",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "item",
+					"type": "DisplayObject",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "close",
+			"memberof": "BView",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "e",
+					"type": "egret.TouchEvent",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "closeAlert",
+			"memberof": "BView",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "e",
+					"type": "moon.MoonEvent",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "createAlert",
+			"memberof": "BView",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "value",
+					"type": "string",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "createBackpack",
+			"memberof": "GameBackpack",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "createCanvas",
+			"memberof": "BView",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "createCloseBtn",
+			"memberof": "BView",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "createTitle",
+			"memberof": "BView",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "title",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "发布事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "data",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				},
+				{
+					"name": "dataType",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispose",
+			"memberof": "moon.BasicBar",
+			"scope": "instance",
+			"description": "销毁",
+			"inherited": true,
+			"inherits": "moon.BasicBar"
+		},
+		{
+			"kind": "function",
+			"type": "any[]",
+			"name": "getCircleSkins",
+			"memberof": "GameBackpack",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "DisplayObject",
+			"name": "getItem",
+			"memberof": "moon.BasicBar",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "index",
+					"type": "number",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicBar"
+		},
+		{
+			"kind": "function",
+			"type": "DisplayObject",
+			"name": "getNextItem",
+			"memberof": "moon.BasicBar",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicBar"
+		},
+		{
+			"kind": "function",
+			"type": "any[]",
+			"name": "getRandomArray",
+			"memberof": "BView",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "array",
+					"type": "any[]",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "any[]",
+			"name": "getSkins",
+			"memberof": "GameBackpack",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "boolean",
+			"name": "hasItem",
+			"memberof": "moon.BasicBar",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "index",
+					"type": "number",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicBar"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "onClick",
+			"memberof": "BView",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "e",
+					"type": "egret.TouchEvent",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeAll",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildAll",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除所有的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "endIndex",
+					"type": "number",
+					"default": "2147483647",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildIndex",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除index层的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeFromParent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "把自己从父级删除",
+			"params": [
+				{
+					"name": "value",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeItem",
+			"memberof": "moon.PanelBar",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "item",
+					"type": "DisplayObject",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.PanelBar"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "render",
+			"memberof": "GameBackpack",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "reset",
+			"memberof": "moon.BasicBar",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicBar"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setButton",
+			"memberof": "BView",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "label",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "BView"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "update",
+			"memberof": "moon.BasicBar",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicBar"
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "GameBackpack",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\MoonTest2.ts",
+		"augments": [
+			"BView",
+			"moon.PanelBar",
+			"moon.BasicBar",
+			"moon.BasicView",
+			"moon.MoonContainer",
+			"DisplayObjectContainer"
+		]
+	}
+}

@@ -1,0 +1,344 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "currentPage",
+			"memberof": "moon.MoreSkinButton",
+			"scope": "instance"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "label",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "labelCircle",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"rwType": 2,
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "labelColor",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"rwType": 2,
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "member",
+			"type": "boolean",
+			"name": "skinAutoScale",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"description": "皮肤大小随字体大小变化",
+			"default": "true",
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "member",
+			"type": "TextField",
+			"name": "textFild",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"rwType": 1,
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "member",
+			"type": "Boolean",
+			"name": "toggleSwitch",
+			"memberof": "moon.MoreSkinButton",
+			"scope": "instance",
+			"rwType": 2
+		}
+	],
+	"function": [
+		{
+			"kind": "function",
+			"name": "MoreSkinButton",
+			"memberof": "moon.MoreSkinButton",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "skins",
+					"type": "any[]",
+					"description": ""
+				}
+			]
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "addEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "帧听事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				},
+				{
+					"name": "thisObj",
+					"type": "any",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "close",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "发布事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "data",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				},
+				{
+					"name": "dataType",
+					"type": "Object",
+					"default": "null",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "dispose",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "open",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildAll",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除所有的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"default": "0",
+					"description": ""
+				},
+				{
+					"name": "endIndex",
+					"type": "number",
+					"default": "2147483647",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeChildIndex",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除index层的",
+			"params": [
+				{
+					"name": "beginIndex",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "dispose",
+					"type": "Boolean",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeEvent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "删除事件",
+			"params": [
+				{
+					"name": "type",
+					"type": "string",
+					"description": ""
+				},
+				{
+					"name": "listener",
+					"type": "Function",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "removeFromParent",
+			"memberof": "moon.MoonContainer",
+			"scope": "instance",
+			"description": "把自己从父级删除",
+			"params": [
+				{
+					"name": "value",
+					"type": "Boolean",
+					"default": "false",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.MoonContainer"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setLabelPoint",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"params": [
+				{
+					"name": "x",
+					"type": "number",
+					"description": ""
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setSkinDown",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setSkinNormal",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "setTextFlow",
+			"memberof": "moon.BasicButton",
+			"scope": "instance",
+			"description": "设置富文字 {text:\"string\",style:{\"size\":50,\"textColor\":0}}",
+			"params": [
+				{
+					"name": "textFlow",
+					"type": "egret.ITextElement[]",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.BasicButton"
+		},
+		{
+			"kind": "function",
+			"name": "updatePage",
+			"memberof": "moon.MoreSkinButton",
+			"scope": "instance",
+			"description": "更新到第几个按钮同时刷新皮肤",
+			"params": [
+				{
+					"name": "value",
+					"type": "number",
+					"description": ""
+				}
+			]
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "MoreSkinButton",
+		"memberof": "moon",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonTheme.ts",
+		"description": "类似多个皮肤按钮,构造函数的参数必须大于2个且必须是2的次方使用四个皮肤就可以模拟ToggleSwitch了",
+		"augments": [
+			"moon.BasicButton",
+			"moon.MoonContainer",
+			"DisplayObjectContainer"
+		]
+	}
+}

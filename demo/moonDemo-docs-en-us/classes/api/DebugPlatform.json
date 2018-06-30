@@ -1,0 +1,30 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"name": "getUserInfo",
+			"memberof": "DebugPlatform",
+			"scope": "instance"
+		},
+		{
+			"kind": "function",
+			"name": "login",
+			"memberof": "DebugPlatform",
+			"scope": "instance"
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "DebugPlatform",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\Platform.ts",
+		"implements": [
+			{
+				"name": "Platform"
+			}
+		]
+	}
+}

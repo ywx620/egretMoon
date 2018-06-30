@@ -1,0 +1,103 @@
+{
+	"member": [
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "FPS",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "帧频",
+			"default": "60",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "gameId",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏的ID",
+			"default": "1",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		},
+		{
+			"kind": "member",
+			"type": "boolean",
+			"name": "isMobile",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "是否为移动模式（例如移动电话或平板电脑）",
+			"default": "egret.Capabilities.isMobile",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "score",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏分数",
+			"default": "0",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		},
+		{
+			"kind": "member",
+			"type": "Stage",
+			"name": "stage",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "舞台",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "stageHeight",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏屏幕高",
+			"default": "1136",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		},
+		{
+			"kind": "member",
+			"type": "number",
+			"name": "stageWidth",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏屏幕宽",
+			"default": "640",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		},
+		{
+			"kind": "member",
+			"type": "string",
+			"name": "version",
+			"memberof": "moon.GameData",
+			"scope": "static",
+			"description": "游戏版号，默认是调试版",
+			"default": "Const.VER_DEBUG",
+			"inherited": true,
+			"inherits": "moon.GameData"
+		}
+	],
+	"function": [],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "MGameData",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonGame.ts",
+		"augments": [
+			"moon.GameData"
+		]
+	}
+}

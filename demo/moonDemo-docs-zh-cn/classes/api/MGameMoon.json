@@ -1,0 +1,32 @@
+{
+	"member": [],
+	"function": [
+		{
+			"kind": "function",
+			"type": "void",
+			"name": "init",
+			"memberof": "moon.GameMoon",
+			"scope": "static",
+			"params": [
+				{
+					"name": "stage",
+					"type": "Stage",
+					"description": ""
+				}
+			],
+			"inherited": true,
+			"inherits": "moon.GameMoon"
+		}
+	],
+	"globalMember": [],
+	"globalFunction": [],
+	"class": {
+		"kind": "class",
+		"name": "MGameMoon",
+		"memberof": "",
+		"filename": "D:\\Users\\4399-3046\\Documents\\GitHub\\egretMoon\\demo\\moonDemo\\src\\moon\\MoonGame.ts",
+		"augments": [
+			"moon.GameMoon"
+		]
+	}
+}
