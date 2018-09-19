@@ -19,8 +19,9 @@ var MoonTest = (function (_super) {
         names.push("moon组件一，基本按钮展示");
         names.push("moon组件二，进度条与滑动器展示");
         names.push("moon组件三，TIPS展示");
-        names.push("moon组件四， MoonDisplay展示");
-        names.push("moon组件五， Tabbar展示");
+        names.push("moon组件四，MoonDisplay展示");
+        names.push("moon组件五，Tabbar展示");
+        names.push("moon组件六，List展示");
         for (var i = 0; i < names.length; i++) {
             var panel = new moon.PanelBar();
             panel.label = names[i];

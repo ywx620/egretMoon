@@ -1509,6 +1509,23 @@ var moon;
     }(BasicButton));
     moon.MoreSkinButton = MoreSkinButton;
     __reflect(MoreSkinButton.prototype, "moon.MoreSkinButton");
+    var SwitchButtion = (function (_super) {
+        __extends(SwitchButtion, _super);
+        function SwitchButtion() {
+            var _this = this;
+            var normal = moon.Skin.switchOn;
+            var down = moon.Skin.switchOn;
+            var normal2 = moon.Skin.switchOff;
+            var down2 = moon.Skin.switchOff;
+            var skins = [normal, down, normal2, down2];
+            _this = _super.call(this, skins) || this;
+            _this.toggleSwitch = true;
+            return _this;
+        }
+        return SwitchButtion;
+    }(MoreSkinButton));
+    moon.SwitchButtion = SwitchButtion;
+    __reflect(SwitchButtion.prototype, "moon.SwitchButtion");
     /**基础的组件类*/
     var BasicBar = (function (_super) {
         __extends(BasicBar, _super);
@@ -1534,6 +1551,9 @@ var moon;
         };
         BasicBar.prototype.getNextItem = function () {
             return this.items[this.index++];
+        };
+        BasicBar.prototype.getIndexByItem = function (item) {
+            return this.items.indexOf(item);
         };
         BasicBar.prototype.reset = function () {
             this.index = 0;
@@ -2095,6 +2115,10 @@ var moon;
             this.time = null;
             this.dispEvent(MoonEvent.CLOSE);
         };
+        AlertAutoBar.prototype.dispose = function () {
+            _super.prototype.dispose.call(this);
+            Tween.removeTweens(this);
+        };
         return AlertAutoBar;
     }(AlertBar));
     moon.AlertAutoBar = AlertAutoBar;
@@ -2142,6 +2166,71 @@ var moon;
     }(AlertBar));
     moon.AlertRollBar = AlertRollBar;
     __reflect(AlertRollBar.prototype, "moon.AlertRollBar");
+    /**列表 */
+    var ListBar = (function (_super) {
+        __extends(ListBar, _super);
+        function ListBar(w, h) {
+            var _this = _super.call(this) || this;
+            var container = new BasicView();
+            var scrollBar = new ScrollBar();
+            scrollBar.target = container;
+            scrollBar.setSize(w, h);
+            scrollBar.layout(moon.Const.VERTICAL);
+            _this.addChild(scrollBar);
+            _this.container = container;
+            _this.scrollBar = scrollBar;
+            return _this;
+        }
+        ListBar.prototype.addItem = function (item) {
+            _super.prototype.addItem.call(this, item);
+            this.container.addChild(item);
+            item.y = (this.items.length - 1) * item.height;
+            item.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
+            item.addEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
+        };
+        ListBar.prototype.removeItem = function (item) {
+            _super.prototype.removeItem.call(this, item);
+            if (this.container.contains(item)) {
+                this.container.removeChild(item);
+                item.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
+                item.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
+                this.resetPostion();
+            }
+        };
+        ListBar.prototype.resetPostion = function () {
+            this.reset();
+            while (this.hasItem(this.index)) {
+                var i = this.index;
+                var item = this.getNextItem();
+                item.x = i * item.height;
+            }
+        };
+        /***两点间的距离 */
+        ListBar.prototype.twoDistance = function (a, b) {
+            var x = a.x - b.x;
+            var y = a.y - b.y;
+            return Math.sqrt(x * x + y * y);
+        };
+        ListBar.prototype.onTouch = function (e) {
+            if (e.type == egret.TouchEvent.TOUCH_BEGIN) {
+                this.posStart = new Point(e.stageX, e.stageY);
+            }
+            else {
+                var posEnd = new Point(e.stageX, e.stageY);
+                if (this.posStart && this.twoDistance(this.posStart, posEnd) < 20) {
+                    this.onClick(e.currentTarget);
+                }
+                this.posStart = null;
+            }
+        };
+        ListBar.prototype.onClick = function (item) {
+            var param = { item: item, index: this.getIndexByItem(item) };
+            this.dispEvent(MoonEvent.CLICK, param);
+        };
+        return ListBar;
+    }(BasicBar));
+    moon.ListBar = ListBar;
+    __reflect(ListBar.prototype, "moon.ListBar");
     /**输入框 */
     var InputBar = (function (_super) {
         __extends(InputBar, _super);

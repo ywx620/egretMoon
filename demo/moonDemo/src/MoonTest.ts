@@ -9,8 +9,9 @@ class MoonTest extends moon.MoonContainer
         names.push("moon组件一，基本按钮展示");
         names.push("moon组件二，进度条与滑动器展示");
         names.push("moon组件三，TIPS展示");
-        names.push("moon组件四， MoonDisplay展示");
-        names.push("moon组件五， Tabbar展示");
+        names.push("moon组件四，MoonDisplay展示");
+        names.push("moon组件五，Tabbar展示");
+        names.push("moon组件六，Switch展示");
         for(var i=0;i<names.length;i++){
             var panel:moon.PanelBar=new moon.PanelBar();
             panel.label=names[i];
@@ -27,6 +28,7 @@ class MoonTest extends moon.MoonContainer
         this.showTipsBar(2);
         this.showMoonDisplay(3);
         this.showTabbar(4);
+        this.showList(5);
         //this.panelMore.once(egret.Event.ADDED_TO_STAGE,this.addToStageMore,this);
 
         this.createCloseBtn();
@@ -290,5 +292,23 @@ class MoonTest extends moon.MoonContainer
             tabbar.addItem(btn);
         }
         tabbar.layout(moon.Const.VERTICAL,10);
+    }
+    //------屏幕6-----
+    private showList(index:number):void
+    {
+        var panel:moon.PanelBar=this.panelMore.getItem(index) as moon.PanelBar;
+
+        var btn2:moon.SwitchButtion=new moon.SwitchButtion();
+        btn2.addEventListener(egret.TouchEvent.TOUCH_TAP,onClick,this)
+        panel.addItem(btn2);
+        panel.addItem(new moon.Label("屏幕拖动开关",0),100,10);
+        function onClick(e:moon.MoonEvent):void
+        {
+            if(btn2.currentPage==0){
+                this.panelMore.open();
+            }else{
+                this.panelMore.close();
+            }
+        }
     }
 }

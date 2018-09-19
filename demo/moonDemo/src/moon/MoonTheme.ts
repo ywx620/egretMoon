@@ -1137,6 +1137,18 @@ module moon
 			super.onTouch(e);								
 		}
 	}
+	export class SwitchButtion extends MoreSkinButton{
+		public constructor()
+        {
+			var normal:Sprite=moon.Skin.switchOn;
+			var down:Sprite=moon.Skin.switchOn;
+			var normal2:Sprite=moon.Skin.switchOff;
+			var down2:Sprite=moon.Skin.switchOff;
+			var skins:any=[normal,down,normal2,down2];
+			super(skins);
+			this.toggleSwitch=true;
+		}
+	}
 	/**基础的组件类*/
 	export class BasicBar extends BasicView implements IItem
 	{
@@ -1162,6 +1174,9 @@ module moon
 		public getNextItem():DisplayObject
 		{
 			return this.items[this.index++]; 
+		}
+		public getIndexByItem(item:DisplayObject):number{
+			return this.items.indexOf(item);
 		}
 		public reset():void
 		{
@@ -1673,7 +1688,8 @@ module moon
 		}
 		public dispose():void
 		{
-			
+			super.dispose();
+			Tween.removeTweens(this);
 		}
 	}
 	/**提示警告框 滚动显示*/
@@ -1715,6 +1731,70 @@ module moon
 			this.removeFromParent(true);
 			this.bgWidth=null;
 			this.dispEvent(MoonEvent.CLOSE);
+		}
+	}
+	/**列表 */
+	export class ListBar extends BasicBar
+	{
+		protected container:BasicView;
+		protected scrollBar:ScrollBar;
+		protected posStart:Point;
+		public constructor(w:number,h:number){
+			super();
+			var container:BasicView=new BasicView();
+			var scrollBar:ScrollBar=new ScrollBar();
+			scrollBar.target=container;
+			scrollBar.setSize(w,h);
+			scrollBar.layout(moon.Const.VERTICAL);
+			this.addChild(scrollBar);
+			this.container=container;
+			this.scrollBar=scrollBar;
+		}
+		public addItem(item:DisplayObject):void{
+			super.addItem(item);
+			this.container.addChild(item);
+
+			item.y=(this.items.length-1)*item.height;
+			item.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
+			item.addEventListener(egret.TouchEvent.TOUCH_END,this.onTouch,this);
+		}
+		public removeItem(item:DisplayObject):void{
+			super.removeItem(item);
+			if(this.container.contains(item)){
+				this.container.removeChild(item);
+				item.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
+				item.removeEventListener(egret.TouchEvent.TOUCH_END,this.onTouch,this);
+				this.resetPostion();
+			}
+		}
+		protected resetPostion():void{
+			this.reset();
+			while(this.hasItem(this.index)){
+				var i:number=this.index;
+				var item:DisplayObject=this.getNextItem();
+				item.x=i*item.height;
+			}
+		}
+		/***两点间的距离 */
+        public twoDistance(a:any,b:any):number{
+            var x:number=a.x-b.x;
+            var y:number=a.y-b.y;
+            return Math.sqrt(x*x+y*y);
+        }
+		protected onTouch(e:egret.TouchEvent):void{
+			if(e.type==egret.TouchEvent.TOUCH_BEGIN){
+				this.posStart=new Point(e.stageX,e.stageY);
+			}else{
+				var posEnd:Point=new Point(e.stageX,e.stageY);
+				if(this.posStart&&this.twoDistance(this.posStart,posEnd)<20){
+					this.onClick(e.currentTarget);
+				}
+				this.posStart=null;
+			}
+		}
+		protected onClick(item:DisplayObject):void{
+			var param:Object={item:item,index:this.getIndexByItem(item)};
+			this.dispEvent(MoonEvent.CLICK,param)
 		}
 	}
 	/**输入框 */

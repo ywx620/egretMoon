@@ -66,6 +66,41 @@ var TestScrollBar = (function (_super) {
     return TestScrollBar;
 }(BView));
 __reflect(TestScrollBar.prototype, "TestScrollBar");
+var TestListBar = (function (_super) {
+    __extends(TestListBar, _super);
+    function TestListBar() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TestListBar.prototype.render = function () {
+        this.label = "测试ListBar";
+        _super.prototype.render.call(this);
+        this.colorBottom = 0X444444;
+        this.createCloseBtn();
+        var listBar = new moon.ListBar(200, 200);
+        this.addChild(listBar);
+        listBar.x = listBar.y = 100;
+        listBar.addEvent(MoonEvent.CLICK, onList, this);
+        for (var i = 0; i < 10; i++) {
+            var btn = new moon.BasicButton();
+            btn.label = "item-标题-" + i;
+            listBar.addItem(btn);
+        }
+        function onList(e) {
+            alertAuto("选择了" + e.data["index"]);
+        }
+        var listBar2 = new moon.ListBar(240, 200);
+        this.addChild(listBar2);
+        listBar2.x = listBar2.y = 400;
+        listBar2.addEvent(MoonEvent.CLICK, onList, this);
+        for (var i = 0; i < 10; i++) {
+            var label = new moon.Label("this is label " + i);
+            label.touchEnabled = true;
+            listBar2.addItem(label);
+        }
+    };
+    return TestListBar;
+}(BView));
+__reflect(TestListBar.prototype, "TestListBar");
 var G2048 = (function (_super) {
     __extends(G2048, _super);
     function G2048() {

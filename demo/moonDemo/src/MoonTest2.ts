@@ -59,6 +59,41 @@ class TestScrollBar extends BView
     }
 }
 
+class TestListBar extends BView
+{
+    protected render():void
+    {
+        this.label="测试ListBar";
+        super.render();
+        this.colorBottom=0X444444;
+        this.createCloseBtn();
+
+        var listBar:moon.ListBar=new moon.ListBar(200,200);
+        this.addChild(listBar);
+        listBar.x=listBar.y=100;
+        listBar.addEvent(MoonEvent.CLICK,onList,this)
+        for(var i:number=0;i<10;i++){
+            var btn:moon.BasicButton=new moon.BasicButton();
+            btn.label="item-标题-"+i;
+            listBar.addItem(btn);
+        }
+
+        function onList(e:MoonEvent):void{
+            alertAuto("选择了"+e.data["index"]);
+        }
+
+        var listBar2:moon.ListBar=new moon.ListBar(240,200);
+        this.addChild(listBar2);
+        listBar2.x=listBar2.y=400;
+        listBar2.addEvent(MoonEvent.CLICK,onList,this)
+        for(var i:number=0;i<10;i++){
+            var label:moon.Label=new moon.Label("this is label "+i);
+            label.touchEnabled=true;
+            listBar2.addItem(label);
+        }
+    }
+}
+
 class G2048 extends BView
 {
     protected render():void
