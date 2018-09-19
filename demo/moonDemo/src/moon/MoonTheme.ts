@@ -20,10 +20,7 @@ class Ease extends egret.Ease{};
 //moon.TipsManager.getIns().init(this.stage);
 //moon.showLog.getIns().init(this.stage);
 //moon.AlertManager.getIns().init(this.stage);
-var log=function(...arg):void
-{
-	console.log(arg)
-}
+var log=console.log;
 var trace=function(...arg):void
 {
     var str:string="";
@@ -1713,8 +1710,9 @@ module moon
             this.bg.data={w:w,h:h,c:this.bgColor};
 			this.bg.x=x;this.bg.y=y;
 			this.addChild(this.bg);
-			var mask:Sprite=MoonUI.getRect(w,h,0,x,y);
-			this.bg.mask=mask;
+			var m:Sprite=MoonUI.getRect(w,h,0,x,y);
+			this.addChild(m)
+			this.bg.mask=m;
 
 
 			this.text.x=w;

@@ -126,13 +126,7 @@ __reflect(Ease.prototype, "Ease");
 //moon.TipsManager.getIns().init(this.stage);
 //moon.showLog.getIns().init(this.stage);
 //moon.AlertManager.getIns().init(this.stage);
-var log = function () {
-    var arg = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        arg[_i] = arguments[_i];
-    }
-    console.log(arg);
-};
+var log = console.log;
 var trace = function () {
     var arg = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -2146,8 +2140,9 @@ var moon;
             this.bg.x = x;
             this.bg.y = y;
             this.addChild(this.bg);
-            var mask = MoonUI.getRect(w, h, 0, x, y);
-            this.bg.mask = mask;
+            var m = MoonUI.getRect(w, h, 0, x, y);
+            this.addChild(m);
+            this.bg.mask = m;
             this.text.x = w;
             this.text.y = 10;
             this.bg.addChild(this.text);
