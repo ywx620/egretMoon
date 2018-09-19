@@ -59,6 +59,9 @@ var moon;
             _this.index = 0;
             return _this;
         }
+        BasicContainer.prototype.reset = function () {
+            this.index = 0;
+        };
         BasicContainer.prototype.addItem = function (item) {
             this.items.push(item);
         };
@@ -73,16 +76,40 @@ var moon;
         BasicContainer.prototype.hasItem = function (index) {
             return this.items.length > 0 && (index >= 0 && index < this.items.length);
         };
-        BasicContainer.prototype.getNextItem = function () {
-            return this.items[this.index++];
-        };
-        Object.defineProperty(BasicContainer.prototype, "itemsLength", {
-            get: function () { return this.items.length; },
+        Object.defineProperty(BasicContainer.prototype, "hasNextItem", {
+            get: function () {
+                return this.hasItem(this.index);
+            },
             enumerable: true,
             configurable: true
         });
-        BasicContainer.prototype.reset = function () {
-            this.index = 0;
+        BasicContainer.prototype.getNextItem = function () {
+            return this.items[this.index++];
+        };
+        BasicContainer.prototype.getIndexByItem = function (item) {
+            return this.items.indexOf(item);
+        };
+        Object.defineProperty(BasicContainer.prototype, "itemsLength", {
+            get: function () {
+                return this.items.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(BasicContainer.prototype, "currIndex", {
+            get: function () {
+                return this.index;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        BasicContainer.prototype.removeAll = function () {
+            while (this.hasItem(0)) {
+                var item = this.getItem(0);
+                if (item.parent)
+                    item.parent.removeChild(item);
+                this.removeItem(0);
+            }
         };
         return BasicContainer;
     }(Image));

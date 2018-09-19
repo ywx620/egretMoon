@@ -64,7 +64,7 @@ var MChartlet = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return MChartlet;
-}(moon.ImageAnimation));
+}(moon.ImageChartlet));
 __reflect(MChartlet.prototype, "MChartlet");
 ; //图片贴图
 var MFollow = (function (_super) {
@@ -73,7 +73,7 @@ var MFollow = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return MFollow;
-}(moon.ImageAnimation));
+}(moon.ImageFollow));
 __reflect(MFollow.prototype, "MFollow");
 ; //图片跟随
 var MILayout = (function (_super) {
@@ -136,7 +136,7 @@ var MColort = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     return MColort;
-}(moon.Const));
+}(moon.Color));
 __reflect(MColort.prototype, "MColort");
 ; //颜色常量
 var moon;
@@ -710,6 +710,17 @@ var moon;
             var y = a.y - b.y;
             return Math.sqrt(x * x + y * y);
         };
+        /**两个可显示对象的区域碰撞*/
+        GameUtils.hitTestRect = function (obj1, obj2) {
+            var rect1 = obj1.getBounds(); //获取显示对象的测量边界
+            var rect2 = obj2.getBounds(); //获取显示对象的测量边界
+            rect1.x = obj1.x;
+            rect1.y = obj1.y;
+            rect2.x = obj2.x;
+            rect2.y = obj2.y;
+            //此方法检查指定的 Rectangle 对象的 x、y、width 和 height 属性，以查看它是否与此 Rectangle 对象相交。
+            return rect1.intersects(rect2);
+        };
         return GameUtils;
     }());
     moon.GameUtils = GameUtils;
@@ -769,7 +780,7 @@ var MGameRank = (function (_super) {
     return MGameRank;
 }(moon.BasicGameRank));
 __reflect(MGameRank.prototype, "MGameRank");
-; //游戏设置面板类
+; //游戏排名面板类
 var MRankItem = (function (_super) {
     __extends(MRankItem, _super);
     function MRankItem() {

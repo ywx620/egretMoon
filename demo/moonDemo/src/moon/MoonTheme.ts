@@ -494,9 +494,18 @@ module moon
 		}
 		public alertAuto(title:string="自动关闭的提示或警告",closeTime:number=3):AlertAutoBar
 		{
-			var a:AlertAutoBar=new AlertAutoBar(title,closeTime);
-			if(this.stage) this.stage.addChild(a);
-			else	trace("调用alertAuto时请先执行AlertManager的init初始化函数")
+			var a:AlertAutoBar
+			if(this.stage){
+				if(this.stage.getChildByName("AlertAutoBar")){
+					a=this.stage.getChildByName("AlertAutoBar") as AlertAutoBar;
+					a.removeFromParent(true);
+				}
+				a=new AlertAutoBar(title,closeTime);
+				a.name="AlertAutoBar";
+				this.stage.addChild(a);
+			}else{
+				trace("调用alertAuto时请先执行AlertManager的init初始化函数")
+			}	
 			return a;
 		}
 		public alert(title:string="手动关闭的提示或警告"):AlertBar
@@ -1031,7 +1040,7 @@ module moon
 				this.stage.removeEventListener(egret.TouchEvent.TOUCH_END,this.onTouch,this);
 				this.updateSkin(this.statusNormal);
 			}
-			this.dispEvent(MoonEvent.CLICK);									
+			this.dispEvent(MoonEvent.CLICK);								
 		}
 		protected get textWidth():number
 		{
@@ -1661,6 +1670,10 @@ module moon
 			this.removeFromParent(true);
 			this.time=null;
 			this.dispEvent(MoonEvent.CLOSE);
+		}
+		public dispose():void
+		{
+			
 		}
 	}
 	/**提示警告框 滚动显示*/

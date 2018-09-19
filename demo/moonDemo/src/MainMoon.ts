@@ -16,11 +16,13 @@ class MainMoon extends moon.BasicView
             btn.skinAutoScale=false;
             btn.label=names[i];
             btn.name=i.toString();
-            btn.x=(this.stageWidth-btn.width)>>1;
-            btn.y=i*(btn.height+10);
+            // btn.x=(this.stageWidth-btn.width)>>1;
+            // btn.y=i*(btn.height+10);
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP,this.click,this);
             this.addChild(btn);
+            btns.push(btn);
         }
+        moon.SimpleLayout.displayRank(btns,2,10,10,10,10);
         this.father=this.parent;
 
         // var c2:number=moon.Color.lightenDarkenColor(moon.Color.bule,255)

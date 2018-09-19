@@ -126,6 +126,13 @@ __reflect(Ease.prototype, "Ease");
 //moon.TipsManager.getIns().init(this.stage);
 //moon.showLog.getIns().init(this.stage);
 //moon.AlertManager.getIns().init(this.stage);
+var log = function () {
+    var arg = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        arg[_i] = arguments[_i];
+    }
+    console.log(arg);
+};
 var trace = function () {
     var arg = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -792,11 +799,19 @@ var moon;
         AlertManager.prototype.alertAuto = function (title, closeTime) {
             if (title === void 0) { title = "自动关闭的提示或警告"; }
             if (closeTime === void 0) { closeTime = 3; }
-            var a = new AlertAutoBar(title, closeTime);
-            if (this.stage)
+            var a;
+            if (this.stage) {
+                if (this.stage.getChildByName("AlertAutoBar")) {
+                    a = this.stage.getChildByName("AlertAutoBar");
+                    a.removeFromParent(true);
+                }
+                a = new AlertAutoBar(title, closeTime);
+                a.name = "AlertAutoBar";
                 this.stage.addChild(a);
-            else
+            }
+            else {
                 trace("调用alertAuto时请先执行AlertManager的init初始化函数");
+            }
             return a;
         };
         AlertManager.prototype.alert = function (title) {
@@ -1193,15 +1208,32 @@ var moon;
         function Scale9Image(name, rect) {
             if (rect === void 0) { rect = null; }
             var _this = _super.call(this) || this;
-            if (RES.hasRes(name)) {
-                _this.texture = RES.getRes(name);
-                _this.scale9Grid = rect || new Rectangle(8, 8, 2, 2);
-            }
-            else {
-                egret.error("找不到资源：" + name);
+            if (name != null) {
+                if (RES.hasRes(name)) {
+                    _this.texture = RES.getRes(name);
+                    _this.scale9Grid = rect || new Rectangle(8, 8, 2, 2);
+                }
+                else {
+                    egret.error("找不到资源：" + name);
+                }
             }
             return _this;
         }
+        /**增加外网的图片资源 */
+        Scale9Image.prototype.addOutWebImage = function (url) {
+            if (url != "" && url != null) {
+                var imageLoader = new egret.ImageLoader();
+                egret.ImageLoader.crossOrigin = "anonymous"; //用于跨域加载不报错
+                imageLoader.addEventListener(egret.Event.COMPLETE, this.loadCompleteHandler, this);
+                imageLoader.load(url);
+            }
+        };
+        Scale9Image.prototype.loadCompleteHandler = function (event) {
+            var imageLoader = event.currentTarget;
+            var texture = new egret.Texture();
+            texture._setBitmapData(imageLoader.data);
+            this.texture = texture;
+        };
         return Scale9Image;
     }(Bitmap));
     moon.Scale9Image = Scale9Image;
