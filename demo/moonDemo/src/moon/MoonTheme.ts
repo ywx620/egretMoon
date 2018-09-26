@@ -125,6 +125,7 @@ module moon
 	/**皮肤 */
 	export class Skin
 	{
+		/**随机色的方与圆 */
 		public static get randomRect():Sprite{return moon.MoonUI.getRect(60,60,moon.Color.random)};
 		public static get randomCircle():Sprite{return moon.MoonUI.getCircle(50,moon.Color.random)};
 		/**默认点 */
@@ -151,6 +152,11 @@ module moon
 		public static get sliderBar():Sprite{return moon.MoonUI.getCircle(15,moon.Color.white);}
 		/**默认滚动条 */
 		public static get scrollBar():Sprite{return moon.MoonUI.getRect(10,10,moon.Color.skinNormal);}
+		/**上下页切换组件 */
+		public static get pnBarPrevNormal():Sprite{return moon.MoonUI.getPolygon(3,20,moon.Color.skinNormal,180);}
+		public static get pnBarPrevDown():Sprite{return moon.MoonUI.getPolygon(3,20,moon.Color.skinDown,180);}
+		public static get pnBarNextNormal():Sprite{return moon.MoonUI.getPolygon(3,20,moon.Color.skinNormal);}
+		public static get pnBarNextDown():Sprite{return moon.MoonUI.getPolygon(3,20,moon.Color.skinDown);}
 
 		public static getRodatioButton(label:string):BasicButton
 		{
@@ -973,12 +979,17 @@ module moon
 			this.close();
 			this.touchEnabled=true;
 			this.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
+			this.setGray(false);
 		}
 		public close():void
 		{
 			this.touchEnabled=false;
 			this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.onTouch,this);
 			if(this.stage) this.stage.removeEventListener(egret.TouchEvent.TOUCH_END,this.onTouch,this);
+		}
+		public closeAndSetGray():void{
+			this.close();
+			this.setGray(true);
 		}
 		public setLabelPoint(x:number,y:number):void
 		{
@@ -1083,6 +1094,19 @@ module moon
 			this.skinContainer.removeChildren();
 			this.skinContainer.addChild(skin);
 		}
+		/**设置可示对象是否为灰色 */
+		public setGray(isGray:boolean):void
+		{
+			if(isGray){
+				this.filters = [new egret.ColorMatrixFilter([
+								0.3, 0.6, 0.08, 0, 0,
+								0.3, 0.6, 0.08, 0, 0,
+								0.3, 0.6, 0.08, 0, 0,
+								0, 0, 0, 1, 0				])]
+			}else{
+				this.filters =null;
+			}
+		}
 		public dispose():void
 		{
 			this.close();
@@ -1147,7 +1171,7 @@ module moon
 		}
 	}
 	/**基础的组件类*/
-	export class BasicBar extends BasicView implements IItem
+	export class BasicBar extends BasicView implements IItem,ILayout
 	{
 		protected items:any[]=[];
 		protected index:number=0;
@@ -1182,6 +1206,15 @@ module moon
 		public update():void
 		{
 
+		}
+		/**布局 type类型为横或竖，interval为对象间的间隔*/
+		public layout(type:string=Const.VERTICAL,interval:number=10):void
+		{
+			for(var i:number=0;i<this.items.length;i++){
+				var item:DisplayObject=this.items[i];
+				if(type==Const.VERTICAL) item.y=(item.height+interval)*i;
+				else					 item.x=(item.width+interval)*i;
+			}
 		}
 		/**销毁*/
 		public dispose():void
@@ -1467,7 +1500,7 @@ module moon
 		} 
 	}
 	/**复选框按钮 */
-	export class CheckBoxBar extends BasicBar implements ILayout
+	export class CheckBoxBar extends BasicBar
 	{
 		public addItemLabel(label:string,item:MoreSkinButton=null):void
 		{
@@ -1492,15 +1525,6 @@ module moon
 			var item:MoreSkinButton=e.currentTarget as MoreSkinButton;
 			this.dispEvent(moon.MoonEvent.CHANGE);
 		}
-		/**布局 type类型为横或竖，interval为对象间的间隔*/
-		public layout(type:string=Const.VERTICAL,interval:number=10):void
-		{
-			for(var i:number=0;i<this.items.length;i++){
-				var item:DisplayObject=this.items[i];
-				if(type==Const.VERTICAL) item.y=(item.height+interval)*i;
-				else					 item.x=(item.width+interval)*i;
-			}
-		}
 		public get selectIndexs():number[]
 		{
 			var nums:number[]=[];
@@ -1510,33 +1534,6 @@ module moon
 			}
 			return nums;
 		}
-	}
-	/**复选框按钮 */
-	export class TabbarBar extends CheckBoxBar
-	{
-		protected _selectIndex:number=0;
-		protected onClick(e:egret.TouchEvent):void
-		{
-			var curr:MoreSkinButton=e.currentTarget as MoreSkinButton;
-			this.selectItem(curr)
-		}
-		protected selectItem(curr:MoreSkinButton):void
-		{
-			this.reset();
-			while(this.hasItem(this.index)){
-				var item:MoreSkinButton=this.getNextItem() as MoreSkinButton;
-				item.currentPage=0;
-				item.setSkinNormal();
-				item.open();
-			}
-			curr.close();
-			curr.currentPage=1;
-			curr.setSkinNormal();
-			this._selectIndex=this.items.indexOf(curr);
-			this.dispEvent(moon.MoonEvent.CHANGE,this._selectIndex);
-		}
-		set selectIndex(value:number){this._selectIndex=value,this.selectItem(this.getItem(value) as MoreSkinButton)}
-		get selectIndex():number{return this._selectIndex}
 	}
 	/**单选框按钮 */
 	export class RadioButtonBar extends CheckBoxBar
@@ -1581,6 +1578,91 @@ module moon
 		get selectIndex(){
 			return this._selectIndex;
 		}
+	}
+
+	/**选项栏组件 */
+	export class TabbarBar extends CheckBoxBar
+	{
+		protected _selectIndex:number=0;
+		protected onClick(e:egret.TouchEvent):void
+		{
+			var curr:MoreSkinButton=e.currentTarget as MoreSkinButton;
+			this.selectItem(curr)
+		}
+		protected selectItem(curr:MoreSkinButton):void
+		{
+			this.reset();
+			while(this.hasItem(this.index)){
+				var item:MoreSkinButton=this.getNextItem() as MoreSkinButton;
+				item.currentPage=0;
+				item.setSkinNormal();
+				item.open();
+			}
+			curr.close();
+			curr.currentPage=1;
+			curr.setSkinNormal();
+			this._selectIndex=this.items.indexOf(curr);
+			this.dispEvent(moon.MoonEvent.CHANGE,this._selectIndex);
+		}
+		set selectIndex(value:number){this._selectIndex=value,this.selectItem(this.getItem(value) as MoreSkinButton)}
+		get selectIndex():number{return this._selectIndex}
+	}
+
+	/**上下页切换组件 */
+	export class PrevNextBar extends CheckBoxBar
+	{
+		protected _selectIndex:number=0;
+		protected _total:number=1;
+		protected _interval:number;
+		protected btnPrev:BasicButton;
+		protected btnNext:BasicButton;
+		public constructor(prev:BasicButton=null,next:BasicButton=null,interval:number=100)
+        {
+			super();
+			this.btnPrev=prev||new BasicButton(Skin.pnBarPrevNormal,Skin.pnBarPrevDown);
+			this.btnNext=next||new BasicButton(Skin.pnBarNextNormal,Skin.pnBarNextDown);
+			this._interval=interval;
+			this.addChild(this.btnPrev);
+			this.addChild(this.btnNext);
+			this.addItem(this.btnPrev);
+			this.addItem(this.btnNext);
+			this.layout(Const.HORIZONTAL,interval);
+			this.selectItem();
+		}
+		protected onClick(e:egret.TouchEvent):void
+		{
+			var curr:BasicButton=e.currentTarget as BasicButton;
+			var index:number=this._selectIndex;
+			var total:number=this._total-1;
+			if(curr==this.btnPrev){
+				index=index>0?--index:0;
+			}else{
+				index=index<total?++index:total;
+			}
+			this.selectIndex=index;
+		}
+		protected selectItem():void
+		{
+			this.reset();
+			while(this.hasItem(this.index)){
+				var item:BasicButton=this.getNextItem() as BasicButton;
+				item.filters=null;
+				item.close();
+				item.open();
+			}
+			if(this._selectIndex==0){
+				this.btnPrev.closeAndSetGray();
+			}else if(this._selectIndex==this._total-1){
+				this.btnNext.closeAndSetGray();
+			}
+			this.dispEvent(moon.MoonEvent.CHANGE,this._selectIndex);
+		}
+		set selectIndex(value:number){this._selectIndex=value,this.selectItem()}
+		get selectIndex():number{return this._selectIndex}
+		set total(value:number){this._total=value}
+		get total():number{return this._total}
+		set interval(value:number){this._interval=value,this.layout(Const.HORIZONTAL,value);}
+		get interval():number{return this._interval}
 	}
 	
 	/**提示警告框 手动关闭*/
@@ -1737,6 +1819,7 @@ module moon
 		protected container:BasicView;
 		protected scrollBar:ScrollBar;
 		protected posStart:Point;
+		/**设置宽与高 */
 		public constructor(w:number,h:number){
 			super();
 			var container:BasicView=new BasicView();

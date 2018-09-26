@@ -85,6 +85,7 @@ var TestListBar = (function (_super) {
             btn.label = "item-标题-" + i;
             listBar.addItem(btn);
         }
+        listBar.layout(moon.Const.VERTICAL, 1);
         function onList(e) {
             alertAuto("选择了" + e.data["index"]);
         }

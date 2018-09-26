@@ -21,7 +21,7 @@ var MoonTest = (function (_super) {
         names.push("moon组件三，TIPS展示");
         names.push("moon组件四，MoonDisplay展示");
         names.push("moon组件五，Tabbar展示");
-        names.push("moon组件六，Switch展示");
+        names.push("moon组件六，上下页展示");
         for (var i = 0; i < names.length; i++) {
             var panel = new moon.PanelBar();
             panel.label = names[i];
@@ -37,7 +37,7 @@ var MoonTest = (function (_super) {
         this.showTipsBar(2);
         this.showMoonDisplay(3);
         this.showTabbar(4);
-        this.showList(5);
+        this.showPreNext(5);
         //this.panelMore.once(egret.Event.ADDED_TO_STAGE,this.addToStageMore,this);
         this.createCloseBtn();
     };
@@ -274,7 +274,7 @@ var MoonTest = (function (_super) {
         tabbar.layout(moon.Const.VERTICAL, 10);
     };
     //------屏幕6-----
-    MoonTest.prototype.showList = function (index) {
+    MoonTest.prototype.showPreNext = function (index) {
         var panel = this.panelMore.getItem(index);
         var btn2 = new moon.SwitchButtion();
         btn2.addEventListener(egret.TouchEvent.TOUCH_TAP, onClick, this);
@@ -287,6 +287,29 @@ var MoonTest = (function (_super) {
             else {
                 this.panelMore.close();
             }
+        }
+        var total = 5;
+        var container = new Sprite;
+        var w = 200;
+        var cmask = moon.MoonUI.getRect(w, w);
+        for (var i = 0; i < total; i++) {
+            var box = moon.MoonUI.getRect(w, w, moon.Color.random);
+            box.addChild(moon.MoonUI.getRoundRectText(100, 100, 0, "模块" + i));
+            box.x = i * w;
+            container.addChild(box);
+        }
+        panel.addItem(cmask, 200, 300);
+        panel.addItem(container, 200, 300);
+        container.mask = cmask;
+        var pnBar = new moon.PrevNextBar();
+        pnBar.total = total;
+        pnBar.interval = 280;
+        //pnBar.layout(moon.Const.HORIZONTAL,280);
+        panel.addItem(pnBar, 150, 400);
+        pnBar.addEvent(moon.MoonEvent.CHANGE, onPrevNext, this);
+        function onPrevNext(e) {
+            var index = e.data;
+            Tween.get(container).to({ x: 200 - index * w }, 200);
         }
     };
     return MoonTest;

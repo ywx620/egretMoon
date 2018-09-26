@@ -156,7 +156,7 @@ class GameImageLoop extends BView
             case "向下移动": this.layout(moon.Const.VERTICAL,1);        break;
         }
     }
-    protected layout(type:string=moon.Const.HORIZONTAL,interval:number=-1):void
+    public layout(type:string=moon.Const.HORIZONTAL,interval:number=-1):void
 	{
         this.slider.value=0.5;
         this.image.stop();

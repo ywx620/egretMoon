@@ -11,7 +11,7 @@ class MoonTest extends moon.MoonContainer
         names.push("moon组件三，TIPS展示");
         names.push("moon组件四，MoonDisplay展示");
         names.push("moon组件五，Tabbar展示");
-        names.push("moon组件六，Switch展示");
+        names.push("moon组件六，上下页展示");
         for(var i=0;i<names.length;i++){
             var panel:moon.PanelBar=new moon.PanelBar();
             panel.label=names[i];
@@ -28,7 +28,7 @@ class MoonTest extends moon.MoonContainer
         this.showTipsBar(2);
         this.showMoonDisplay(3);
         this.showTabbar(4);
-        this.showList(5);
+        this.showPreNext(5);
         //this.panelMore.once(egret.Event.ADDED_TO_STAGE,this.addToStageMore,this);
 
         this.createCloseBtn();
@@ -294,7 +294,7 @@ class MoonTest extends moon.MoonContainer
         tabbar.layout(moon.Const.VERTICAL,10);
     }
     //------屏幕6-----
-    private showList(index:number):void
+    private showPreNext(index:number):void
     {
         var panel:moon.PanelBar=this.panelMore.getItem(index) as moon.PanelBar;
 
@@ -309,6 +309,32 @@ class MoonTest extends moon.MoonContainer
             }else{
                 this.panelMore.close();
             }
+        }
+
+        var total:number=5;
+        var container:Sprite=new Sprite;
+        var w:number=200;
+        var cmask:Sprite=moon.MoonUI.getRect(w,w);
+        for(var i:number=0;i<total;i++){
+            var box:Sprite=moon.MoonUI.getRect(w,w,moon.Color.random);
+            box.addChild(moon.MoonUI.getRoundRectText(100,100,0,"模块"+i));
+            box.x=i*w;
+            container.addChild(box);
+        }
+        panel.addItem(cmask,200,300);
+        panel.addItem(container,200,300);
+        container.mask=cmask;
+
+        var pnBar:moon.PrevNextBar=new moon.PrevNextBar();
+        pnBar.total=total;
+        pnBar.interval=280;
+        //pnBar.layout(moon.Const.HORIZONTAL,280);
+        panel.addItem(pnBar,150,400);
+        pnBar.addEvent(moon.MoonEvent.CHANGE,onPrevNext,this)
+        function onPrevNext(e:moon.MoonEvent):void
+        {
+           var index:any=e.data;
+           Tween.get(container).to({x:200-index*w},200)
         }
     }
 }

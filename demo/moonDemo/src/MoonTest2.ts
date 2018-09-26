@@ -77,7 +77,7 @@ class TestListBar extends BView
             btn.label="item-标题-"+i;
             listBar.addItem(btn);
         }
-
+        listBar.layout(moon.Const.VERTICAL,1);
         function onList(e:MoonEvent):void{
             alertAuto("选择了"+e.data["index"]);
         }
@@ -85,7 +85,7 @@ class TestListBar extends BView
         var listBar2:moon.ListBar=new moon.ListBar(240,200);
         this.addChild(listBar2);
         listBar2.x=listBar2.y=400;
-        listBar2.addEvent(MoonEvent.CLICK,onList,this)
+        listBar2.addEvent(MoonEvent.CLICK,onList,this);
         for(var i:number=0;i<10;i++){
             var label:moon.Label=new moon.Label("this is label "+i);
             label.touchEnabled=true;

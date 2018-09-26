@@ -17,6 +17,7 @@
 * moon.ProgressBar			进度条（默认是不显示进度的百分比，可以通过showText方法显示）
 * moon.PanelBar					面板（有标题栏与内容栏组成）
 * moon.TabbarBar				选项tabbar按钮组件（子文件必须是MoreSkinButton）
+* moon.PrevNextBar			上下页组件（此组件是左右各一个箭按按钮用于上下页切换）
 * moon.PanelMoreManager	面板控制器（可以左右滑动来切换不同面板）
 * moon.MoonUI						里面有很多方法可以直接得到Sprite形状，如getRect,getCircle,getRoundRect等等
 * moon.LogManager				显示LOG工具提供两种方法log只显示最新的一条,logMessage可显示多条

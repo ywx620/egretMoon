@@ -296,6 +296,7 @@ var moon;
         function Skin() {
         }
         Object.defineProperty(Skin, "randomRect", {
+            /**随机色的方与圆 */
             get: function () { return moon.MoonUI.getRect(60, 60, moon.Color.random); },
             enumerable: true,
             configurable: true
@@ -402,6 +403,27 @@ var moon;
         Object.defineProperty(Skin, "scrollBar", {
             /**默认滚动条 */
             get: function () { return moon.MoonUI.getRect(10, 10, moon.Color.skinNormal); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Skin, "pnBarPrevNormal", {
+            /**上下页切换组件 */
+            get: function () { return moon.MoonUI.getPolygon(3, 20, moon.Color.skinNormal, 180); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Skin, "pnBarPrevDown", {
+            get: function () { return moon.MoonUI.getPolygon(3, 20, moon.Color.skinDown, 180); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Skin, "pnBarNextNormal", {
+            get: function () { return moon.MoonUI.getPolygon(3, 20, moon.Color.skinNormal); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Skin, "pnBarNextDown", {
+            get: function () { return moon.MoonUI.getPolygon(3, 20, moon.Color.skinDown); },
             enumerable: true,
             configurable: true
         });
@@ -1319,12 +1341,17 @@ var moon;
             this.close();
             this.touchEnabled = true;
             this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
+            this.setGray(false);
         };
         BasicButton.prototype.close = function () {
             this.touchEnabled = false;
             this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onTouch, this);
             if (this.stage)
                 this.stage.removeEventListener(egret.TouchEvent.TOUCH_END, this.onTouch, this);
+        };
+        BasicButton.prototype.closeAndSetGray = function () {
+            this.close();
+            this.setGray(true);
         };
         BasicButton.prototype.setLabelPoint = function (x, y) {
             this.text.anchorOffsetX = 0;
@@ -1446,6 +1473,20 @@ var moon;
             this.skinContainer.removeChildren();
             this.skinContainer.addChild(skin);
         };
+        /**设置可示对象是否为灰色 */
+        BasicButton.prototype.setGray = function (isGray) {
+            if (isGray) {
+                this.filters = [new egret.ColorMatrixFilter([
+                        0.3, 0.6, 0.08, 0, 0,
+                        0.3, 0.6, 0.08, 0, 0,
+                        0.3, 0.6, 0.08, 0, 0,
+                        0, 0, 0, 1, 0
+                    ])];
+            }
+            else {
+                this.filters = null;
+            }
+        };
         BasicButton.prototype.dispose = function () {
             this.close();
             _super.prototype.dispose.call(this);
@@ -1554,6 +1595,18 @@ var moon;
         };
         BasicBar.prototype.update = function () {
         };
+        /**布局 type类型为横或竖，interval为对象间的间隔*/
+        BasicBar.prototype.layout = function (type, interval) {
+            if (type === void 0) { type = Const.VERTICAL; }
+            if (interval === void 0) { interval = 10; }
+            for (var i = 0; i < this.items.length; i++) {
+                var item = this.items[i];
+                if (type == Const.VERTICAL)
+                    item.y = (item.height + interval) * i;
+                else
+                    item.x = (item.width + interval) * i;
+            }
+        };
         /**销毁*/
         BasicBar.prototype.dispose = function () {
             this.reset();
@@ -1568,7 +1621,7 @@ var moon;
         return BasicBar;
     }(BasicView));
     moon.BasicBar = BasicBar;
-    __reflect(BasicBar.prototype, "moon.BasicBar", ["moon.IItem"]);
+    __reflect(BasicBar.prototype, "moon.BasicBar", ["moon.IItem", "moon.ILayout"]);
     /***进度条 */
     var ProgressBar = (function (_super) {
         __extends(ProgressBar, _super);
@@ -1888,18 +1941,6 @@ var moon;
             var item = e.currentTarget;
             this.dispEvent(moon.MoonEvent.CHANGE);
         };
-        /**布局 type类型为横或竖，interval为对象间的间隔*/
-        CheckBoxBar.prototype.layout = function (type, interval) {
-            if (type === void 0) { type = Const.VERTICAL; }
-            if (interval === void 0) { interval = 10; }
-            for (var i = 0; i < this.items.length; i++) {
-                var item = this.items[i];
-                if (type == Const.VERTICAL)
-                    item.y = (item.height + interval) * i;
-                else
-                    item.x = (item.width + interval) * i;
-            }
-        };
         Object.defineProperty(CheckBoxBar.prototype, "selectIndexs", {
             get: function () {
                 var nums = [];
@@ -1916,43 +1957,7 @@ var moon;
         return CheckBoxBar;
     }(BasicBar));
     moon.CheckBoxBar = CheckBoxBar;
-    __reflect(CheckBoxBar.prototype, "moon.CheckBoxBar", ["moon.ILayout"]);
-    /**复选框按钮 */
-    var TabbarBar = (function (_super) {
-        __extends(TabbarBar, _super);
-        function TabbarBar() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            _this._selectIndex = 0;
-            return _this;
-        }
-        TabbarBar.prototype.onClick = function (e) {
-            var curr = e.currentTarget;
-            this.selectItem(curr);
-        };
-        TabbarBar.prototype.selectItem = function (curr) {
-            this.reset();
-            while (this.hasItem(this.index)) {
-                var item = this.getNextItem();
-                item.currentPage = 0;
-                item.setSkinNormal();
-                item.open();
-            }
-            curr.close();
-            curr.currentPage = 1;
-            curr.setSkinNormal();
-            this._selectIndex = this.items.indexOf(curr);
-            this.dispEvent(moon.MoonEvent.CHANGE, this._selectIndex);
-        };
-        Object.defineProperty(TabbarBar.prototype, "selectIndex", {
-            get: function () { return this._selectIndex; },
-            set: function (value) { this._selectIndex = value, this.selectItem(this.getItem(value)); },
-            enumerable: true,
-            configurable: true
-        });
-        return TabbarBar;
-    }(CheckBoxBar));
-    moon.TabbarBar = TabbarBar;
-    __reflect(TabbarBar.prototype, "moon.TabbarBar");
+    __reflect(CheckBoxBar.prototype, "moon.CheckBoxBar");
     /**单选框按钮 */
     var RadioButtonBar = (function (_super) {
         __extends(RadioButtonBar, _super);
@@ -2006,6 +2011,113 @@ var moon;
     }(CheckBoxBar));
     moon.RadioButtonBar = RadioButtonBar;
     __reflect(RadioButtonBar.prototype, "moon.RadioButtonBar");
+    /**选项栏组件 */
+    var TabbarBar = (function (_super) {
+        __extends(TabbarBar, _super);
+        function TabbarBar() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this._selectIndex = 0;
+            return _this;
+        }
+        TabbarBar.prototype.onClick = function (e) {
+            var curr = e.currentTarget;
+            this.selectItem(curr);
+        };
+        TabbarBar.prototype.selectItem = function (curr) {
+            this.reset();
+            while (this.hasItem(this.index)) {
+                var item = this.getNextItem();
+                item.currentPage = 0;
+                item.setSkinNormal();
+                item.open();
+            }
+            curr.close();
+            curr.currentPage = 1;
+            curr.setSkinNormal();
+            this._selectIndex = this.items.indexOf(curr);
+            this.dispEvent(moon.MoonEvent.CHANGE, this._selectIndex);
+        };
+        Object.defineProperty(TabbarBar.prototype, "selectIndex", {
+            get: function () { return this._selectIndex; },
+            set: function (value) { this._selectIndex = value, this.selectItem(this.getItem(value)); },
+            enumerable: true,
+            configurable: true
+        });
+        return TabbarBar;
+    }(CheckBoxBar));
+    moon.TabbarBar = TabbarBar;
+    __reflect(TabbarBar.prototype, "moon.TabbarBar");
+    /**上下页切换组件 */
+    var PrevNextBar = (function (_super) {
+        __extends(PrevNextBar, _super);
+        function PrevNextBar(prev, next, interval) {
+            if (prev === void 0) { prev = null; }
+            if (next === void 0) { next = null; }
+            if (interval === void 0) { interval = 100; }
+            var _this = _super.call(this) || this;
+            _this._selectIndex = 0;
+            _this._total = 1;
+            _this.btnPrev = prev || new BasicButton(Skin.pnBarPrevNormal, Skin.pnBarPrevDown);
+            _this.btnNext = next || new BasicButton(Skin.pnBarNextNormal, Skin.pnBarNextDown);
+            _this._interval = interval;
+            _this.addChild(_this.btnPrev);
+            _this.addChild(_this.btnNext);
+            _this.addItem(_this.btnPrev);
+            _this.addItem(_this.btnNext);
+            _this.layout(Const.HORIZONTAL, interval);
+            _this.selectItem();
+            return _this;
+        }
+        PrevNextBar.prototype.onClick = function (e) {
+            var curr = e.currentTarget;
+            var index = this._selectIndex;
+            var total = this._total - 1;
+            if (curr == this.btnPrev) {
+                index = index > 0 ? --index : 0;
+            }
+            else {
+                index = index < total ? ++index : total;
+            }
+            this.selectIndex = index;
+        };
+        PrevNextBar.prototype.selectItem = function () {
+            this.reset();
+            while (this.hasItem(this.index)) {
+                var item = this.getNextItem();
+                item.filters = null;
+                item.close();
+                item.open();
+            }
+            if (this._selectIndex == 0) {
+                this.btnPrev.closeAndSetGray();
+            }
+            else if (this._selectIndex == this._total - 1) {
+                this.btnNext.closeAndSetGray();
+            }
+            this.dispEvent(moon.MoonEvent.CHANGE, this._selectIndex);
+        };
+        Object.defineProperty(PrevNextBar.prototype, "selectIndex", {
+            get: function () { return this._selectIndex; },
+            set: function (value) { this._selectIndex = value, this.selectItem(); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PrevNextBar.prototype, "total", {
+            get: function () { return this._total; },
+            set: function (value) { this._total = value; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PrevNextBar.prototype, "interval", {
+            get: function () { return this._interval; },
+            set: function (value) { this._interval = value, this.layout(Const.HORIZONTAL, value); },
+            enumerable: true,
+            configurable: true
+        });
+        return PrevNextBar;
+    }(CheckBoxBar));
+    moon.PrevNextBar = PrevNextBar;
+    __reflect(PrevNextBar.prototype, "moon.PrevNextBar");
     /**提示警告框 手动关闭*/
     var AlertBar = (function (_super) {
         __extends(AlertBar, _super);
