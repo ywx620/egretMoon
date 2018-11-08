@@ -1084,24 +1084,21 @@ var moon;
             _parent = null;
         };
         /**删除所有的*/
-        MoonContainer.prototype.removeChildAll = function (beginIndex, endIndex, dispose) {
-            if (beginIndex === void 0) { beginIndex = 0; }
-            if (endIndex === void 0) { endIndex = 2147483647; }
+        MoonContainer.prototype.removeChildAll = function (dispose) {
             if (dispose === void 0) { dispose = false; }
-            if (endIndex < 0 || endIndex >= this.numChildren)
-                endIndex = this.numChildren - 1;
-            for (var i = beginIndex; i <= endIndex; ++i)
-                this.removeChildIndex(beginIndex, dispose);
+            while (this.numChildren > 0) {
+                this.removeChildIndex(0, dispose);
+            }
         };
         /**删除index层的*/
-        MoonContainer.prototype.removeChildIndex = function (beginIndex, dispose) {
-            if (beginIndex >= 0 || beginIndex < this.numChildren) {
-                var basicContent = this.getChildAt(beginIndex);
+        MoonContainer.prototype.removeChildIndex = function (index, dispose) {
+            if (index >= 0 || index < this.numChildren) {
+                var basicContent = this.getChildAt(index);
                 if (basicContent instanceof MoonContainer) {
                     basicContent.removeFromParent(dispose);
                 }
                 else {
-                    var display = this.getChildAt(beginIndex);
+                    var display = this.getChildAt(index);
                     if (display.parent)
                         display.parent.removeChild(display);
                 }
@@ -1109,7 +1106,7 @@ var moon;
         };
         /**销毁*/
         MoonContainer.prototype.dispose = function () {
-            this.removeChildAll(0, -1, true);
+            this.removeChildAll(true);
             this.dataEvent = null;
             this.stageWidth = null;
             this.stageHeight = null;
@@ -2031,11 +2028,13 @@ var moon;
                 item.setSkinNormal();
                 item.open();
             }
-            curr.close();
-            curr.currentPage = 1;
-            curr.setSkinNormal();
-            this._selectIndex = this.items.indexOf(curr);
-            this.dispEvent(moon.MoonEvent.CHANGE, this._selectIndex);
+            if (curr) {
+                curr.close();
+                curr.currentPage = 1;
+                curr.setSkinNormal();
+                this._selectIndex = this.items.indexOf(curr);
+                this.dispEvent(moon.MoonEvent.CHANGE, this._selectIndex);
+            }
         };
         Object.defineProperty(TabbarBar.prototype, "selectIndex", {
             get: function () { return this._selectIndex; },
@@ -2091,7 +2090,7 @@ var moon;
             if (this._selectIndex == 0) {
                 this.btnPrev.closeAndSetGray();
             }
-            else if (this._selectIndex == this._total - 1) {
+            if (this._selectIndex == this._total - 1) {
                 this.btnNext.closeAndSetGray();
             }
             this.dispEvent(moon.MoonEvent.CHANGE, this._selectIndex);
@@ -2104,7 +2103,7 @@ var moon;
         });
         Object.defineProperty(PrevNextBar.prototype, "total", {
             get: function () { return this._total; },
-            set: function (value) { this._total = value; },
+            set: function (value) { this._total = value, this.selectItem(); },
             enumerable: true,
             configurable: true
         });
@@ -2276,6 +2275,7 @@ var moon;
     /**列表 */
     var ListBar = (function (_super) {
         __extends(ListBar, _super);
+        /**设置宽与高 */
         function ListBar(w, h) {
             var _this = _super.call(this) || this;
             var container = new BasicView();

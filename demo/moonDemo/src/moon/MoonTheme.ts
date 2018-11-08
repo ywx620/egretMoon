@@ -752,23 +752,21 @@ module moon
 			_parent=null;
 		}
 		/**删除所有的*/
-		public removeChildAll(beginIndex:number=0, endIndex:number=2147483647,dispose:Boolean=false):void
+		public removeChildAll(dispose:Boolean=false):void
 		{
-			if (endIndex < 0 || endIndex >= this.numChildren) 
-				endIndex = this.numChildren - 1;
-			
-			for (var i:number=beginIndex; i<=endIndex; ++i)
-				this.removeChildIndex(beginIndex, dispose);
+			while(this.numChildren>0){
+				this.removeChildIndex(0, dispose);
+			}
 		}
 		/**删除index层的*/
-		public removeChildIndex(beginIndex:number, dispose:Boolean):void
+		public removeChildIndex(index:number, dispose:Boolean):void
 		{
-			if (beginIndex >= 0 || beginIndex < this.numChildren){ 
-				var basicContent:MoonContainer=this.getChildAt(beginIndex) as MoonContainer;
+			if (index >= 0 || index < this.numChildren){ 
+				var basicContent:MoonContainer=this.getChildAt(index) as MoonContainer;
 				if(basicContent instanceof MoonContainer){
 					basicContent.removeFromParent(dispose);
 				}else{
-					var display:DisplayObject=this.getChildAt(beginIndex) as DisplayObject;
+					var display:DisplayObject=this.getChildAt(index) as DisplayObject;
 					if(display.parent)	display.parent.removeChild(display);
 				}
 				
@@ -777,7 +775,7 @@ module moon
 		/**销毁*/
 		public dispose():void
 		{
-			this.removeChildAll(0,-1,true);
+			this.removeChildAll(true);
 			this.dataEvent=null;
 			this.stageWidth=null;
 			this.stageHeight=null;
@@ -1598,11 +1596,13 @@ module moon
 				item.setSkinNormal();
 				item.open();
 			}
-			curr.close();
-			curr.currentPage=1;
-			curr.setSkinNormal();
-			this._selectIndex=this.items.indexOf(curr);
-			this.dispEvent(moon.MoonEvent.CHANGE,this._selectIndex);
+			if(curr){//如果设置为-1表示初始所有
+				curr.close();
+				curr.currentPage=1;
+				curr.setSkinNormal();
+				this._selectIndex=this.items.indexOf(curr);
+				this.dispEvent(moon.MoonEvent.CHANGE,this._selectIndex);
+			}
 		}
 		set selectIndex(value:number){this._selectIndex=value,this.selectItem(this.getItem(value) as MoreSkinButton)}
 		get selectIndex():number{return this._selectIndex}
@@ -1652,14 +1652,15 @@ module moon
 			}
 			if(this._selectIndex==0){
 				this.btnPrev.closeAndSetGray();
-			}else if(this._selectIndex==this._total-1){
+			}
+			if(this._selectIndex==this._total-1){
 				this.btnNext.closeAndSetGray();
 			}
 			this.dispEvent(moon.MoonEvent.CHANGE,this._selectIndex);
 		}
 		set selectIndex(value:number){this._selectIndex=value,this.selectItem()}
 		get selectIndex():number{return this._selectIndex}
-		set total(value:number){this._total=value}
+		set total(value:number){this._total=value,this.selectItem()}
 		get total():number{return this._total}
 		set interval(value:number){this._interval=value,this.layout(Const.HORIZONTAL,value);}
 		get interval():number{return this._interval}

@@ -42,7 +42,7 @@ class MoonTest extends moon.MoonContainer
     }
     protected close(e:egret.TouchEvent):void
     {
-        this.dispEvent(moon.MoonEvent.CLOSE)
+        this.dispEvent(moon.MoonEvent.CLOSE);
         this.removeFromParent(true);
     }
     protected addToStageMore(e:egret.Event):void
@@ -330,7 +330,7 @@ class MoonTest extends moon.MoonContainer
         pnBar.interval=280;
         //pnBar.layout(moon.Const.HORIZONTAL,280);
         panel.addItem(pnBar,150,400);
-        pnBar.addEvent(moon.MoonEvent.CHANGE,onPrevNext,this)
+        pnBar.addEvent(moon.MoonEvent.CHANGE,onPrevNext,this)  
         function onPrevNext(e:moon.MoonEvent):void
         {
            var index:any=e.data;
