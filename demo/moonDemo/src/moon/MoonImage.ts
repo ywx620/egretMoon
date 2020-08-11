@@ -72,10 +72,13 @@ module moon
 			return this.items.indexOf(item);
 		}
         public get itemsLength():number{
-            return this.items.length
+            return this.items.length;
         }
         public get currIndex():number{
             return this.index;
+        }
+        public get currItem():any{
+            return this.getItem(this.index);
         }
 		public removeAll():void{
             while(this.hasItem(0)){

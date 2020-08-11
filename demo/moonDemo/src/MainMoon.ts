@@ -13,7 +13,7 @@ class MainMoon extends moon.BasicView
         names.push("组件ListBar")
         var btns:any[]=[];
         for(var i:number=0;i<names.length;i++){
-            var btn:moon.BasicButton=new moon.BasicButton(moon.MoonUI.getRoundRect(300,60,moon.Color.black),moon.MoonUI.getRoundRect(300,60,moon.Color.gray));
+            var btn:moon.BasicButton=new moon.BasicButton(moon.MoonUI.getRoundRect(310,60,moon.Color.black),moon.MoonUI.getRoundRect(310,60,moon.Color.gray));
             btn.skinAutoScale=false;
             btn.label=names[i];
             btn.name=i.toString();
@@ -23,7 +23,7 @@ class MainMoon extends moon.BasicView
             this.addChild(btn);
             btns.push(btn);
         }
-        moon.SimpleLayout.displayRank(btns,2,10,10,10,10);
+        moon.SimpleLayout.displayRank(btns,2,5,5,5,5);
         this.father=this.parent;
 
         // var c2:number=moon.Color.lightenDarkenColor(moon.Color.bule,255)

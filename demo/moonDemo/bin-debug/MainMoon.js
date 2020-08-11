@@ -22,7 +22,7 @@ var MainMoon = (function (_super) {
         names.push("组件ListBar");
         var btns = [];
         for (var i = 0; i < names.length; i++) {
-            var btn = new moon.BasicButton(moon.MoonUI.getRoundRect(300, 60, moon.Color.black), moon.MoonUI.getRoundRect(300, 60, moon.Color.gray));
+            var btn = new moon.BasicButton(moon.MoonUI.getRoundRect(310, 60, moon.Color.black), moon.MoonUI.getRoundRect(310, 60, moon.Color.gray));
             btn.skinAutoScale = false;
             btn.label = names[i];
             btn.name = i.toString();
@@ -32,7 +32,7 @@ var MainMoon = (function (_super) {
             this.addChild(btn);
             btns.push(btn);
         }
-        moon.SimpleLayout.displayRank(btns, 2, 10, 10, 10, 10);
+        moon.SimpleLayout.displayRank(btns, 2, 5, 5, 5, 5);
         this.father = this.parent;
         // var c2:number=moon.Color.lightenDarkenColor(moon.Color.bule,255)
         // this.addChild(moon.MoonUI.getMatrixRect(400,400,moon.Color.bule,c2,0.5))
